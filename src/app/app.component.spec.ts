@@ -16,16 +16,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'f4h-portal-ui'`, () => {
+  it(`should have as title 'f4h-portal'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('f4h-portal-ui');
+    expect(app.title).toEqual('f4h-portal');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('f4h-portal-ui app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('f4h-portal app is running!');
   });
 });
