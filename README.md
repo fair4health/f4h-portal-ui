@@ -4,7 +4,37 @@ Web user interface for the project [FAIR4Health](https://www.fair4health.eu/).
 
 ## Command line options
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.1.7.
+This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.0.
+
+Versions and dependencies can be listed using `ng --version`:
+
+```
+Angular CLI: 10.0.0
+Node: 12.13.1
+OS: win32 x64
+
+Angular: 10.0.1
+... animations, cdk, common, compiler, compiler-cli, core, forms
+... material, platform-browser, platform-browser-dynamic, router
+Ivy Workspace: Yes
+
+Package                           Version
+-----------------------------------------------------------
+@angular-devkit/architect         0.1000.0
+@angular-devkit/build-angular     0.1000.0
+@angular-devkit/build-optimizer   0.1000.0
+@angular-devkit/build-webpack     0.1000.0
+@angular-devkit/core              10.0.0
+@angular-devkit/schematics        10.0.0
+@angular/cli                      10.0.0
+@ngtools/webpack                  10.0.0
+@schematics/angular               10.0.0
+@schematics/update                0.1000.0
+rxjs                              6.5.5
+typescript                        3.9.5
+webpack                           4.43.0
+
+```
 
 ### Development server
 
