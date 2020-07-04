@@ -1,0 +1,41 @@
+<h2>Welcome to Fair4Health Platform!</h2>
+<p>Select or create a use case to work on</p>
+
+<div class="button-container">
+    <button mat-button color="primary">New use case</button>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="f1">
+        <th mat-header-cell *matHeaderCellDef> Use case name </th>
+        <td mat-cell *matCellDef="let element"> {{element.f1}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="f2">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.f2}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="f3">
+        <th mat-header-cell *matHeaderCellDef> Use case type </th>
+        <td mat-cell *matCellDef="let element"> {{element.f3}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="f4">
+        <th mat-header-cell *matHeaderCellDef> Created by </th>
+        <td mat-cell *matCellDef="let element"> {{element.f4}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="f5">
+        <th mat-header-cell *matHeaderCellDef> Creation time </th>
+        <td mat-cell *matCellDef="let element"> {{element.f5}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<div class="button-back-container">
+    <button mat-button color="primary" (click)="goBack()">Back</button>
+</div>
