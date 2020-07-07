@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
 export interface PeriodicElement {
   f1: string;
@@ -19,19 +18,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './usecase.component.html',
   styleUrls: ['./usecase.component.css']
 })
-export class UsecaseComponent implements OnInit {
+export class UsecaseComponent  {
   displayedColumns: string[] = ['f1', 'f2', 'f3', 'f4', 'f5'];
   dataSource = ELEMENT_DATA;
-
-  constructor(
-    private location: Location
-  ) { }
-
-  ngOnInit(): void {
-  }
-
-  goBack(): void {
-    this.location.back();
-  }
 
 }
