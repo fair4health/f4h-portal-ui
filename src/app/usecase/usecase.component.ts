@@ -15,11 +15,11 @@ const ELEMENT_DATA: PeriodicElement[] = [
 ];
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  selector: 'app-usecase',
+  templateUrl: './usecase.component.html',
+  styleUrls: ['./usecase.component.css']
 })
-export class MenuComponent implements OnInit {
+export class UsecaseComponent implements OnInit {
   displayedColumns: string[] = ['f1', 'f2', 'f3', 'f4', 'f5'];
   dataSource = ELEMENT_DATA;
 
