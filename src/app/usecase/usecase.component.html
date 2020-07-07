@@ -1,11 +1,12 @@
-<h2>Welcome to Fair4Health Platform!</h2>
+<div class='margin'>
+<h2>Welcome to Fair4Health Platform use case 1</h2>
 <p>Select or create a use case to work on</p>
 
-<div class="button-container">
-    <button mat-button color="primary">New use case</button>
+<div class="button-container" >
+    <button mat-button color="primary" class='button'>New use case</button>
 </div>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 with_100_percentage">
 
     <ng-container matColumnDef="f1">
         <th mat-header-cell *matHeaderCellDef> Use case name </th>
@@ -35,7 +36,3 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
-
-<div class="button-back-container">
-    <button mat-button color="primary" (click)="goBack()">Back</button>
-</div>

@@ -6,9 +6,12 @@ body {
     font-family: Roboto, "Helvetica Neue", sans-serif; 
     background-color: #edf2f7;
 }
+h2{
+    color: #89b34c;
+}
 .mat-toolbar {
     background: #dde1e4;
-    color: #ffffff;
+    color: #10a1df;
 }
 
 .centrado-porcentual {
@@ -34,17 +37,17 @@ body {
     -webkit-border-radius: 20px;
     -moz-border-radius: 20px;
     border-radius: 20px;
+    border-color: #69bde1;
     height: 0px;
     line-height: 0px;
     color: #FFFFFF;
-    font-family: Open Sans;
-    width: 110px;
-    padding: 23px;
+    padding: 20px;
     text-shadow: 1px 1px 20px #000000;
     text-decoration: none;
     display: inline-block;
     cursor: pointer;
     text-align: center;
+    margin: 10px;
 }
     
 .button:hover {
@@ -59,6 +62,17 @@ body {
     -moz-border-radius: 20px;
     border-radius: 20px;
     text-decoration: none;
+}
+.buttontolink{
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    /*optional*/
+    font-family: arial, sans-serif;
+    /*input has OS specific font-family*/
+    color: #069;
+    text-decoration: underline;
+    cursor: pointer;
 }
 .border{
     border: 2px solid #1C6EA4;
