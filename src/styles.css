@@ -63,6 +63,12 @@ h2{
     border-radius: 20px;
     text-decoration: none;
 }
+.buttoncancel{
+    background: #eb3b4a;
+}
+.buttoncancel:hover {
+    background: #eb3b4a;
+}
 .buttontolink{
     background: none!important;
     border: none;
