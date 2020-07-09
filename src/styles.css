@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+
 html, body { height: 100%; }
 body { 
     margin: 0; 
@@ -62,6 +63,12 @@ h2{
     -moz-border-radius: 20px;
     border-radius: 20px;
     text-decoration: none;
+}
+.buttoncancel{
+    background: #eb3b4a;
+}
+.buttoncancel:hover {
+    background: #eb3b4a;
 }
 .buttontolink{
     background: none!important;

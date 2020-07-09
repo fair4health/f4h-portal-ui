@@ -3,12 +3,12 @@
 <div class="login-form-container centrado-porcentual border">
   <mat-form-field appearance="fill" class='with_100_percentage'>
     <mat-label>User</mat-label>
-    <input matInput>
+    <input matInput required>
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Password</mat-label>
-    <input matInput [type]="hide ? 'password' : 'text'">
+    <input matInput [type]="hide ? 'password' : 'text'" required>
     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
       [attr.aria-pressed]="hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
