@@ -13,4 +13,12 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  rememberPassword(): void {
+    console.log('Clicked rememberPassword. TODO: remember password');
+  }
+
+  askAccess(): void {
+    console.log('Clicked askAccess. TODO: user creation');
+  }
+
 }
