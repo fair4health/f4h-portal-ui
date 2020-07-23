@@ -1,4 +1,3 @@
-<div class='margin'>
 <h2>Welcome to Fair4Health Platform use case 1</h2>
 <p>Select or create a use case to work on</p>
 
@@ -6,33 +5,9 @@
     <button mat-button routerLink="/newusecase" color="primary" class='button'>New use case</button>
 </div>
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8 with_100_percentage">
-
-    <ng-container matColumnDef="f1">
-        <th mat-header-cell *matHeaderCellDef> Use case name </th>
-        <td mat-cell *matCellDef="let element"> {{element.f1}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="f2">
-        <th mat-header-cell *matHeaderCellDef> Description </th>
-        <td mat-cell *matCellDef="let element"> {{element.f2}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="f3">
-        <th mat-header-cell *matHeaderCellDef> Use case type </th>
-        <td mat-cell *matCellDef="let element"> {{element.f3}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="f4">
-        <th mat-header-cell *matHeaderCellDef> Created by </th>
-        <td mat-cell *matCellDef="let element"> {{element.f4}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="f5">
-        <th mat-header-cell *matHeaderCellDef> Creation time </th>
-        <td mat-cell *matCellDef="let element"> {{element.f5}} </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+<button (click)="onHttpGet()">Http Get</button>
+<div>
+  <p *ngIf="message">Mensaje: {{message.message}}</p>
+  <mat-spinner *ngIf="message === undefined"></mat-spinner>
+</div>
+<mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
