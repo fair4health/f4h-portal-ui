@@ -80,6 +80,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatTableModule,
     MatTabsModule,
     MatToolbarModule,
+    MatTooltipModule,
     AppRoutingModule
   ],
   providers: [],
