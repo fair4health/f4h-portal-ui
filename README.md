@@ -40,6 +40,15 @@ webpack                           4.43.0
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
+#### Development mock server
+
+For developmente purposes, a set of json data is loaded in [json-server](https://github.com/typicode/json-server), in `/mocks/data.json`. To launch both the mock server and the web application:
+
+- First time, 
+  - install json-server: `npm install json-server --save-dev`
+  - install concurrently: `npm install concurrently --save-dev`
+- Run `npm run start:mock:server`
+
 ### Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.

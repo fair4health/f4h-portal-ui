@@ -1,0 +1,18 @@
+{
+	"sample": {
+		"message": "hello"
+	},
+	"usecases": [{
+		"name": "30 days readmission risk prediction in complex chronic patients",
+		"description": "Can be used in real-time during the discharge consultation, with the aim to inform specialists about this risk and therefore support their decision on the reatment after the patient discharge, so the readminission could be anticipated and avoided.",
+		"type": "Prediction",
+		"created_by": "Administrator",
+		"creation_time": "2020-07-01"
+	}, {
+		"name": "Discovery of disease association patterns in comorbid patients",
+		"description": "Translates into economic savins related to the reduction of efforts in parallel research, and impacts on health outcomes related to the management o f this kind of patients",
+		"type": "Association",
+		"created_by": "Administrator ",
+		"creation_time": "2020-07-01"
+	}]
+}
