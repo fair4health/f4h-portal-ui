@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BackendService } from '../core/services/backend.service';
+import { UserCommunicationService } from '../core/services/user-communication.service';
 
 @Component({
   selector: 'app-usecase',
@@ -11,7 +12,8 @@ export class UsecaseComponent implements OnInit {
   message;
 
   constructor(
-    private backendService: BackendService
+    private backendService: BackendService,
+    private userCommunication: UserCommunicationService
     ) { }
 
   ngOnInit(): void {
@@ -23,9 +25,11 @@ export class UsecaseComponent implements OnInit {
       (data) => {
       console.log(data);
       this.message = data;
+      this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Http obtained successfully');
       },
       (err) => {
         this.backendService.handleError('home', err);
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Http operation failed');
       });
   }
 
