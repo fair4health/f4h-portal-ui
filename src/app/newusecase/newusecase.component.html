@@ -1,7 +1,7 @@
 <div class='margin'>
   <h2>Create new use case</h2>
 
-  
+
   <mat-form-field class="example-full-width with_100_percentage">
     <mat-label>Name</mat-label>
     <input  matInput placeholder="Type user case name" value="" required minlength="4">
@@ -12,15 +12,15 @@
     <textarea id='description' matInput placeholder="Type user case description as descriptive as posible" required minlength="4"></textarea>
   </mat-form-field>
   <br>
-  
+
   <div class="example-selected-value">Use case type</div>
-  <mat-radio-group class="example-radio-group" [(ngModel)]="selectedType">
+  <mat-radio-group class="example-radio-group">
     <mat-radio-button class="example-radio-button" *ngFor="let type of types" [value]="type">
       {{type}}
     </mat-radio-button>
   </mat-radio-group>
-  
-  
+
+
 
 <div>
     <button mat-button routerLink="/usecase" class='button'>Save</button>
