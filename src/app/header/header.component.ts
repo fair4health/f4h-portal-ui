@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-
+import { Router } from '@angular/router';
 import { LogoutDialogComponent } from './logout-dialog/logout-dialog.component';
 
 
@@ -11,7 +11,10 @@ import { LogoutDialogComponent } from './logout-dialog/logout-dialog.component';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(public dialog: MatDialog) { }
+  constructor(
+    private router: Router,
+    public dialog: MatDialog
+    ) { }
 
   ngOnInit(): void {
   }
@@ -28,6 +31,8 @@ export class HeaderComponent implements OnInit {
       console.log(`Logout dialog result: ${result}`);
       if (result) {
         console.log('Logout user and redirect then!');
+        // TO-DO logout
+        this.router.navigate(['/']);
       } else {
         console.log('Not logout!');
       }
