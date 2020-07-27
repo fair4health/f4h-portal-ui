@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import UseCases from '../../../mocks/data.json';
 
 @Component({
   selector: 'app-use-case-list',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class UseCaseListComponent implements OnInit {
 
+  displayedColumns: string[] = ['name', 'description', 'type', 'created_by', 'creation_time', 'select'];
+  dataSource = UseCases.usecases;
+
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }
+
+
