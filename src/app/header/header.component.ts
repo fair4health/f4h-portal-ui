@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { UserCommunicationService } from '../core/services/user-communication.service';
+import { AuthService } from '../core/services/auth.service';
+
+import { MatDialog } from '@angular/material/dialog';
+
 import { LogoutDialogComponent } from './logout-dialog/logout-dialog.component';
 
 
@@ -12,6 +16,8 @@ import { LogoutDialogComponent } from './logout-dialog/logout-dialog.component';
 export class HeaderComponent implements OnInit {
 
   constructor(
+    public auth: AuthService,
+    private userCommunication: UserCommunicationService,
     private router: Router,
     public dialog: MatDialog
     ) { }
@@ -19,8 +25,13 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logout(): void {
-    console.log('Clicked logout. TODO: ask for confirmation');
+  onLogin(): void {
+    console.log('Login clicked');
+    this.router.navigate(['/login']);
+  }
+
+  onLogout(): void {
+    console.log('Logout clicked');
     this.openLogoutDialog();
   }
 
@@ -31,7 +42,8 @@ export class HeaderComponent implements OnInit {
       console.log(`Logout dialog result: ${result}`);
       if (result) {
         console.log('Logout user and redirect then!');
-        // TO-DO logout
+        this.auth.logout();
+        this.userCommunication.createMessage(this.userCommunication.INFO, 'User has been logged out');
         this.router.navigate(['/']);
       } else {
         console.log('Not logout!');

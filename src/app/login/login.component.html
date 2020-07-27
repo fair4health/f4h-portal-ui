@@ -3,22 +3,23 @@
 <div class="login-form-container centrado-porcentual border">
   <mat-form-field appearance="fill" class='with_100_percentage'>
     <mat-label>User</mat-label>
-    <input matInput required>
+    <input #user matInput required>
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Password</mat-label>
-    <input matInput [type]="hide ? 'password' : 'text'" required>
+    <input #password matInput [type]="hide ? 'password' : 'text'" required>
     <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
       [attr.aria-pressed]="hide">
       <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
     </button>
   </mat-form-field>
   <br>
-  <button mat-raised-button routerLink="/uclist">Login</button>
+  <button mat-raised-button (click)="onLogin(user.value, password.value)">Login</button>
 </div>
 
 <br>
-<a [routerLink]="" (click)="rememberPassword()">Forgot your user/password</a>
 <br>
-<a [routerLink]="" (click)="askAccess()">Ask for access</a>
+<a [routerLink]="" (click)="onRememberPassword()">Forgot your user/password</a>
+<br>
+<a [routerLink]="" (click)="onAskAccess()">Ask for access</a>

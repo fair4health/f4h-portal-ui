@@ -2,6 +2,18 @@
 <mat-toolbar>
   <a routerLink="/"><img src="assets/images/logo.png" width="160px"></a>
 
-  <a routerLink="/login">Login</a>
-  <a [routerLink]="" (click)="logout()">Logout</a>
+  <span class="spacer"></span>
+
+  <div class="loginmenu">
+    <span *ngIf="!this.auth.isLoggedIn()">
+      <a [routerLink]="" (click)="onLogin()">Login</a>
+    </span>
+    <span *ngIf="this.auth.isLoggedIn()">
+      <mat-icon aria-hidden="false" aria-label="user">face</mat-icon>
+      &nbsp;
+      {{this.auth.username}}
+      &nbsp;&nbsp;
+      <a [routerLink]="" (click)="onLogout()">Logout</a>
+    </span>
+  </div>
 </mat-toolbar>
