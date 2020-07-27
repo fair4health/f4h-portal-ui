@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 
@@ -13,11 +13,22 @@ export class BackendService {
 
   constructor(private httpClient: HttpClient) { }
 
-  public getMessage(): Observable<any>{
+  public getMessage(): Observable<any> {
     return this.httpClient.get(environment.restApiUrl + 'sample');
   }
 
-  public getUseCaseList(): Observable<any>{
+  public login(username: string, password: string): Observable<any> {
+    const params = new HttpParams();
+    params.set('username', username);
+    params.set('password', password);
+
+    const options = {
+      params
+    };
+    return this.httpClient.get(environment.restApiUrl + 'login', options);
+  }
+
+  public getUseCaseList(): Observable<any> {
     return this.httpClient.get(environment.restApiUrl + 'usecases');
   }
 
