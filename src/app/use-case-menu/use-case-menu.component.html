@@ -1,1 +1,58 @@
-<p>use-case-menu works!</p>
+  <p style='margin-left: 30px;'>
+      <b>Use case name: </b> {{name}} <br>
+      <b>Description: </b> {{description}}
+  </p>
+  <mat-grid-list cols="3" rowHeight="250px">
+    <mat-grid-tile>
+        <mat-card class="featuremanagement-card">
+            <mat-card-header class="featuremanagement-card-header">
+              <mat-card-title>Feature Set Management</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                Feature set is like an empty Excel template. <br>
+                Create your feature set template by specifying FHIR Queries and FHOR Paths.<br>
+                Use later it on creating your data set.
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" class="featuremanagement-buttom">Select</button>
+            </mat-card-actions>
+          </mat-card>    
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-card class="dataSetmanagement-card">
+            <mat-card-header class="dataSetmanagement-card-header">
+              <mat-card-title>Data Set Management</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                Data set is like Excel file(s) filled with data.<br>
+                Generate your data set either from single source or several distributed sourcces.<br>
+                Use later it on creating your predictive model.
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" class="dataSetmanagement-buttom">Select</button>
+            </mat-card-actions>
+          </mat-card>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <mat-card class="modelmanagement-card">
+            <mat-card-header class="modelmanagement-card-header">
+              <mat-card-title>Model management</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>
+                Generate models for your use case.<br>
+                Perform clustering analyses and discover associations in your data.<br>
+              </p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button mat-raised-button color="primary" class="modelmanagement-buttom">Select</button>
+            </mat-card-actions>
+          </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>
+
+  

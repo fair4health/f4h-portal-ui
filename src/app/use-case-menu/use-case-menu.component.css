@@ -1,0 +1,43 @@
+
+
+.featuremanagement-card {
+    max-width: 400px;
+}
+
+.dataSetmanagement-card {
+    max-width: 400px;
+}
+
+.modelmanagement-card {
+    max-width: 400px;
+ }
+  
+ .featuremanagement-card-header {
+    max-width: 400px;
+    background-color: chocolate;
+    color: white;
+}
+
+.dataSetmanagement-card-header {
+    max-width: 400px;
+    background-color: darkcyan;
+    color: white;
+}
+
+.modelmanagement-card-header {
+    max-width: 400px;
+    background-color: darkslateblue;
+    color: white;
+ }
+
+ .featuremanagement-buttom {
+    background-color: chocolate;
+}
+
+.dataSetmanagement-buttom {
+    background-color: darkcyan;
+}
+
+.modelmanagement-buttom {
+    background-color: darkslateblue;
+ }
