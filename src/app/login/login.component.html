@@ -15,5 +15,10 @@
     </button>
   </mat-form-field>
   <br>
-  <button mat-button routerLink="/usecase" class='button center'>Login</button>
+  <button mat-raised-button routerLink="/uclist">Login</button>
 </div>
+
+<br>
+<a [routerLink]="" (click)="rememberPassword()">Forgot your user/password</a>
+<br>
+<a [routerLink]="" (click)="askAccess()">Ask for access</a>

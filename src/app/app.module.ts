@@ -43,6 +43,18 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { HeaderComponent } from './header/header.component';
+import { NotFoundComponent } from './not-found/not-found.component';
+import { UseCaseMenuComponent } from './use-case-menu/use-case-menu.component';
+import { UseCaseListComponent } from './use-case-list/use-case-list.component';
+import { FeatureSetListComponent } from './feature-set-list/feature-set-list.component';
+import { FeatureSetCreationComponent } from './feature-set-creation/feature-set-creation.component';
+import { DataSetDashboardComponent } from './data-set-dashboard/data-set-dashboard.component';
+import { DataSetCreationComponent } from './data-set-creation/data-set-creation.component';
+import { ModelDashboardComponent } from './model-dashboard/model-dashboard.component';
+import { ModelCreationComponent } from './model-creation/model-creation.component';
+import { CoverPageComponent } from './cover-page/cover-page.component';
+import { LogoutDialogComponent } from './header/logout-dialog/logout-dialog.component';
 
 
 @NgModule({
@@ -50,7 +62,19 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     AppComponent,
     LoginComponent,
     UsecaseComponent,
-    NewusecaseComponent
+    NewusecaseComponent,
+    HeaderComponent,
+    NotFoundComponent,
+    UseCaseMenuComponent,
+    UseCaseListComponent,
+    FeatureSetListComponent,
+    FeatureSetCreationComponent,
+    DataSetDashboardComponent,
+    DataSetCreationComponent,
+    ModelDashboardComponent,
+    ModelCreationComponent,
+    CoverPageComponent,
+    LogoutDialogComponent,
   ],
   imports: [
     BrowserModule,
