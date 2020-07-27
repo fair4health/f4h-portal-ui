@@ -17,6 +17,10 @@ export class BackendService {
     return this.httpClient.get(environment.restApiUrl + 'sample');
   }
 
+  public getUseCaseList(): Observable<any>{
+    return this.httpClient.get(environment.restApiUrl + 'usecases');
+  }
+
   public handleError(where: string, error: HttpErrorResponse): void {
     let errorText = 'An error occurred in ' + where;
     if (error.error instanceof ErrorEvent) {
