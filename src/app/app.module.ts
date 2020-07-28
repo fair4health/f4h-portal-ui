@@ -1,6 +1,10 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -11,8 +15,17 @@ import { LoginComponent } from './login/login.component';
 import { UsecaseComponent } from './usecase/usecase.component';
 import { NewusecaseComponent } from './newusecase/newusecase.component';
 
+import { A11yModule } from '@angular/cdk/a11y';
+import { BidiModule } from '@angular/cdk/bidi';
+import { ObserversModule } from '@angular/cdk/observers';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { PlatformModule } from '@angular/cdk/platform';
+import { PortalModule } from '@angular/cdk/portal';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CdkTreeModule } from '@angular/cdk/tree';
+
 // Angular Material Components
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -77,8 +90,24 @@ import { LogoutDialogComponent } from './header/logout-dialog/logout-dialog.comp
     LogoutDialogComponent,
   ],
   imports: [
+    CoreModule,
+    SharedModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     BrowserModule,
     BrowserAnimationsModule,
+    // CDK
+    A11yModule,
+    BidiModule,
+    ObserversModule,
+    OverlayModule,
+    PlatformModule,
+    PortalModule,
+    CdkStepperModule,
+    CdkTableModule,
+    CdkTreeModule,
+    // Material
     MatAutocompleteModule,
     MatButtonModule,
     MatButtonToggleModule,
