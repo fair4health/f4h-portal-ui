@@ -1,7 +1,9 @@
 
 
-<div class="login-form-container centrado-porcentual border">
-  <mat-form-field appearance="fill" class='with_100_percentage'>
+<div class="center">
+  <br>
+  <br>
+  <mat-form-field appearance="fill">
     <mat-label>User</mat-label>
     <input #user matInput required>
   </mat-form-field>
@@ -16,10 +18,11 @@
   </mat-form-field>
   <br>
   <button mat-raised-button (click)="onLogin(user.value, password.value)">Login</button>
+  <br>
+  <br>
+  <a mat-button [routerLink]="" (click)="onRememberPassword()">Forgot your user/password</a>
+  <br>
+  <a mat-button [routerLink]="" (click)="onAskAccess()">Ask for access</a>
 </div>
 
-<br>
-<br>
-<a [routerLink]="" (click)="onRememberPassword()">Forgot your user/password</a>
-<br>
-<a [routerLink]="" (click)="onAskAccess()">Ask for access</a>
+

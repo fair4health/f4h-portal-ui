@@ -1,1 +1,32 @@
-<p>feature-set-list works!</p>
+<div class="nav-path">
+  <a mat-button [routerLink]="['/uclist']">Home</a>>><a mat-button [routerLink]="['/ucmenu']">Use case</a>>><a mat-button color="primary">Feature set management</a>
+</div>
+
+<mat-divider></mat-divider>
+<div class="content">
+  <!-- TO-DO FEATURE SETS TABLE -->
+  <button mat-raised-button [routerLink]="['/fscreation']">Create new feature set</button>
+
+  <br>
+  <br>
+
+  <table style="width:90%">
+    <tr>
+      <th>Feature set name</th>
+      <th>Description</th>
+      <th>Number of variables</th>
+      <th>Created by</th>
+      <th>Creation time</th>
+      <th>See details</th>
+    </tr>
+    <tr>
+      <td>My_name</td>
+      <td>Contains 44 different comorbid diseases and others</td>
+      <td>53</td>
+      <td>user</td>
+      <td>2020-07-24 10:02</td>
+      <td><mat-icon>find_in_page</mat-icon></td>
+    </tr>
+
+  </table>
+</div>

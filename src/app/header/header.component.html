@@ -6,14 +6,14 @@
 
   <div class="loginmenu">
     <span *ngIf="!this.auth.isLoggedIn()">
-      <a [routerLink]="" (click)="onLogin()">Login</a>
+      <a mat-button [routerLink]="" (click)="onLogin()">Login</a>
     </span>
     <span *ngIf="this.auth.isLoggedIn()">
       <mat-icon aria-hidden="false" aria-label="user">face</mat-icon>
       &nbsp;
       {{this.auth.username}}
       &nbsp;&nbsp;
-      <a [routerLink]="" (click)="onLogout()">Logout</a>
+      <a mat-button [routerLink]="" (click)="onLogout()">Logout</a>
     </span>
   </div>
 </mat-toolbar>
