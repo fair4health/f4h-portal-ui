@@ -4,8 +4,34 @@
 
 <mat-divider></mat-divider>
 
-<br>
+<div class="content">
 
-<button mat-raised-button [routerLink]="['/dscreation']">Create new data set</button>
+  <button mat-raised-button [routerLink]="['/dscreation']">Create new data set</button>
 
-<!-- TO-DO DATA SETS TABLES -->
+  <!-- TO-DO DATA SETS TABLES -->
+  <h2>Ready</h2>
+
+  <table style="width:90%">
+    <tr>
+      <th>Data set name</th>
+      <th>Description</th>
+      <th>Data sources</th>
+      <th>Created by</th>
+      <th>Creation time</th>
+      <th>See details</th>
+    </tr>
+    <tr>
+      <td>All patients</td>
+      <td>There is no elegibility criteria for this dataset</td>
+      <td>SAMPLE</td>
+      <td>user</td>
+      <td>2020-07-24 10:02</td>
+      <td><mat-icon>find_in_page</mat-icon></td>
+    </tr>
+
+  </table>
+
+  <br>
+  <h2>In progress</h2>
+
+</div>

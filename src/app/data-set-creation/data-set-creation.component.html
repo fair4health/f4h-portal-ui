@@ -1,7 +1,72 @@
 <div class="nav-path">
-  <a mat-button [routerLink]="['/uclist']">Home</a>>><a mat-button [routerLink]="['/ucmenu']">Use case</a>>><a mat-button [routerLink]="['/fsdashboard']">Data set management</a>>><a mat-button color="primary">Data set creation</a>
+  <a mat-button [routerLink]="['/uclist']">Home</a>>><a mat-button [routerLink]="['/ucmenu']">Use case</a>>><a mat-button [routerLink]="['/fslist']">Data set management</a>>><a mat-button color="primary">Data set creation</a>
 </div>
 
 <mat-divider></mat-divider>
 
-<br>
+<div class="content">
+
+  <mat-horizontal-stepper [linear]="false" #stepper>
+    <mat-step [stepControl]="formGroup1">
+      <form [formGroup]="formGroup1">
+        <ng-template matStepLabel>Name & description</ng-template>
+        <mat-form-field>
+          <mat-label>Data set name</mat-label>
+          <input matInput placeholder="Data set name" formControlName="formGroup1" required>
+        </mat-form-field>
+        <br>
+        <mat-form-field>
+          <mat-label>Description</mat-label>
+          <input matInput placeholder="Description" formControlName="formGroup1" required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formGroup2">
+      <form [formGroup]="formGroup2">
+        <ng-template matStepLabel>Feature set selection</ng-template>
+        <mat-form-field>
+
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formGroup3">
+      <form [formGroup]="formGroup3">
+        <ng-template matStepLabel>Elegibility criteria</ng-template>
+
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formGroup4">
+      <form [formGroup]="formGroup4">
+        <ng-template matStepLabel>Results & statistics</ng-template>
+
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formGroup5">
+      <form [formGroup]="formGroup5">
+        <ng-template matStepLabel>Completed</ng-template>
+
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button (click)="stepper.reset()">Reset</button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-horizontal-stepper>
+
+
+</div>
