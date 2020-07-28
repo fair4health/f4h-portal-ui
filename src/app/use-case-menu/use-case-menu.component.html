@@ -1,5 +1,13 @@
-  <p style='margin-left: 30px;'>
-      <b>Use case name: </b> {{name}} <br>
+<div class="nav-path">
+  <a mat-button [routerLink]="['/uclist']">Home</a>>><a mat-button color="primary">Use case</a>
+</div>
+
+<mat-divider></mat-divider>
+
+<p style='margin-left: 30px;'>
+      <b>Use case name: </b> {{name}}
+      <br>
+      <br>
       <b>Description: </b> {{description}}
   </p>
   <mat-grid-list cols="3" rowHeight="250px">
@@ -9,16 +17,16 @@
               <mat-card-title>Feature Set Management</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <p>
                 Feature set is like an empty Excel template. <br>
+                <mat-divider></mat-divider>
                 Create your feature set template by specifying FHIR Queries and FHOR Paths.<br>
+                <mat-divider></mat-divider>
                 Use later it on creating your data set.
-              </p>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-raised-button color="primary" class="featuremanagement-buttom">Select</button>
+              <button mat-raised-button color="primary" class="featuremanagement-buttom" (click)="onFeatureMgmt()">Select</button>
             </mat-card-actions>
-          </mat-card>    
+          </mat-card>
     </mat-grid-tile>
     <mat-grid-tile>
         <mat-card class="dataSetmanagement-card">
@@ -26,14 +34,14 @@
               <mat-card-title>Data Set Management</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <p>
                 Data set is like Excel file(s) filled with data.<br>
+                <mat-divider></mat-divider>
                 Generate your data set either from single source or several distributed sourcces.<br>
+                <mat-divider></mat-divider>
                 Use later it on creating your predictive model.
-              </p>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-raised-button color="primary" class="dataSetmanagement-buttom">Select</button>
+              <button mat-raised-button color="primary" class="dataSetmanagement-buttom" (click)="onDataSetMgmt()">Select</button>
             </mat-card-actions>
           </mat-card>
     </mat-grid-tile>
@@ -43,16 +51,14 @@
               <mat-card-title>Model management</mat-card-title>
             </mat-card-header>
             <mat-card-content>
-              <p>
                 Generate models for your use case.<br>
+                <mat-divider></mat-divider>
                 Perform clustering analyses and discover associations in your data.<br>
-              </p>
             </mat-card-content>
             <mat-card-actions>
-              <button mat-raised-button color="primary" class="modelmanagement-buttom">Select</button>
+              <button mat-raised-button color="primary" class="modelmanagement-buttom" (click)="onModelMgmt()">Select</button>
             </mat-card-actions>
           </mat-card>
     </mat-grid-tile>
 </mat-grid-list>
 
-  
