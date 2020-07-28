@@ -17,20 +17,24 @@ export class UseCaseListComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.onHttpGet();
+    this.onGetUseCaseList();
   }
 
-  onHttpGet(): void {
+  onGetUseCaseList(): void {
     this.backendService.getUseCaseList().subscribe(
       (usecaselist) => {
         console.log(usecaselist);
         this.dataSource = usecaselist;
-        this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Http obtained successfully');
       },
       (err) => {
         this.backendService.handleError('home', err);
-        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Http operation failed');
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get use case list operation failed');
       });
+  }
+
+  onCreateNewUseCase(): void {
+    // TO DO
+    this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
   }
 }
 
