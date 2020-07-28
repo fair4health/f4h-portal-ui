@@ -39,3 +39,7 @@
 .modelmanagement-buttom {
   background-color: darkslateblue;
 }
+
+mat-card-content p {
+  padding-top: 12px;
+}
