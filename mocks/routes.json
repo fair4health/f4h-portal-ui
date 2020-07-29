@@ -1,5 +1,6 @@
 {
   "/manager/*": "/$1",
+  "/project/:project_id": "/project?project_id=:project_id",
   "/featureset/:featureset_id": "/featureset?featureset_id=:featureset_id",
   "/dataset/:dataset_id": "/dataset?dataset_id=:dataset_id",
   "/model/:data_mining_model_id": "/model?data_mining_model_id=:data_mining_model_id"
