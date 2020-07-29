@@ -25,5 +25,25 @@
 		"type": "Association",
 		"created_by": "Administrator ",
 		"creation_time": "2020-07-01"
+	}],
+
+	"features":[{
+		"name": "Feature set X",
+		"description": "Contains 44 different comorbid diseases and others.",
+		"numbervariables":"53",
+		"created_by": "user user",
+		"creation_time": "2020-07-01"
+		}, {
+		"name": "F4H Use-Case-1 feature set",
+		"description": "Contains medical comorbid, polypharmacy, mortality, cognitive impairment variables.",
+		"numbervariables":"47",
+		"created_by": "anotheruser user",
+		"creation_time": "2020-07-01"
+		}, {
+		"name": "Feature set Y",
+		"description": "Contains only heart and endocrine diseases.",
+		"numbervariables":"11",
+		"created_by": "Handsome user",
+		"creation_time": "2020-07-01"
 	}]
 }
