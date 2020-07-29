@@ -5,11 +5,11 @@
 <mat-divider></mat-divider>
 
 <div class="content">
-<p style='margin-left: 30px;'>
-  <b>Use case name: </b> {{name}}
+<p style='margin-left: 30px;' *ngIf="useCase">
+  <b>Use case name: </b> {{useCase!.name}}
   <br>
   <br>
-  <b>Description: </b> {{description}}
+  <b>Description: </b> {{useCase!.description}}
 </p>
 
 <mat-grid-list cols="3" rowHeight="250px">
@@ -44,7 +44,7 @@
         <p>Use later it on creating your predictive model.</p>
       </mat-card-content>
       <mat-card-actions>
-        <button mat-raised-button color="primary" 
+        <button mat-raised-button color="primary"
           (click)="onDataSetMgmt()">Select</button>
       </mat-card-actions>
     </mat-card>
