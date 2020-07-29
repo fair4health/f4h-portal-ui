@@ -9,7 +9,7 @@ import { UserCommunicationService } from '../core/services/user-communication.se
 })
 export class UseCaseListComponent implements OnInit {
   dataSource;
-  displayedColumns: string[] = ['name', 'description', 'type', 'created_by', 'creation_time', 'select'];
+  displayedColumns: string[] = ['name', 'description', 'type', 'created_by', 'created_on', 'select'];
 
   constructor(
     private backendService: BackendService,
