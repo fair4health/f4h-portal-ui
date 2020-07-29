@@ -1,0 +1,56 @@
+# Copyright (C) 2020  Atos Spain SA. All rights reserved.
+# 
+# This file is part of the Angular Portal Example UI.
+# 
+# This file is free software: you can redistribute it and/or modify it under the 
+# terms of the Apache License, Version 2.0 (the License);
+# 
+# http://www.apache.org/licenses/LICENSE-2.0
+# 
+# The software is provided "AS IS", without any warranty of any kind, express or implied,
+# including but not limited to the warranties of merchantability, fitness for a particular
+# purpose and noninfringement, in no event shall the authors or copyright holders be 
+# liable for any claim, damages or other liability, whether in action of contract, tort or
+# otherwise, arising from, out of or in connection with the software or the use or other
+# dealings in the software.
+# 
+# See README file for the full disclaimer information and LICENSE file for full license 
+# information in the project root.
+
+dist: trusty
+language: node_js
+
+node_js:
+- "12.13"
+
+sudo: false
+
+cache:
+  directories:
+    - "$HOME/.sonar/cache"
+    - ./node_modules
+
+env:
+  global:
+    - secure: "bgwZVwscwcgsajlaf+MDZyoqjs4+V9poW7zsLMeHhtTSN/w/k1A5MPlVvLR7rGkIbIDcFFxw0su8ax1gVbjV0On9G/N9UNKagK4YOWHPO/YTTsS/j6z1HagtMROCYIrbUwRVtTBNLPagcsE0CL1s2yLjG82PM8Bu/oxmOO05kcFBvoWLpQVG6z/J42SC+OIcvf1TJj6HgqahErsxOhO5SQSScnxXQgEKq7QEVcDiZFnD7iZ9V1c4JTm3UJqDpP15yiMTpJ6WEP60huHkPlGBeZOnfNDTesygJO1np5Grg+PYArKg1U+Xl8XqfGqGgMZGeuMdzmOB1hcBxAlBRsWOGDyVaAFXFnPxD6NJKnOS8uXk+vaLNiOviphdzDtbNxdFxIl4zSFQHmppDM24OaEWxCH/WyFJEGQLu/D8TvygxdRHJKdm6P+1drOIlDv44EXlErYhNJrNyhdDCbFQ8z1vrE7SwhiVu703cdX6YIGGQlDH7CO99fxXe/e237X5Mk6I8yejbZLqUjCIKtCYGDrY/QEnCYqPGcSwJ9NjxqbFHiHdmyc3ABDfyAcS2IPAFdcw2mOcDh9C246OyVmo62+9jOlW8khPamcvkn9bzDnbOcIV4TdiYJGFo5lZJs8I8OB4pfS3VwQscylbtXERjQurNg8JhJydDpVHWX+ucyNeLj8="
+    - secure: "Cr+YIwaHKxCPSiUnlrpRpIz91qjB1i7me6qHB95F0aapLctSa7Albyb19KO0cwC+0CgHcNPQgCzdx0G/zIRkQs5EIkUwPoYzgKK3lR/GbyAhpppauvdDajaJQ7rGFuR5T7kvs2Jnqd8Mf/MJ8o5A2vAEaCR2eyE6lhCYmz3U3LEqjdhC9yjt8bOLAr12xLgHyR1jRmT+748rL3me5o7yOqMNdlLRc2Ucp0G2a5ec9UvNCugF5xu9DNGddf/ANg11IwwOGejH4mTeb+/NJ6bEjXPgLk27p0DIugKRWjL0yp967dFv+eG6gMgDBfynGPpBTLzxH/RoPZQlgaMhpx7mJbY+2tbucwIRpT5gcUFtYDUkH189PSWMc7oabIxrDqMIcmIgoc/r9hAz5d6vGILrX942ZGYUhl0PTRAKW+jsIUexuVmZDDERgRCFMiqMNN4Ymajstcms60anQzVp9+WyXyCbeQKErtZQieck4UiVUQr1qhqd7SdVMv1EQMKSQt6UBxmJtdYIfnSgSGMOsH7z24x/6h05PS2Lo2tsr1dU+W3lzp284dWnf7sd/71MNZFdg1V+FeZWF0vOSuyv78PONr+A0AXfh7xKmgy5GaXopaQF5VfDVbayEejnjCG11zfM0kkVwWSI3llCB7MPAFLSac0+6pPQDTkTWFbM8sX0n2Q="
+    - secure: "KiS1Kc6Qv0Dm9m+U1bP8txo2FC42ZCV1ohKPp7iUG74GpYJvJGM+c94Hfjbk2gHJenP2ZkWFiYCDwHpyZhWiPXA0q3GMZYugsICn2wPGFzIoywSeJnTIHrkDM4FGXJCYzQXnEhmA0jOQeOIFzkA5TKSWGdGaab7SPQxE4IueUfUdwmOiC9dfV50rZ44qvnX2wy/gUicIP4cn5GEU+lYHg9CM4rNsrvjhYU6UfphpDSvZMirbFDGwTmAEPL0s5V7MVOC7sza7nlY3ktIp0s2pi66l8bh2vUKXABmh7OhtjU6zbdL9NO0HWzIO7+35V46lLFDOoAvtQiVX8T8f7tBzARw9hH2uqt9PRP5xnJM8npTz1lmYGmAuNbZL3ytUiOZlzmkocG33Qmi05NRO5NqO9095LsaAmZMVe3cd1/1NjB8CXLO/iblBxqscGdskuSmolOHkGdl2Kjl7F0jftMWpeSiqEYc6xKxNXYGii1xukin20+BlqeGwx19BjRlkeeYsohjPVzyl/PVt0H/a9fhJCOgm1y1AaS3MNsaju57awNMUOmlPxq/S4btKGWsnhvCZyzmDJTmPpiGpqtZczeMcPhxOiFm5WENS09ZWehXjpCp35B6DGqNrWsT41ig5IHfcY2ZX/7uZDkAW7H05RyVOtTEWxTRnbk0hQ7eNdSjlxd0="
+    - secure: "LyhP/yRR0GzuwQmnUOhG1gey/H+L9lti5JSfy1PZM7IWXN2fHb1S4Lf0vqGd+e+JwbZs+rztYO8Vv74NE6iLZ/kBJMWEkF36P8JsRN/K+SWhSsW2dslqCej1ObneikT+7M45RLhuL1uvn6mfoQFfoA/yuRV+sWwRJsbgvByvO4jPvywt8vvdWJwkEQnFyCClNSYL5Y9dpl954d6c2/lQG1HVKFXPV3XhFGLI2vApUofK8o7Y07xzG67IYZSQXEVtxq42jyYyOpWyjbCU5AmJ0Nd8RF8UBtoDtu8elZO7tufghINQXV8TsptK2AUdX9y+pklTc+Dy/zMsqy0Y5b9BnQYKBAm/kuc0cxb+Fanl8biSEUfn7CJop1A2qeIBjIDYCpuB49Q+u7fAWyXQa1T30g5jfbjAZn3odB9iqCzeTXOeCW8vPaYWOttoYi9qAU99ogXJ56CQWgNZxjKP29BlPL037i0pq3+lnT3259HJM2cKTh4B343tdwzqXRO6sdaxNI//srtE6XRHiCOVfRI/PkusiNgU/YviyjmzcaE36AavnZOKaacEp1MwvKd/Yf/7/y6SkXGXoBIMJ7Uwc1xJBS8QKii9wuEUTMlm7pyU5PAwG8frBZMJWbkJ6fcZtNQlVT4vKyowOIS4i33BwkVnzfnBXZjBSk50zPp33zfPvDM="
+  
+addons:
+  chrome: stable
+  sonarcloud:
+    organization: "fair4health"
+    token:
+      secure: "XV7ysxJCkPR4Tufu8qMwJf1M0LhySVvTcjewpfVbJIJ+NAK5qgxvJabwLEk90HfcSQ/33ZOOv52dEA0jtnAS2nRhGB+aSsAHQnNQAuL4G1JdJyHCnSsCdG5ZXSM9qOV0IAC1lG4V/wrGr8I/0MXYXujEQmKhhRchxaZYOMMddoBd4bwac6znpXJeBCFVrnAb1htqmX9lFK02FHaFOs9wQhKtqumwHWabHnH+2yffqElDjB+sj5oYDkUtHadw5MYH3BpuJujQWCtfAtPGxiYQ7QeVoSDa+3AejdhGXiE5/CuM1M2joIhELnAq/aX+ywD8EYjm3MZI+hg3h2x7fuPNO0RMv/JQx757JlZtY9DS5EOM3agSp7K/Cno7eN61Si3+Yru+zkfVBP1oWsgmFYQAiX5yBeLy4WFNT3TxK6nX+gVCsUD1qVEJNobh60S9mbwM6KMPcHW0BZtmxbFdrfVKO3cQ6QSkzKGI5IKwhJDY1VIh5Ul2hNkUD3wvhC+9nVwiOBOwye/U+6GJq9T3LAO9pxfg1CfqsXrUDqb7OLIfLbEWylwoV4UBfQCXnLM9p07BpdOIvrl0/Ln1SskUXzUlELZ31wMyI2TKnLwbNk7xvTlTphPLOO8FsUkBtEfNdFyUDuBnFPYa6kmpPxU+1K4wDh4QBexSCVIdQdryVl2UCUw="
+
+install:
+  - npm install
+
+script:
+  - if [ "$TRAVIS_PULL_REQUEST" = "true" ]; then npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --codeCoverage=true; npm run build; fi
+  - if [ "$TRAVIS_BRANCH" = "master" ]; then npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --codeCoverage=true; npm run sonar; fi
+  - if [ "$TRAVIS_BRANCH" = "release" ]; then chmod +x .travis/prepare.sh && .travis/prepare.sh; npm config set tag-version-prefix ''; npm version patch -m "Automatic release increment and changelog generation"; git push --tags; git push origin HEAD:master; fi
+
+after_success:
+- bash <(curl -s https://codecov.io/bash)

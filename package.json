@@ -8,8 +8,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "mock:server": "json-server --watch mocks/data.json --routes mocks/routes.json",
-    "start:mock:server": "concurrently --kill-others \"npm run mock:server\" \"ng serve\""
+    "mock:server": "json-server --host 0.0.0.0 --watch mocks/data.json --routes mocks/routes.json",
+    "start:mock:server": "concurrently --kill-others \"npm run mock:server\" \"ng serve --host 0.0.0.0 --disable-host-check\"",
+    "sonar": "sonar-scanner -X",
+    "version": "auto-changelog -p"
   },
   "private": true,
   "dependencies": {
@@ -47,6 +49,9 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~3.9.5"
+    "typescript": "~3.9.5",
+    "sonarqube-scanner": "^2.6.0",
+    "version": "^0.1.2",
+    "auto-changelog": "*"
   }
 }
