@@ -1,6 +1,6 @@
 {
-	"sample": {
-		"message": "hello"
+  "sample": {
+    "message": "hello"
   },
   "login": {
     "access_token": "xyztoken",
@@ -13,86 +13,459 @@
     "session_state": "session_state",
     "token_type": "type"
   },
-	"usecases": [{
-		"name": "30 days readmission risk prediction in complex chronic patients",
-		"description": "Can be used in real-time during the discharge consultation, with the aim to inform specialists about this risk and therefore support their decision on the reatment after the patient discharge, so the readminission could be anticipated and avoided.",
-		"type": "Prediction",
-		"created_by": "Administrator",
-		"creation_time": "2020-07-01"
-	}, {
-		"name": "Discovery of disease association patterns in comorbid patients",
-		"description": "Translates into economic savins related to the reduction of efforts in parallel research, and impacts on health outcomes related to the management o f this kind of patients",
-		"type": "Association",
-		"created_by": "Administrator ",
-		"creation_time": "2020-07-01"
-  }],
-
-  "featureset": [{
+  "project": [
+    {
+      "project_id": "a115b09b-396c-4c3d-9bee-31c9bcd4bf27",
+      "name": "30-days readmission risk prediction in complex chronic patients",
+      "description": "Can be used in real-time during the discharge consultation, with the aim to inform specialists about this risk and therefore support their decision on the treatment after patient discharge, so the readmission could be anticipated and avoided.",
+      "project_type": "prediction",
+      "created_by": "1903",
+      "created_on": "2020-06-29T16:57:31.950"
+    },
+    {
+      "project_id": "be246252-f606-41f5-b694-15f1c4310527",
+      "name": "Discovery of disease association patterns in comorbid patients",
+      "description": "Translates into economic savings related to the reduction of efforts in parallel research, and impacts on health outcomes related to the management of this kind of patients.",
+      "project_type": "association",
+      "created_by": "1903",
+      "created_on": "2020-06-29T17:38:09.403"
+    }
+  ],
+  "featureset": [
+    {
       "featureset_id": "66130b21-c83f-49e0-9512-9f943cb0916d",
       "project_id": "a115b09b-396c-4c3d-9bee-31c9bcd4bf27",
       "name": "F4H Use-case-2 feature set",
       "description": "Contains medical comorbidities, pharmacological variables, laboratory variables and other variables",
       "variables": [
-          {
-              "name": "Age",
-              "fhir_query": "/Patient/[patientId]",
-              "fhir_path": "Patient.birthdate.toAge()",
-              "variable_data_type": "categorical",
-              "variable_type": "independent"
-          },
-          {
-              "name": "Number of prescribed drugs",
-              "fhir_query": "/MedicationRequest&subject=[patientId]",
-              "fhir_path": "{count}",
-              "variable_data_type": "numeric",
-              "variable_type": "independent"
-          }
+        {
+          "name": "Age",
+          "fhir_query": "/Patient/[patientId]",
+          "fhir_path": "Patient.birthdate.toAge()",
+          "variable_data_type": "categorical",
+          "variable_type": "independent"
+        },
+        {
+          "name": "Number of prescribed drugs",
+          "fhir_query": "/MedicationRequest&subject=[patientId]",
+          "fhir_path": "{count}",
+          "variable_data_type": "numeric",
+          "variable_type": "independent"
+        }
       ],
       "created_by": "1903",
       "created_on": "2020-06-29T18:01:30.209"
-  },
-  {
+    },
+    {
       "featureset_id": "d6b75599-263b-4227-9b87-c190d12786b4",
       "project_id": "a115b09b-396c-4c3d-9bee-31c9bcd4bf27",
       "name": "Feature set with small number of variables",
       "description": "Contains only heart and endocrine diseases",
       "variables": [
-          {
-              "name": "Hearf failure",
-              "fhir_query": "/Condition?code=I50&subject=[patientId]",
-              "fhir_path": "{yesOrNo}",
-              "variable_data_type": "numeric",
-              "variable_type": "independent"
-          },
-          {
-              "name": "Coronary artery disease",
-              "fhir_query": "/Condition?code=I25.1&subject=[patientId]",
-              "fhir_path": "{yesOrNo}",
-              "variable_data_type": "numeric",
-              "variable_type": "independent"
-          }
+        {
+          "name": "Hearf failure",
+          "fhir_query": "/Condition?code=I50&subject=[patientId]",
+          "fhir_path": "{yesOrNo}",
+          "variable_data_type": "numeric",
+          "variable_type": "independent"
+        },
+        {
+          "name": "Coronary artery disease",
+          "fhir_query": "/Condition?code=I25.1&subject=[patientId]",
+          "fhir_path": "{yesOrNo}",
+          "variable_data_type": "numeric",
+          "variable_type": "independent"
+        }
       ],
       "created_by": "1903",
       "created_on": "2020-06-30T09:35:15.162"
-  }],
-
-	"features":[{
-		"name": "Feature set X",
-		"description": "Contains 44 different comorbid diseases and others.",
-		"numbervariables":"53",
-		"created_by": "user user",
-		"creation_time": "2020-07-01"
-		}, {
-		"name": "F4H Use-Case-1 feature set",
-		"description": "Contains medical comorbid, polypharmacy, mortality, cognitive impairment variables.",
-		"numbervariables":"47",
-		"created_by": "anotheruser user",
-		"creation_time": "2020-07-01"
-		}, {
-		"name": "Feature set Y",
-		"description": "Contains only heart and endocrine diseases.",
-		"numbervariables":"11",
-		"created_by": "Handsome user",
-		"creation_time": "2020-07-01"
-	}]
+    }
+  ],
+  "dataset": [
+    {
+      "dataset_id": "83061583-ca88-4956-aeaa-a2a967a245f0",
+      "project_id": "a115b09b-396c-4c3d-9bee-31c9bcd4bf27",
+      "featureset": {
+        "featureset_id": "66130b21-c83f-49e0-9512-9f943cb0916d",
+        "project_id": "a115b09b-396c-4c3d-9bee-31c9bcd4bf27",
+        "name": "F4H Use-case-2 feature set",
+        "description": "Contains medical comorbidities, pharmacological variables, laboratory variables and other variables",
+        "variables": [
+          {
+            "name": "Age",
+            "fhir_query": "/Patient/[patientId]",
+            "fhir_path": "Patient.birthdate.toAge()",
+            "variable_data_type": "categorical",
+            "variable_type": "independent"
+          },
+          {
+            "name": "Number of prescribed drugs",
+            "fhir_query": "/MedicationRequest&subject=[patientId]",
+            "fhir_path": "{count}",
+            "variable_data_type": "numeric",
+            "variable_type": "independent"
+          }
+        ],
+        "created_by": "1903",
+        "created_on": "2020-06-29T18:01:30.209"
+      },
+      "name": "F4H Use-case-2 data set",
+      "description": "Contains data of patients older than 18 and having COPD",
+      "eligibility_criteria": [
+        {
+          "fhir_query": "/Condition?code=I50"
+        },
+        {
+          "fhir_query": "/Patient?age>=18"
+        }
+      ],
+      "dataset_sources": [
+        {
+          "data_source": {
+            "datasource_id": "486d425b-c7af-424d-ad70-5c7c48bf3a6e",
+            "name": "SAS",
+            "endpoint": "sas.com/agent"
+          },
+          "execution_state": "querying"
+        },
+        {
+          "data_source": {
+            "datasource_id": "6ebb8fa6-4741-4f65-b4f3-c1f8aa64ef09",
+            "name": "UNIGE",
+            "endpoint": "unige.com/agent"
+          },
+          "execution_state": "querying"
+        },
+        {
+          "data_source": {
+            "datasource_id": "6f194dff-c62d-401b-81ee-54c2f1283ce8",
+            "name": "IACS",
+            "endpoint": "iacs.com/agent"
+          },
+          "execution_state": "querying"
+        },
+        {
+          "data_source": {
+            "datasource_id": "7a2dc151-0714-4729-bc19-2982c694fad2",
+            "name": "UCSC",
+            "endpoint": "ucsc.com/agent"
+          },
+          "execution_state": "querying"
+        },
+        {
+          "data_source": {
+            "datasource_id": "0e2e2deb-6a69-480c-99df-60e7e960374d",
+            "name": "UP",
+            "endpoint": "up.com/agent"
+          },
+          "execution_state": "querying"
+        }
+      ],
+      "execution_state": "querying",
+      "created_by": "1903",
+      "created_on": "2020-06-30T13:45:01.276"
+    },
+    {
+      "dataset_id": "38987686-36e3-4a11-af36-b097caec1e1f",
+      "project_id": "a115b09b-396c-4c3d-9bee-31c9bcd4bf27",
+      "featureset": {
+        "featureset_id": "66130b21-c83f-49e0-9512-9f943cb0916d",
+        "project_id": "a115b09b-396c-4c3d-9bee-31c9bcd4bf27",
+        "name": "F4H Use-case-2 feature set",
+        "description": "Contains medical comorbidities, pharmacological variables, laboratory variables and other variables",
+        "variables": [
+          {
+            "name": "Age",
+            "fhir_query": "/Patient/[patientId]",
+            "fhir_path": "Patient.birthdate.toAge()",
+            "variable_data_type": "categorical",
+            "variable_type": "independent"
+          },
+          {
+            "name": "Number of prescribed drugs",
+            "fhir_query": "/MedicationRequest&subject=[patientId]",
+            "fhir_path": "{count}",
+            "variable_data_type": "numeric",
+            "variable_type": "independent"
+          }
+        ],
+        "created_by": "1903",
+        "created_on": "2020-06-29T18:01:30.209"
+      },
+      "name": "All patients data set",
+      "description": "There is no eligibility criteria for this data set",
+      "eligibility_criteria": [],
+      "dataset_sources": [
+        {
+          "data_source": {
+            "datasource_id": "87722793-a699-4160-befa-2a32782d4859",
+            "name": "SAS",
+            "endpoint": "sas.com/agent"
+          },
+          "execution_state": "querying"
+        },
+        {
+          "data_source": {
+            "datasource_id": "d320fbfa-5a8e-45bd-bfed-a006970706b1",
+            "name": "UNIGE",
+            "endpoint": "unige.com/agent"
+          },
+          "execution_state": "querying"
+        },
+        {
+          "data_source": {
+            "datasource_id": "45354668-e545-4883-89aa-80833f9f539b",
+            "name": "IACS",
+            "endpoint": "iacs.com/agent"
+          },
+          "execution_state": "querying"
+        },
+        {
+          "data_source": {
+            "datasource_id": "eed5085c-2ae9-475a-a4cf-718b0d6d2bdd",
+            "name": "UCSC",
+            "endpoint": "ucsc.com/agent"
+          },
+          "execution_state": "querying"
+        },
+        {
+          "data_source": {
+            "datasource_id": "1f598f9b-d640-47da-ba79-26e62b95990f",
+            "name": "UP",
+            "endpoint": "up.com/agent"
+          },
+          "execution_state": "querying"
+        }
+      ],
+      "execution_state": "querying",
+      "created_by": "1903",
+      "created_on": "2020-06-30T13:46:00.325"
+    }
+  ],
+  "dm-model": [
+    {
+      "data_mining_model_id": "631b3a2b-1976-426b-a554-514f4fb828a4",
+      "project_id": "4af492ed-8b89-4078-9253-7fd407a09974",
+      "dataset": {
+        "dataset_id": "cf742da3-73ee-412a-b592-780ed9ee375e",
+        "project_id": "4af492ed-8b89-4078-9253-7fd407a09974",
+        "featureset": {
+          "featureset_id": "f6427bb7-6fc5-4ec3-b43b-c4012f7f6ebf",
+          "project_id": "4af492ed-8b89-4078-9253-7fd407a09974",
+          "name": "F4H Use-case-2 feature set",
+          "description": "Contains medical comorbidities, pharmacological variables, laboratory variables and other variables",
+          "variables": [
+            {
+              "name": "Age",
+              "fhir_query": "/Patient/[patientId]",
+              "fhir_path": "Patient.birthdate.toAge()",
+              "variable_data_type": "categorical",
+              "variable_type": "independent"
+            },
+            {
+              "name": "Gender",
+              "fhir_query": "/Patient/[patientId]",
+              "fhir_path": "Patient.gender",
+              "variable_data_type": "categorical",
+              "variable_type": "independent"
+            },
+            {
+              "name": "Smoking status",
+              "fhir_query": "/Observation?code=72166-2&subject=[patientId]",
+              "fhir_path": "{yesOrNo}",
+              "variable_data_type": "categorical",
+              "variable_type": "independent"
+            },
+            {
+              "name": "Heart failure",
+              "fhir_query": "/Condition?code:sw=I46,I50&subject=[patientId]",
+              "fhir_path": "{yesOrNo}",
+              "variable_data_type": "categorical",
+              "variable_type": "independent"
+            },
+            {
+              "name": "Coronary heart disease",
+              "fhir_query": "/Condition?code:sw=I20,I21,I24,I25&subject=[patientId]",
+              "fhir_path": "{yesOrNo}",
+              "variable_data_type": "categorical",
+              "variable_type": "independent"
+            },
+            {
+              "name": "Number of prescribed drugs",
+              "fhir_query": "/MedicationRequest&subject=[patientId]",
+              "fhir_path": "{count}",
+              "variable_data_type": "numeric",
+              "variable_type": "independent"
+            }
+          ],
+          "created_by": "1903",
+          "created_on": "2020-07-23T13:40:25.936"
+        },
+        "name": "F4H Use-case-2 data set",
+        "description": "Contains data of patients older than 18 and having COPD",
+        "eligibility_criteria": [
+          {
+            "fhir_query": "/Condition?code:sw=J44"
+          },
+          {
+            "fhir_query": "/Patient?birthdate<2020-07-23"
+          }
+        ],
+        "dataset_sources": [
+          {
+            "data_source": {
+              "datasource_id": "49e8781a-3ead-4d36-aab9-49dcacbe91b8",
+              "name": "SAS",
+              "endpoint": "sas.com/agent"
+            },
+            "execution_state": "querying"
+          },
+          {
+            "data_source": {
+              "datasource_id": "3bffd7fc-fbb8-4eb6-9165-f39c8ca9548a",
+              "name": "UNIGE",
+              "endpoint": "unige.com/agent"
+            },
+            "execution_state": "querying"
+          },
+          {
+            "data_source": {
+              "datasource_id": "ac0bc295-9ff9-4d4b-a359-8812a0a568ce",
+              "name": "IACS",
+              "endpoint": "iacs.com/agent"
+            },
+            "execution_state": "querying"
+          },
+          {
+            "data_source": {
+              "datasource_id": "68fd8321-bd16-4301-a6c9-33d4514d30ee",
+              "name": "UCSC",
+              "endpoint": "ucsc.com/agent"
+            },
+            "execution_state": "querying"
+          },
+          {
+            "data_source": {
+              "datasource_id": "b403d364-6e52-46d6-820d-74b2dd64f06e",
+              "name": "UP",
+              "endpoint": "up.com/agent"
+            },
+            "execution_state": "querying"
+          }
+        ],
+        "execution_state": "querying",
+        "created_by": "1903",
+        "created_on": "2020-07-23T14:04:17.253"
+      },
+      "name": "F4H Use-case-2 model",
+      "description": "Predict 30-days readmission risk for F4H Use-case-2",
+      "variable_configurations": [
+        {
+          "variable": {
+            "name": "Age",
+            "fhir_query": "/Patient/[patientId]",
+            "fhir_path": "Patient.birthdate.toAge()",
+            "variable_data_type": "categorical",
+            "variable_type": "independent"
+          },
+          "encoding_type": "introduce_dummy",
+          "missing_data_operation": "set_average"
+        },
+        {
+          "variable": {
+            "name": "Gender",
+            "fhir_query": "/Patient/[patientId]",
+            "fhir_path": "Patient.gender",
+            "variable_data_type": "categorical",
+            "variable_type": "independent"
+          },
+          "encoding_type": "convert_to_numeric",
+          "missing_data_operation": "set_mean"
+        },
+        {
+          "variable": {
+            "name": "Smoking status",
+            "fhir_query": "/Observation?code=72166-2&subject=[patientId]",
+            "fhir_path": "{yesOrNo}",
+            "variable_data_type": "categorical",
+            "variable_type": "independent"
+          },
+          "encoding_type": "convert_to_numeric",
+          "missing_data_operation": "set_specific",
+          "missing_data_specific_value": "0"
+        },
+        {
+          "variable": {
+            "name": "Heart failure",
+            "fhir_query": "/Condition?code:sw=I46,I50&subject=[patientId]",
+            "fhir_path": "{yesOrNo}",
+            "variable_data_type": "categorical",
+            "variable_type": "independent"
+          },
+          "encoding_type": "convert_to_numeric",
+          "missing_data_operation": "set_specific",
+          "missing_data_specific_value": "0"
+        },
+        {
+          "variable": {
+            "name": "Coronary heart disease",
+            "fhir_query": "/Condition?code:sw=I20,I21,I24,I25&subject=[patientId]",
+            "fhir_path": "{yesOrNo}",
+            "variable_data_type": "categorical",
+            "variable_type": "independent"
+          },
+          "encoding_type": "convert_to_numeric",
+          "missing_data_operation": "set_specific",
+          "missing_data_specific_value": "0"
+        },
+        {
+          "variable": {
+            "name": "Number of prescribed drugs",
+            "fhir_query": "/MedicationRequest&subject=[patientId]",
+            "fhir_path": "{count}",
+            "variable_data_type": "numeric",
+            "variable_type": "independent"
+          },
+          "missing_data_operation": "set_median"
+        }
+      ],
+      "algorithms": [
+        {
+          "name": "classification_gbt"
+        },
+        {
+          "name": "classification_knn"
+        }
+      ],
+      "training_size": 0.8,
+      "validation_size": 0.1,
+      "test_size": 0.1,
+      "execution_state": "generating",
+      "created_by": "1903",
+      "created_on": "2020-07-27T14:47:46.231"
+    }
+  ],
+  "features": [
+    {
+      "name": "Feature set X",
+      "description": "Contains 44 different comorbid diseases and others.",
+      "numbervariables": "53",
+      "created_by": "user user",
+      "creation_time": "2020-07-01"
+    },
+    {
+      "name": "F4H Use-Case-1 feature set",
+      "description": "Contains medical comorbid, polypharmacy, mortality, cognitive impairment variables.",
+      "numbervariables": "47",
+      "created_by": "anotheruser user",
+      "creation_time": "2020-07-01"
+    },
+    {
+      "name": "Feature set Y",
+      "description": "Contains only heart and endocrine diseases.",
+      "numbervariables": "11",
+      "created_by": "Handsome user",
+      "creation_time": "2020-07-01"
+    }
+  ]
 }

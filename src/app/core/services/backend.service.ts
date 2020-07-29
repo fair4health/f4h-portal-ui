@@ -29,14 +29,15 @@ export class BackendService {
   }
 
   public getUseCaseList(): Observable<any> {
-    return this.httpClient.get(environment.restApiUrl + 'usecases');
+    return this.httpClient.get(environment.restApiUrl + 'manager/project');
   }
 
   public getFeaturesetsList(): Observable<any> {
-    return this.httpClient.get(environment.restApiUrl + 'featureset');
+    return this.httpClient.get(environment.restApiUrl + 'manager/featureset');
   }
 
   public getFeatureList(): Observable<any> {
+    // TO DO Update this api method with a real one based on featureset
     return this.httpClient.get(environment.restApiUrl + 'features');
   }
 
