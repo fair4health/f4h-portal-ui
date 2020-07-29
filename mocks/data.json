@@ -25,7 +25,56 @@
 		"type": "Association",
 		"created_by": "Administrator ",
 		"creation_time": "2020-07-01"
-	}],
+  }],
+
+  "featureset": [{
+      "featureset_id": "66130b21-c83f-49e0-9512-9f943cb0916d",
+      "project_id": "a115b09b-396c-4c3d-9bee-31c9bcd4bf27",
+      "name": "F4H Use-case-2 feature set",
+      "description": "Contains medical comorbidities, pharmacological variables, laboratory variables and other variables",
+      "variables": [
+          {
+              "name": "Age",
+              "fhir_query": "/Patient/[patientId]",
+              "fhir_path": "Patient.birthdate.toAge()",
+              "variable_data_type": "categorical",
+              "variable_type": "independent"
+          },
+          {
+              "name": "Number of prescribed drugs",
+              "fhir_query": "/MedicationRequest&subject=[patientId]",
+              "fhir_path": "{count}",
+              "variable_data_type": "numeric",
+              "variable_type": "independent"
+          }
+      ],
+      "created_by": "1903",
+      "created_on": "2020-06-29T18:01:30.209"
+  },
+  {
+      "featureset_id": "d6b75599-263b-4227-9b87-c190d12786b4",
+      "project_id": "a115b09b-396c-4c3d-9bee-31c9bcd4bf27",
+      "name": "Feature set with small number of variables",
+      "description": "Contains only heart and endocrine diseases",
+      "variables": [
+          {
+              "name": "Hearf failure",
+              "fhir_query": "/Condition?code=I50&subject=[patientId]",
+              "fhir_path": "{yesOrNo}",
+              "variable_data_type": "numeric",
+              "variable_type": "independent"
+          },
+          {
+              "name": "Coronary artery disease",
+              "fhir_query": "/Condition?code=I25.1&subject=[patientId]",
+              "fhir_path": "{yesOrNo}",
+              "variable_data_type": "numeric",
+              "variable_type": "independent"
+          }
+      ],
+      "created_by": "1903",
+      "created_on": "2020-06-30T09:35:15.162"
+  }],
 
 	"features":[{
 		"name": "Feature set X",
