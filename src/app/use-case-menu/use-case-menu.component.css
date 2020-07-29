@@ -18,7 +18,7 @@
 
 .dataSetmanagement-card-header {
   max-width: 400px;
-  background-color: darkcyan;
+  background-color: #16a4dc;
   color: white;
 }
 
@@ -32,9 +32,6 @@
   background-color: chocolate;
 }
 
-.dataSetmanagement-buttom {
-  background-color: darkcyan;
-}
 
 .modelmanagement-buttom {
   background-color: darkslateblue;
