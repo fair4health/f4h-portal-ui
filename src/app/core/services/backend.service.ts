@@ -32,6 +32,10 @@ export class BackendService {
     return this.httpClient.get(environment.restApiUrl + 'usecases');
   }
 
+  public getFeaturesetsList(): Observable<any> {
+    return this.httpClient.get(environment.restApiUrl + 'featureset');
+  }
+
   public getFeatureList(): Observable<any> {
     return this.httpClient.get(environment.restApiUrl + 'features');
   }
