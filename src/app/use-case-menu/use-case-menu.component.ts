@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
+import { LocalStorageService } from '../core/services/local-storage.service';
 
 import { UseCase } from '../shared/use-case';
 
@@ -13,15 +14,15 @@ import { UseCase } from '../shared/use-case';
 })
 export class UseCaseMenuComponent implements OnInit {
 
-  @Input() useCaseSelectedId;
-
+  @Input() useCaseSelectedId: string;
   useCase: UseCase;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private backendService: BackendService,
-    private userCommunication: UserCommunicationService
+    private userCommunication: UserCommunicationService,
+    private localStorage: LocalStorageService
   ) { }
 
   ngOnInit(): void {
@@ -34,7 +35,12 @@ export class UseCaseMenuComponent implements OnInit {
     this.backendService.getUseCase(id).subscribe(
       (usecase) => {
         console.log(usecase);
-        this.useCase = usecase;
+        if (Array.isArray(usecase)) {
+          this.useCase = usecase[0];
+        } else {
+          this.useCase = usecase;
+        }
+        this.localStorage.setProjectId(this.useCaseSelectedId);
       },
       (err) => {
         this.backendService.handleError('home', err);

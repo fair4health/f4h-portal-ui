@@ -40,3 +40,8 @@
 mat-card-content p {
   padding-top: 12px;
 }
+
+.label-title {
+  font-weight: bold;
+  font-size: smaller;
+}

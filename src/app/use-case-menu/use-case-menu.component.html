@@ -5,12 +5,14 @@
 <mat-divider></mat-divider>
 
 <div class="content">
-<p style='margin-left: 30px;' *ngIf="useCase">
-  <b>Use case name: </b> {{useCase!.name}}
-  <br>
-  <br>
-  <b>Description: </b> {{useCase!.description}}
-</p>
+  <div class="use-case-header">
+    <p><span class="label-title">Use case name: </span></p>
+    <p> {{useCase?.name}}</p>
+    <p><span class="label-title">Description: </span></p>
+    <p> {{useCase?.description}}</p>
+</div>
+
+<br>
 
 <mat-grid-list cols="3" rowHeight="250px">
   <mat-grid-tile>
