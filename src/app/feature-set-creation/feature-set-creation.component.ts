@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { MatTable } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,6 +28,7 @@ export class FeatureSetCreationComponent implements OnInit {
   dataSource = [];
 
   constructor(
+    private router: Router,
     private backendService: BackendService,
     private userCommunication: UserCommunicationService,
     private localStorage: LocalStorageService,
@@ -72,6 +74,7 @@ export class FeatureSetCreationComponent implements OnInit {
 
   onCancel(): void {
     console.log('Cancel feature set creation');
+    this.router.navigate(['/fslist']);
   }
 
   onDelete(variable): void {
