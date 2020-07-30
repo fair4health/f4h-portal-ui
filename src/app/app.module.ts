@@ -69,6 +69,7 @@ import { ModelDashboardComponent } from './model-dashboard/model-dashboard.compo
 import { ModelCreationComponent } from './model-creation/model-creation.component';
 import { CoverPageComponent } from './cover-page/cover-page.component';
 import { LogoutDialogComponent } from './header/logout-dialog/logout-dialog.component';
+import { NewVariableDialogComponent } from './feature-set-creation/new-variable-dialog/new-variable-dialog.component';
 
 
 @NgModule({
@@ -89,6 +90,7 @@ import { LogoutDialogComponent } from './header/logout-dialog/logout-dialog.comp
     ModelCreationComponent,
     CoverPageComponent,
     LogoutDialogComponent,
+    NewVariableDialogComponent,
   ],
   imports: [
     CoreModule,
@@ -139,6 +141,7 @@ import { LogoutDialogComponent } from './header/logout-dialog/logout-dialog.comp
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
+
     AppRoutingModule,
     HttpClientModule
   ],
