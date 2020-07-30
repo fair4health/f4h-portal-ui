@@ -10,6 +10,8 @@ import { Variable } from '../../shared/variable';
 })
 export class NewVariableDialogComponent implements OnInit {
 
+  fhirpathInputType = 2;
+
   constructor(
     public dialogRef: MatDialogRef<NewVariableDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Variable) {}

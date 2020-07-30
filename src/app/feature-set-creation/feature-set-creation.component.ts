@@ -37,7 +37,7 @@ export class FeatureSetCreationComponent implements OnInit {
 
   onNewVariable(): void {
     const dialogRef = this.dialog.open(NewVariableDialogComponent, {
-      width: '250px',
+      width: '80%',
       data: {newVariable: this.newVariable}
     });
 
