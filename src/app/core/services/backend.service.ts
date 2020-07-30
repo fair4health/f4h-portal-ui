@@ -32,6 +32,10 @@ export class BackendService {
     return this.httpClient.get(environment.restApiUrl + 'manager/project');
   }
 
+  public getUseCase(id): Observable<any> {
+    return this.httpClient.get(environment.restApiUrl + 'manager/project/' + id);
+  }
+
   public getFeaturesetsList(): Observable<any> {
     return this.httpClient.get(environment.restApiUrl + 'manager/featureset');
   }

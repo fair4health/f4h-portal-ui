@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
+import { BackendService } from '../core/services/backend.service';
+import { UserCommunicationService } from '../core/services/user-communication.service';
+import { LocalStorageService } from '../core/services/local-storage.service';
+
+import { UseCase } from '../shared/use-case';
 
 @Component({
   selector: 'app-use-case-menu',
@@ -9,14 +14,38 @@ import { Router } from '@angular/router';
 })
 export class UseCaseMenuComponent implements OnInit {
 
-  name = 'Discovery of disease association patterns in comorbid patients';
-  description = 'Translates into economic saving related to the reduction of efforts in parallel research, and impacts on health outcomes related to the managements of this kind of patients.';
+  @Input() useCaseSelectedId: string;
+  useCase: UseCase;
 
   constructor(
-    private router: Router
+    private route: ActivatedRoute,
+    private router: Router,
+    private backendService: BackendService,
+    private userCommunication: UserCommunicationService,
+    private localStorage: LocalStorageService
   ) { }
 
   ngOnInit(): void {
+    this.useCaseSelectedId = this.route.snapshot.paramMap.get('useCaseSelectedId');
+    console.log('Received: ' + this.useCaseSelectedId);
+    this.getUseCase(this.useCaseSelectedId);
+  }
+
+  getUseCase(id: string): void {
+    this.backendService.getUseCase(id).subscribe(
+      (usecase) => {
+        console.log(usecase);
+        if (Array.isArray(usecase)) {
+          this.useCase = usecase[0];
+        } else {
+          this.useCase = usecase;
+        }
+        this.localStorage.setProjectId(this.useCaseSelectedId);
+      },
+      (err) => {
+        this.backendService.handleError('home', err);
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get use case ' + id + ' operation failed');
+      });
   }
 
   onFeatureMgmt(): void {
