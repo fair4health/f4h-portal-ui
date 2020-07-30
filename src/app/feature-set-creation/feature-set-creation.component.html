@@ -23,40 +23,40 @@
   <br>
   <br>
 
-  <table mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+  <table mat-table #table aria-describedby="feature sets" [dataSource]="dataSource" class="mat-elevation-z8">
 
     <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <th mat-header-cell *matHeaderCellDef scope="col"> Name </th>
       <td mat-cell *matCellDef="let element"> {{element.name}} </td>
     </ng-container>
 
     <ng-container matColumnDef="description">
-      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <th mat-header-cell *matHeaderCellDef scope="col"> Description </th>
       <td mat-cell *matCellDef="let element"> {{element.description}} </td>
     </ng-container>
 
     <ng-container matColumnDef="variable_type">
-      <th mat-header-cell *matHeaderCellDef> Variable Type </th>
+      <th mat-header-cell *matHeaderCellDef scope="col"> Variable Type </th>
       <td mat-cell *matCellDef="let element"> {{element.variable_type}} </td>
     </ng-container>
 
     <ng-container matColumnDef="variable_data_type">
-      <th mat-header-cell *matHeaderCellDef> Variable data type </th>
+      <th mat-header-cell *matHeaderCellDef scope="col"> Variable data type </th>
       <td mat-cell *matCellDef="let element"> {{element.variable_data_type}} </td>
     </ng-container>
 
     <ng-container matColumnDef="fhir_query">
-      <th mat-header-cell *matHeaderCellDef> FHIR Query </th>
+      <th mat-header-cell *matHeaderCellDef scope="col"> FHIR Query </th>
       <td mat-cell *matCellDef="let element"> {{element.fhir_query}} </td>
     </ng-container>
 
     <ng-container matColumnDef="fhir_path">
-      <th mat-header-cell *matHeaderCellDef> FHIR Path </th>
+      <th mat-header-cell *matHeaderCellDef scope="col"> FHIR Path </th>
       <td mat-cell *matCellDef="let element"> {{element.fhir_path}} </td>
     </ng-container>
 
     <ng-container matColumnDef="delete">
-      <th mat-header-cell *matHeaderCellDef> </th>
+      <th mat-header-cell *matHeaderCellDef scope="col"> </th>
       <td mat-cell *matCellDef="let element">
         <button mat-icon-button aria-label="Delete" (click)="onDelete(element)">
           <mat-icon>delete</mat-icon>
