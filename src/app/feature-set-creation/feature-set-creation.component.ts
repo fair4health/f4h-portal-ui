@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
-import {MatDialog } from '@angular/material/dialog';
+import { MatTable } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
 
 import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
@@ -20,6 +21,7 @@ export class FeatureSetCreationComponent implements OnInit {
   description: string;
   newVariable: Variable;
 
+  @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['name', 'description', 'variable_type', 'variable_data_type', 'fhir_query', 'fhir_path'];
   dataSource = [];
 
@@ -44,6 +46,7 @@ export class FeatureSetCreationComponent implements OnInit {
       if (result) {
         this.newVariable = result;
         this.dataSource.push(this.newVariable);
+        this.table.renderRows();
       }
     });
   }
