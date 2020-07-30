@@ -19,14 +19,14 @@
   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
   <mat-radio-group [(ngModel)]="fhirpathInputType">
     <mat-radio-button name="fhirpathInputType" value="1">Manual</mat-radio-button> &nbsp;
-    <mat-radio-button checked name="fhirpathInputType" value="2" >Select</mat-radio-button>
+    <mat-radio-button name="fhirpathInputType" value="2" >Select</mat-radio-button>
   </mat-radio-group>
 
-  <mat-form-field *ngIf="fhirpathInputType==1" appearance="fill">
+  <mat-form-field *ngIf="fhirpathInputType=='1'" appearance="fill">
     <mat-label>FHIR Path</mat-label>
     <input  matInput [(ngModel)]="data.fhir_path">
   </mat-form-field>
-  <mat-form-field *ngIf="fhirpathInputType==2" appearance="fill">
+  <mat-form-field *ngIf="fhirpathInputType=='2'" appearance="fill">
     <mat-label>FHIR Path</mat-label>
     <mat-select [(ngModel)]="data.fhir_path"  matNativeControl name="select">
       <mat-option value="(count)">(count)</mat-option>
