@@ -51,8 +51,12 @@ export class ModelDashboardComponent implements OnInit {
           }
           console.log('Model updated in table sources. ' + this.dataSourceReady.length + ' and ' + this.dataSourceInProgress.length + ' rows');
         });
-        this.table.first.renderRows();
-        this.table.last.renderRows();
+        if (this.table.first) {
+          this.table.first.renderRows();
+        }
+        if (this.table.last) {
+          this.table.last.renderRows();
+        }
       },
       (err) => {
         this.backendService.handleError('home', err);
