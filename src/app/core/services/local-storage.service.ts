@@ -13,4 +13,8 @@ export class LocalStorageService {
     this.projectId = projectId;
     console.log('A new projectId has been set: ' + projectId);
   }
+
+  reset(): void {
+    this.projectId = '';
+  }
 }

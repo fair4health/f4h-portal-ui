@@ -14,7 +14,7 @@ import { UseCase } from '../shared/use-case';
 })
 export class UseCaseMenuComponent implements OnInit {
 
-  @Input() useCaseSelectedId: string;
+  useCaseSelectedId: string;
   useCase: UseCase;
 
   constructor(
@@ -26,8 +26,9 @@ export class UseCaseMenuComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.useCaseSelectedId = this.route.snapshot.paramMap.get('useCaseSelectedId');
-    console.log('Received: ' + this.useCaseSelectedId);
+    // this.useCaseSelectedId = this.route.snapshot.paramMap.get('useCaseSelectedId');
+    this.useCaseSelectedId = this.localStorage.projectId;
+    console.log('Load use case: ' + this.useCaseSelectedId);
     this.getUseCase(this.useCaseSelectedId);
   }
 
@@ -35,6 +36,7 @@ export class UseCaseMenuComponent implements OnInit {
     this.backendService.getUseCase(id).subscribe(
       (usecase) => {
         console.log(usecase);
+        // Array check to work with real service and mock service
         if (Array.isArray(usecase)) {
           this.useCase = usecase[0];
         } else {
