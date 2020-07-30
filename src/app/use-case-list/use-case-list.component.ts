@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
+import { LocalStorageService } from '../core/services/local-storage.service';
+
 
 import { UseCase } from '../shared/use-case';
 
@@ -18,11 +20,13 @@ export class UseCaseListComponent implements OnInit {
   constructor(
     private router: Router,
     private backendService: BackendService,
-    private userCommunication: UserCommunicationService
+    private userCommunication: UserCommunicationService,
+    private localStorage: LocalStorageService
     ) { }
 
   ngOnInit(): void {
     this.getUseCaseList();
+    this.localStorage.reset();
   }
 
   getUseCaseList(): void {
@@ -46,7 +50,8 @@ export class UseCaseListComponent implements OnInit {
     console.log('Use case is selected ' + JSON.stringify(useCaseSelected));
     if (useCaseSelected.project_type === 'association') {
       console.log('Association use case selected!');
-      this.router.navigate(['/ucmenu', {useCaseSelectedId: useCaseSelected.project_id}]);
+      this.localStorage.setProjectId(useCaseSelected.project_id);
+      this.router.navigate(['/ucmenu']);
     } else if (useCaseSelected.project_type === 'prediction') {
       console.log('Prediction use case selected!');
       // TO DO prediction use case navigation
