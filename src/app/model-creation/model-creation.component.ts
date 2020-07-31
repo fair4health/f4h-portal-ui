@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { BackendService } from '../core/services/backend.service';
+import { UserCommunicationService } from '../core/services/user-communication.service';
+
+import { DmModel } from '../shared/dm-model';
 
 @Component({
   selector: 'app-model-creation',
@@ -14,12 +19,22 @@ export class ModelCreationComponent implements OnInit {
   formGroup5: FormGroup;
   formGroup6: FormGroup;
 
+  newDMModel: DmModel;
+  selectedDatasetRow;
+
+  datasetSelectionDisplayedColumns: string[] = ['name', 'description', 'data_sources', 'created_by', 'creation_time', 'details'];
+  datasetSelectionDataSource;
 
   constructor(
+    private backendService: BackendService,
+    private userCommunication: UserCommunicationService,
     private formBuilder: FormBuilder
     ) {}
 
   ngOnInit(): void {
+    this.newDMModel = new DmModel();
+    this.getDataSets();
+
     this.formGroup1 = this.formBuilder.group({
       formGroup1: ['', Validators.required]
     });
@@ -38,5 +53,17 @@ export class ModelCreationComponent implements OnInit {
     this.formGroup6 = this.formBuilder.group({
       formGroup5: ['', Validators.required]
     });
+  }
+
+  getDataSets(): void {
+    this.backendService.getDataSetsList().subscribe(
+      (datasets) => {
+        console.log(datasets);
+        this.datasetSelectionDataSource = datasets;
+      },
+      (err) => {
+        this.backendService.handleError('home', err);
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get datasets list operation failed');
+      });
   }
 }
