@@ -30,7 +30,7 @@ export class BackendService {
     if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
       return this.httpClient.get(environment.restApiUrl + 'login', options);
     } else {
-      throw throwError('{"code": 401, "message": "Not authorized"}');
+      return throwError('{"code": 401, "message": "Not authorized"}');
     }
   }
 

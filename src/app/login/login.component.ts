@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
       },
       (err) => {
         this.backendService.handleError('home', err);
-        this.userCommunication.createMessage('Login failed!', this.userCommunication.ERROR);
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Login failed!');
       });
   }
 
