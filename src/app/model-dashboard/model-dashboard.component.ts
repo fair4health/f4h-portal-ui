@@ -60,7 +60,7 @@ export class ModelDashboardComponent implements OnInit {
       },
       (err) => {
         this.backendService.handleError('home', err);
-        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get feature set list operation failed');
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get models list operation failed');
       });
   }
 
