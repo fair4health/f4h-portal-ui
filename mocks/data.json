@@ -16,7 +16,7 @@
   "project": [
     {
       "project_id": "a115b09b-396c-4c3d-9bee-31c9bcd4bf27",
-      "name": "30-days readmission risk prediction in complex chronic patients",
+      "name": "Early prediction service for 30-days readmission risk in COPD patients",
       "description": "Can be used in real-time during the discharge consultation, with the aim to inform specialists about this risk and therefore support their decision on the treatment after patient discharge, so the readmission could be anticipated and avoided.",
       "project_type": "prediction",
       "created_by": "1903",
@@ -24,7 +24,7 @@
     },
     {
       "project_id": "be246252-f606-41f5-b694-15f1c4310527",
-      "name": "Discovery of disease association patterns in comorbid patients",
+      "name": "Identification of multimorbidity patterns and polypharmacy correlation on the risk of mortality in elderly",
       "description": "Translates into economic savings related to the reduction of efforts in parallel research, and impacts on health outcomes related to the management of this kind of patients.",
       "project_type": "association",
       "created_by": "1903",
