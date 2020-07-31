@@ -48,10 +48,6 @@ export class BackendService {
     return this.httpClient.get(environment.restApiUrl + 'manager/dm-model');
   }
 
-  public getFeatureList(): Observable<any> {
-    // TO DO Update this api method with a real one based on featureset
-    return this.httpClient.get(environment.restApiUrl + 'features');
-  }
 
   public handleError(where: string, error: HttpErrorResponse): void {
     let errorText = 'An error occurred in ' + where;

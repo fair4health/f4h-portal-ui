@@ -70,6 +70,7 @@ import { ModelCreationComponent } from './model-creation/model-creation.componen
 import { CoverPageComponent } from './cover-page/cover-page.component';
 import { LogoutDialogComponent } from './header/logout-dialog/logout-dialog.component';
 import { NewVariableDialogComponent } from './feature-set-creation/new-variable-dialog/new-variable-dialog.component';
+import { NewCriteriaparameterDialogComponent } from './data-set-creation/new-criteriaparameter-dialog/new-criteriaparameter-dialog.component';
 
 
 @NgModule({
@@ -91,6 +92,7 @@ import { NewVariableDialogComponent } from './feature-set-creation/new-variable-
     CoverPageComponent,
     LogoutDialogComponent,
     NewVariableDialogComponent,
+    NewCriteriaparameterDialogComponent,
   ],
   imports: [
     CoreModule,

@@ -8,26 +8,27 @@
 
   <mat-horizontal-stepper [linear]="false" #stepper>
     <mat-step [stepControl]="formGroup1">
-      <form [formGroup]="formGroup1">
+      <form [formGroup]="formGroup1" class="full-width">
         <ng-template matStepLabel>Name & description</ng-template>
-        <mat-form-field appearance="fill">
+        <mat-form-field class="full-width">
           <mat-label>Data set name</mat-label>
-          <input matInput placeholder="Data set name" formControlName="formGroup1" required>
+          <input matInput placeholder="Type Data set name..." formControlName="formGroup1" required>
         </mat-form-field>
         <br>
-        <mat-form-field appearance="fill">
+        <mat-form-field class="full-width">
           <mat-label>Description</mat-label>
-          <input matInput placeholder="Description" formControlName="formGroup1" required>
+          <textarea matInput placeholder="Type Data set Description..." formControlName="formGroup1" required></textarea>
         </mat-form-field>
         <div>
           <button mat-button matStepperNext color="primary">Next</button>
         </div>
       </form>
+
     </mat-step>
     <mat-step [stepControl]="formGroup2">
-      <form [formGroup]="formGroup2">
+      <form [formGroup]="formGroup2" class="full-width">
         <ng-template matStepLabel>Feature set selection</ng-template>
-        <table mat-table [dataSource]="dataSource" async class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" async class="mat-elevation-z8 full-width">
 
           <ng-container matColumnDef="name" >
             <th mat-header-cell *matHeaderCellDef > Feature Set Name </th>
@@ -42,7 +43,7 @@
       
           <ng-container matColumnDef="numbervariables" >
             <th mat-header-cell *matHeaderCellDef> Number of variables </th>
-            <td mat-cell *matCellDef="let element"> {{element.numbervariables}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.variable_configurations}} </td>
           </ng-container>
       
       
@@ -51,16 +52,16 @@
             <td mat-cell *matCellDef="let element"> {{element.created_by}} </td>
           </ng-container>
       
-          <ng-container matColumnDef="creation_time" >
+          <ng-container matColumnDef="created_on" >
               <th mat-header-cell *matHeaderCellDef> Creation time </th>
-              <td mat-cell *matCellDef="let element"> {{element.creation_time}} </td>
+              <td mat-cell *matCellDef="let element"> {{element.created_on}} </td>
             </ng-container>
       
             <ng-container matColumnDef="select">
               <mat-header-cell  *matHeaderCellDef > See details </mat-header-cell>
               <mat-cell *matCellDef="let row" >
-                  <button mat-mini-fab color="accent" aria-label="Click to select this use case">
-                      <mat-icon>remove_red_eye</mat-icon>
+                  <button mat-icon-button color="accent" aria-label="Click to select this use case">
+                      <mat-icon>find_in_page</mat-icon>
                     </button>
               </mat-cell>
             </ng-container>
@@ -76,8 +77,50 @@
       </form>
     </mat-step>
     <mat-step [stepControl]="formGroup3">
-      <form [formGroup]="formGroup3">
+      <form [formGroup]="formGroup3" class="full-width">
         <ng-template matStepLabel>Elegibility criteria</ng-template>
+
+        <button mat-raised-button (click)='onNewCriteria()'>Add new criteria</button>
+
+        <table mat-table #table aria-describedby="feature sets" [dataSource]="dataSourcecriteria" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="resource">
+            <th mat-header-cell *matHeaderCellDef scope="col"> Resource </th>
+            <td mat-cell *matCellDef="let element"> {{element.resource}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="parameter">
+            <th mat-header-cell *matHeaderCellDef scope="col"> Parameter </th>
+            <td mat-cell *matCellDef="let element"> {{element.parameter}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="operation">
+            <th mat-header-cell *matHeaderCellDef scope="col"> Operation </th>
+            <td mat-cell *matCellDef="let element"> {{element.operation}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="value">
+            <th mat-header-cell *matHeaderCellDef scope="col"> Value </th>
+            <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="fhir_path">
+            <th mat-header-cell *matHeaderCellDef scope="col"> FHIR Path </th>
+            <td mat-cell *matCellDef="let element"> {{element.fhir_path}} </td>
+          </ng-container>
+      
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef scope="col"> </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button aria-label="Delete" (click)="onDelete(element)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+      
+          <tr mat-header-row *matHeaderRowDef="displayedColumnscriteria"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnscriteria;"></tr>
+        </table>
 
         <div>
           <button mat-button matStepperNext color="primary" >Next</button>
@@ -87,7 +130,7 @@
       </form>
     </mat-step>
     <mat-step [stepControl]="formGroup4">
-      <form [formGroup]="formGroup4">
+      <form [formGroup]="formGroup4" class="full-width">
         <ng-template matStepLabel>Results & statistics</ng-template>
 
         <div>
@@ -97,7 +140,7 @@
       </form>
     </mat-step>
     <mat-step [stepControl]="formGroup5">
-      <form [formGroup]="formGroup5">
+      <form [formGroup]="formGroup5" class="full-width">
         <ng-template matStepLabel>Completed</ng-template>
 
         <div>

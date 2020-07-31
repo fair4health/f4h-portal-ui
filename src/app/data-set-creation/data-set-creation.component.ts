@@ -1,7 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
+
+import { MatTable } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { NewCriteriaparameterDialogComponent } from './new-criteriaparameter-dialog/new-criteriaparameter-dialog.component';
+import { CriteriaParameter } from '../shared/criteriaparameters';
+
 
 @Component({
   selector: 'app-data-set-creation',
@@ -17,12 +24,22 @@ export class DataSetCreationComponent implements OnInit {
 
   // Get feture list
   dataSource;
-  displayedColumns: string[] = ['name', 'description', 'numbervariables', 'created_by', 'creation_time', 'select'];
+  @ViewChild(MatTable) table: MatTable<any>;
+  displayedColumns: string[] = ['name', 'description', 'numbervariables', 'created_by', 'created_on', 'select'];
+
+  displayedColumnscriteria: string[] = ['resource', 'parameter', 'operation', 'value', 'fhir_path', 'delete'];
+  dataSourcecriteria = [];
+
+  name: string;
+  description: string;
+  newCriteria: CriteriaParameter;
 
   constructor(
+    private router: Router,
     private formBuilder: FormBuilder,
     private backendService: BackendService,
-    private userCommunication: UserCommunicationService
+    private userCommunication: UserCommunicationService,
+    public dialog: MatDialog
     ) {}
 
   ngOnInit(): void {
@@ -45,7 +62,7 @@ export class DataSetCreationComponent implements OnInit {
     this.onGetFeatureList();
   }
   onGetFeatureList(): void {
-    this.backendService.getFeatureList().subscribe(
+    this.backendService.getFeaturesetsList().subscribe(
       (featurelist) => {
         console.log(featurelist);
         this.dataSource = featurelist;
@@ -59,5 +76,37 @@ export class DataSetCreationComponent implements OnInit {
   onCreateNewUseCase(): void {
     // TO DO
     this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
+  }
+
+  onNewCriteria(): void {
+    const dialogRef = this.dialog.open(NewCriteriaparameterDialogComponent, {
+      width: '80%',
+      data: {newCriteria: this.newCriteria}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+      if (result) {
+        console.log('if result');
+        this.newCriteria = result;
+        this.dataSourcecriteria.push(this.newCriteria);
+        console.log(this.newCriteria);
+        console.log(this.dataSourcecriteria);
+        this.table.renderRows();
+      }
+    });
+  }
+  onCancel(): void {
+    console.log('Cancel feature set creation');
+    this.router.navigate(['/fslist']);
+  }
+
+  onDelete(variable): void {
+    this.dataSourcecriteria.forEach((item, index) => {
+        if (item === variable) {
+          this.dataSourcecriteria.splice(index, 1);
+        }
+      });
+    this.table.renderRows();
   }
 }

@@ -1,0 +1,45 @@
+
+<mat-form-field appearance="fill">
+    <mat-label>Resource</mat-label>
+    <mat-select [(ngModel)]="data.resource" name="resource" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let resource of resources" [value]="resource.value" >
+        {{resource.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Parameter</mat-label>
+    <mat-select [(ngModel)]="data.parameter" name="resource" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let parameter of parameters" [value]="parameter.value" >
+        {{parameter.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Operation</mat-label>
+    <mat-select [(ngModel)]="data.operation" name="operation" [ngModelOptions]="{standalone: true}">
+      <mat-option *ngFor="let operation of operations" [value]="operation.value" >
+        {{operation.viewValue}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Value</mat-label>
+    <input matInput type="number" [(ngModel)]="data.value">
+  </mat-form-field>
+  <br>
+  <mat-form-field appearance="fill">
+    <mat-label>FHIR Path</mat-label>
+    <input matInput [(ngModel)]="data.fhir_path">
+  </mat-form-field>
+  <br>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancel</button>
+    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Add</button>
+  </div>
