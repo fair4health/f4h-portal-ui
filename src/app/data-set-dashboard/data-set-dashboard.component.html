@@ -6,32 +6,92 @@
 
 <div class="content">
 
-  <button mat-raised-button [routerLink]="['/dscreation']" color="primary" >Create new data set</button>
+  <button mat-raised-button [routerLink]="['/dscreation']">Create new data set</button>
 
-  <!-- TO-DO DATA SETS TABLES -->
-  <h2>Ready</h2>
 
-  <table style="width:90%">
-    <tr>
-      <th>Data set name</th>
-      <th>Description</th>
-      <th>Data sources</th>
-      <th>Created by</th>
-      <th>Creation time</th>
-      <th>See details</th>
-    </tr>
-    <tr>
-      <td>All patients</td>
-      <td>There is no elegibility criteria for this dataset</td>
-      <td>SAMPLE</td>
-      <td>user</td>
-      <td>2020-07-24 10:02</td>
-      <td><mat-icon>find_in_page</mat-icon></td>
-    </tr>
+  <h3>Ready</h3>
+  <table mat-table *ngIf="dataSourceReady.length" [dataSource]="dataSourceReady" class="mat-elevation-z8">
 
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dataset_sources">
+      <th mat-header-cell *matHeaderCellDef> Dataset Sources </th>
+      <td mat-cell *matCellDef="let element"> {{element.dataset}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="execution_state">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.execution_state}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_by">
+      <th mat-header-cell *matHeaderCellDef> Created by </th>
+      <td mat-cell *matCellDef="let element"> {{element.created_by}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_on">
+      <th mat-header-cell *matHeaderCellDef> Creation time </th>
+      <td mat-cell *matCellDef="let element"> {{element.created_on}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> See details </th>
+      <td mat-cell *matCellDef="let element"> <a (click)='onSelectDataSet(element)'><mat-icon>find_in_page</mat-icon></a> </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <p *ngIf="!dataSourceReady.length">0 models to show</p>
 
-  <br>
-  <h2>In progress</h2>
+  <h3>In progress</h3>
+  <table mat-table *ngIf="dataSourceInProgress.length" [dataSource]="dataSourceInProgress" class="mat-elevation-z8" #tableInProgress>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+      <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="dataset_sources">
+      <th mat-header-cell *matHeaderCellDef> Dataset Sources </th>
+      <td mat-cell *matCellDef="let element"> {{element.dataset}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="execution_state">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let element"> {{element.execution_state}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_by">
+      <th mat-header-cell *matHeaderCellDef> Created by </th>
+      <td mat-cell *matCellDef="let element"> {{element.created_by}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="created_on">
+      <th mat-header-cell *matHeaderCellDef> Creation time </th>
+      <td mat-cell *matCellDef="let element"> {{element.created_on}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="details">
+      <th mat-header-cell *matHeaderCellDef> See details </th>
+      <td mat-cell *matCellDef="let element"> <a (click)='onSelectDataSet(element)'><mat-icon>find_in_page</mat-icon></a> </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <p *ngIf="!dataSourceInProgress.length">0 models to show</p>
+
 
 </div>
