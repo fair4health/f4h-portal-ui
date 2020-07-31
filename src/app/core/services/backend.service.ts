@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { HttpErrorResponse, HttpParams } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import { throwError } from 'rxjs';
 
 import { environment } from './../../../environments/environment';
 
@@ -25,7 +26,12 @@ export class BackendService {
     const options = {
       params
     };
-    return this.httpClient.get(environment.restApiUrl + 'login', options);
+    // Demo purposes
+    if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
+      return this.httpClient.get(environment.restApiUrl + 'login', options);
+    } else {
+      throw throwError('{"code": 401, "message": "Not authorized"}');
+    }
   }
 
   public getUseCaseList(): Observable<any> {
