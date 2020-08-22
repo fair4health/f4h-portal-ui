@@ -25,10 +25,12 @@ export class LoginComponent implements OnInit {
 
   onRememberPassword(): void {
     console.log('Clicked remember password. TODO: remember password');
+    this.userCommunication.createMessage(this.userCommunication.INFO, 'Access limited');
   }
 
   onAskAccess(): void {
     console.log('Clicked ask access. TODO: user creation');
+    this.userCommunication.createMessage(this.userCommunication.INFO, 'Access limited');
   }
 
   onLogin(user: string, pass: string): void {
