@@ -17,12 +17,13 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 
 import { Dataset } from '../shared/dataset';
+import { FeatureSet } from '../shared/feature-set';
 
 @Component({
   selector: 'app-data-set-creation',
@@ -41,7 +42,8 @@ export class DataSetCreationComponent implements OnInit {
 
   // Get feature list
   featureSetsDataSource;
-  featureSetsDisplayedColumns: string[] = ['name', 'description', 'numbervariables', 'created_by', 'creation_time', 'select'];
+  featureSetsDisplayedColumns: string[] = [' ', 'name', 'description', 'numbervariables', 'created_by', 'creation_time', 'select'];
+  selectedFeatureSetRow;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -85,6 +87,11 @@ export class DataSetCreationComponent implements OnInit {
   onSelectFeatureSetDetails(element): void {
     console.log('Selected view details of featureset: ' + JSON.stringify(element));
     this.userCommunication.createMessage(this.userCommunication.INFO, 'Details dialog not implemented yet!');
+  }
+
+  onRadioFeatureSetSelected(): void {
+    console.log('Selected row: ' + JSON.stringify(this.selectedFeatureSetRow));
+    this.newDataSet.featureset = this.selectedFeatureSetRow;
   }
 
 }
