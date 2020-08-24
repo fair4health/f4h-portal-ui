@@ -54,6 +54,6 @@
 </div>
 <br>
 <div mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Add</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="data" cdkFocusInitial>Add</button>
+  <button mat-raised-button color="warn" (click)="onNoClick()">Cancel</button>
 </div>
