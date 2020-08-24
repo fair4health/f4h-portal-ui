@@ -18,8 +18,11 @@
 
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+
 import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
+
+import { Dataset } from '../shared/dataset';
 
 @Component({
   selector: 'app-data-set-creation',
@@ -33,9 +36,12 @@ export class DataSetCreationComponent implements OnInit {
   formGroup4: FormGroup;
   formGroup5: FormGroup;
 
-  // Get feture list
-  dataSource;
-  displayedColumns: string[] = ['name', 'description', 'numbervariables', 'created_by', 'creation_time', 'select'];
+  // This variable will build the new Data Set accross the steps
+  newDataSet: Dataset;
+
+  // Get feature list
+  featureSetsDataSource;
+  featureSetsDisplayedColumns: string[] = ['name', 'description', 'numbervariables', 'created_by', 'creation_time', 'select'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -44,6 +50,8 @@ export class DataSetCreationComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
+    this.newDataSet = new Dataset();
+
     this.formGroup1 = this.formBuilder.group({
       formGroup1: ['', Validators.required]
     });
@@ -59,23 +67,24 @@ export class DataSetCreationComponent implements OnInit {
     this.formGroup5 = this.formBuilder.group({
       formGroup5: ['', Validators.required]
     });
-
-    this.onGetFeatureList();
+    this.getFeatureList();
   }
-  onGetFeatureList(): void {
+
+  getFeatureList(): void {
     this.backendService.getFeatureList().subscribe(
       (featurelist) => {
         console.log(featurelist);
-        this.dataSource = featurelist;
+        this.featureSetsDataSource = featurelist;
       },
       (err) => {
         this.backendService.handleError('home', err);
-        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get feature list operation failed');
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get feature set list operation failed');
       });
   }
 
-  onCreateNewUseCase(): void {
-    // TO DO
-    this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
+  onSelectFeatureSetDetails(element): void {
+    console.log('Selected view details of featureset: ' + JSON.stringify(element));
+    this.userCommunication.createMessage(this.userCommunication.INFO, 'Details dialog not implemented yet!');
   }
+
 }
