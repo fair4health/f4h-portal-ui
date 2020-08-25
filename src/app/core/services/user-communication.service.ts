@@ -18,7 +18,7 @@
 
 import { Injectable } from '@angular/core';
 
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 @Injectable({
   providedIn: 'root'
@@ -30,17 +30,28 @@ export class UserCommunicationService {
   ) { }
 
     // Message types
-    readonly ERROR = 'error';
-    readonly INFO = 'info';
-    readonly SUCCESS = 'success';
+    readonly ERROR = 'ERROR';
+    readonly INFO = 'INFO';
+    readonly SUCCESS = 'SUCCESS';
 
     // The messges array accepts message: { text: any, type: string };
     createMessage(type: string, msg: any): void {
       console.log(type + ': ' + msg);
+
+      let snackBarConfig: MatSnackBarConfig;
+      if (type === this.ERROR) {
+        snackBarConfig = {panelClass: ['snack-bar-error']};
+      } else if (type === this.INFO) {
+        snackBarConfig = {panelClass: ['snack-bar-info']};
+      } else if (type === this.SUCCESS) {
+        snackBarConfig = {panelClass: ['snack-bar-success']};
+      } else {
+        snackBarConfig = {panelClass: ['snack-bar-info']};
+      }
+      snackBarConfig.duration = 2000;
+
       // The message lasts 2 seconds
       msg = msg;
-      this.snackBar.open(msg, type, {
-        duration: 2000,
-      });
+      this.snackBar.open(msg, type, snackBarConfig);
     }
 }
