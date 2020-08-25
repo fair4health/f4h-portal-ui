@@ -13,7 +13,7 @@
         <ng-template matStepLabel>Name & description</ng-template>
         <mat-form-field appearance="fill">
           <mat-label>Model name</mat-label>
-          <input matInput placeholder="Data set name" [(ngModel)]='newDMModel.name' formControlName="formGroup1" required>
+          <input matInput placeholder="Model name" [(ngModel)]='newDMModel.name' formControlName="formGroup1" required>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill">
@@ -25,8 +25,6 @@
         </div>
       </form>
     </mat-step>
-
-    datasetSelectionDisplayedColumns: string[] = ['name', 'description', 'data_sources', 'created_by', 'creation_time', 'details'];
 
     <mat-step [stepControl]="formGroup2">
       <form [formGroup]="formGroup2">

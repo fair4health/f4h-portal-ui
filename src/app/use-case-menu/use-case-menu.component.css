@@ -43,11 +43,16 @@ mat-card-content p {
 
 .label-title {
   font-weight: bold;
-  font-size: smaller;
+  font-size: small;
 }
 
 mat-grid-tile mat-card{
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+}
+
+.use-case-header {
+  border: 1px dotted grey;
+  padding: 4px;
 }
