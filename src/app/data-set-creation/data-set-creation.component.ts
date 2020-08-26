@@ -56,8 +56,9 @@ export class DataSetCreationComponent implements OnInit {
 
   ngOnInit(): void {
     this.newDataSet = new Dataset();
-    this.newElegibilityCriteria = new ElegibilityCriteria();
     this.elegibilityCriteriaList = [];
+    this.newDataSet.eligibility_criteria = this.elegibilityCriteriaList;
+    this.newElegibilityCriteria = new ElegibilityCriteria();
 
     this.formGroup1 = this.formBuilder.group({
       formGroup1: ['', Validators.required]

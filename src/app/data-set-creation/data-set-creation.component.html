@@ -100,11 +100,11 @@
           <div class="form-fields-group">
             <mat-form-field appearance="fill">
               <mat-label>Search query</mat-label>
-              <input matInput placeholder="Search query" [(ngModel)]='newElegibilityCriteria.fhir_query' formControlName="formGroup3" required>
+              <input matInput placeholder="Search query" [(ngModel)]='newElegibilityCriteria.fhir_query' formControlName="formGroup3">
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>FHIR Path</mat-label>
-              <input matInput placeholder="Path" [(ngModel)]='newElegibilityCriteria.fhir_path' formControlName="formGroup3" required>
+              <input matInput placeholder="Path" [(ngModel)]='newElegibilityCriteria.fhir_path' formControlName="formGroup3">
             </mat-form-field>
             <div>
               <button mat-button (click)="onAddElegibilityCriteria()"><mat-icon>playlist_add</mat-icon></button>
