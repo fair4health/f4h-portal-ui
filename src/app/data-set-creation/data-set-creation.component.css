@@ -6,3 +6,7 @@ input, mat-form-field {
 table {
   width: 100%;
 }
+
+.form-fields-group {
+  margin-left: 60px;
+}
