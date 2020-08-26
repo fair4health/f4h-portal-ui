@@ -24,6 +24,7 @@ import { UserCommunicationService } from '../core/services/user-communication.se
 
 import { Dataset } from '../shared/dataset';
 import { FeatureSet } from '../shared/feature-set';
+import { ElegibilityCriteria } from '../shared/elegibility-criteria';
 
 @Component({
   selector: 'app-data-set-creation',
@@ -39,6 +40,8 @@ export class DataSetCreationComponent implements OnInit {
 
   // This variable will build the new Data Set accross the steps
   newDataSet: Dataset;
+  newElegibilityCriteria: ElegibilityCriteria;
+  elegibilityCriteriaList: ElegibilityCriteria[];
 
   // Get feature list
   featureSetsDataSource;
@@ -53,6 +56,9 @@ export class DataSetCreationComponent implements OnInit {
 
   ngOnInit(): void {
     this.newDataSet = new Dataset();
+    this.elegibilityCriteriaList = [];
+    this.newDataSet.eligibility_criteria = this.elegibilityCriteriaList;
+    this.newElegibilityCriteria = new ElegibilityCriteria();
 
     this.formGroup1 = this.formBuilder.group({
       formGroup1: ['', Validators.required]
@@ -92,6 +98,11 @@ export class DataSetCreationComponent implements OnInit {
   onRadioFeatureSetSelected(): void {
     console.log('Selected row: ' + JSON.stringify(this.selectedFeatureSetRow));
     this.newDataSet.featureset = this.selectedFeatureSetRow;
+  }
+
+  onAddElegibilityCriteria(): void {
+    this.elegibilityCriteriaList.push(this.newElegibilityCriteria);
+    this.newElegibilityCriteria = new ElegibilityCriteria();
   }
 
 }

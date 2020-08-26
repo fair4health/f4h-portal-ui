@@ -95,9 +95,38 @@
       <form [formGroup]="formGroup3">
         <ng-template matStepLabel>Elegibility criteria</ng-template>
 
+        <mat-list>
+          <div mat-subheader>New elegibility criteria</div>
+          <div class="form-fields-group">
+            <mat-form-field appearance="fill">
+              <mat-label>Search query</mat-label>
+              <input matInput placeholder="Search query" [(ngModel)]='newElegibilityCriteria.fhir_query' formControlName="formGroup3">
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>FHIR Path</mat-label>
+              <input matInput placeholder="Path" [(ngModel)]='newElegibilityCriteria.fhir_path' formControlName="formGroup3">
+            </mat-form-field>
+            <div>
+              <button mat-button (click)="onAddElegibilityCriteria()"><mat-icon>playlist_add</mat-icon></button>
+              <br>
+              <br>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+          <br>
+
+          <div *ngIf="elegibilityCriteriaList.length" mat-subheader>Elegibility criteria:</div>
+          <mat-list-item *ngFor="let elegibilityCriteria of elegibilityCriteriaList">
+            <mat-icon mat-list-icon>ballot</mat-icon>
+            <div mat-line>FHIR QUERY: {{elegibilityCriteria.fhir_query}}</div>
+            <div mat-line>FHIR PATH: {{elegibilityCriteria.fhir_path}}</div>
+          </mat-list-item>
+        </mat-list>
+
         <div>
           <button mat-button matStepperPrevious color="primary"  >Back</button>
-          <button mat-button matStepperNext color="primary" >Next</button>
+          <button *ngIf="elegibilityCriteriaList.length" mat-button matStepperNext color="primary" >Next</button>
         </div>
       </form>
     </mat-step>
