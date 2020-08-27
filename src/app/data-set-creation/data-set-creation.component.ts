@@ -20,6 +20,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { BackendService } from '../core/services/backend.service';
+import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 
 import { Dataset } from '../shared/dataset';
@@ -51,11 +52,13 @@ export class DataSetCreationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private backendService: BackendService,
+    private localStorage: LocalStorageService,
     private userCommunication: UserCommunicationService
     ) {}
 
   ngOnInit(): void {
     this.newDataSet = new Dataset();
+    this.newDataSet.project_id = this.localStorage.projectId;
     this.elegibilityCriteriaList = [];
     this.newDataSet.eligibility_criteria = this.elegibilityCriteriaList;
     this.newElegibilityCriteria = new ElegibilityCriteria();
