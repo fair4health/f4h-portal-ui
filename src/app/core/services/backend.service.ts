@@ -76,9 +76,12 @@ export class BackendService {
     return this.httpClient.get(environment.restApiUrl + 'manager/dataset');
   }
 
-  public getFeatureList(): Observable<any> {
-    // TO DO Update this api method with a real one based on featureset
-    return this.httpClient.get(environment.restApiUrl + 'features');
+  public getDataSet(datasetId: string): Observable<any> {
+    return this.httpClient.get(environment.restApiUrl + 'manager/dataset/' + datasetId);
+  }
+
+  public postDataSet(dataSet): Observable<any> {
+    return this.httpClient.get(environment.restApiUrl + 'manager/dataset', dataSet);
   }
 
   public handleError(where: string, error: HttpErrorResponse): void {
