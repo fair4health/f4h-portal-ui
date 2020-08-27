@@ -6,7 +6,7 @@
 
 <div class="content" >
 
-  <mat-horizontal-stepper [linear]="false" #stepper>
+  <mat-horizontal-stepper [linear]="false" (selectionChange)="onStepChange($event)" #stepper>
     <mat-step [stepControl]="formGroup1">
       <form [formGroup]="formGroup1">
         <ng-template matStepLabel>Name & description</ng-template>

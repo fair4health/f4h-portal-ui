@@ -63,14 +63,16 @@ export class DataSetCreationComponent implements OnInit {
     this.newDataSet.eligibility_criteria = this.elegibilityCriteriaList;
     this.newElegibilityCriteria = new ElegibilityCriteria();
 
+    this.getFeatureList();
+
     this.formGroup1 = this.formBuilder.group({
       formGroup1: ['', Validators.required]
     });
     this.formGroup2 = this.formBuilder.group({
-      formGroup2: ['', Validators.required]
+      formGroup2: ['']
     });
     this.formGroup3 = this.formBuilder.group({
-      formGroup3: ['', Validators.required]
+      formGroup3: ['']
     });
     this.formGroup4 = this.formBuilder.group({
       formGroup4: ['', Validators.required]
@@ -78,11 +80,14 @@ export class DataSetCreationComponent implements OnInit {
     this.formGroup5 = this.formBuilder.group({
       formGroup5: ['', Validators.required]
     });
-    this.getFeatureList();
+  }
+
+  onStepChange(event: any): void {
+    console.log('Data set creation step: ' + event.selectedIndex);
   }
 
   getFeatureList(): void {
-    this.backendService.getFeatureList().subscribe(
+    this.backendService.getFeaturesetsList().subscribe(
       (featurelist) => {
         console.log(featurelist);
         this.featureSetsDataSource = featurelist;
@@ -107,5 +112,7 @@ export class DataSetCreationComponent implements OnInit {
     this.elegibilityCriteriaList.push(this.newElegibilityCriteria);
     this.newElegibilityCriteria = new ElegibilityCriteria();
   }
+
+
 
 }
