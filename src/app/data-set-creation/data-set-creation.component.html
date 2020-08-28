@@ -55,7 +55,7 @@
 
             <ng-container matColumnDef="numbervariables">
               <th mat-header-cell *matHeaderCellDef> Number of variables </th>
-              <td mat-cell *matCellDef="let element"> {{element.numbervariables}} </td>
+              <td mat-cell *matCellDef="let element"> {{element.variables?.length}} </td>
             </ng-container>
 
             <ng-container matColumnDef="created_by">
@@ -63,9 +63,9 @@
               <td mat-cell *matCellDef="let element"> {{element.created_by}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="creation_time">
+            <ng-container matColumnDef="created_on">
               <th mat-header-cell *matHeaderCellDef> Creation time </th>
-              <td mat-cell *matCellDef="let element"> {{element.creation_time}} </td>
+              <td mat-cell *matCellDef="let element"> {{element.created_on}} </td>
             </ng-container>
 
             <ng-container matColumnDef="select">
