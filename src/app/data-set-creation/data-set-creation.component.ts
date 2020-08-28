@@ -16,8 +16,10 @@
  * information in the project root.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
+import { MatStepper } from '@angular/material/stepper';
 
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
@@ -46,8 +48,10 @@ export class DataSetCreationComponent implements OnInit {
 
   // Get feature list
   featureSetsDataSource;
-  featureSetsDisplayedColumns: string[] = [' ', 'name', 'description', 'numbervariables', 'created_by', 'creation_time', 'select'];
+  featureSetsDisplayedColumns: string[] = [' ', 'name', 'description', 'numbervariables', 'created_by', 'created_on', 'select'];
   selectedFeatureSetRow;
+
+  @ViewChild('stepper') stepper: MatStepper;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -84,6 +88,12 @@ export class DataSetCreationComponent implements OnInit {
 
   onStepChange(event: any): void {
     console.log('Data set creation step: ' + event.selectedIndex);
+    // selected index is 0..n
+
+  }
+
+  moveToStep(index: number): void {
+    this.stepper.selectedIndex = index;
   }
 
   getFeatureList(): void {
