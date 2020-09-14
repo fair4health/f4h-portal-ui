@@ -41,6 +41,7 @@ const routes: Routes = [
   { path: 'ucmenu', component: UseCaseMenuComponent},
   { path: 'fscreation', component: FeatureSetCreationComponent},
   { path: 'fslist', component: FeatureSetListComponent},
+  { path: 'fsdetails', component: FeatureSetCreationComponent},
   { path: 'dscreation', component: DataSetCreationComponent},
   { path: 'dsdashboard', component: DataSetDashboardComponent},
   { path: 'mdashboard', component: ModelDashboardComponent},

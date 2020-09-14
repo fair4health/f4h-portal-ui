@@ -89,7 +89,6 @@ import { CoverPageComponent } from './cover-page/cover-page.component';
 import { LogoutDialogComponent } from './header/logout-dialog/logout-dialog.component';
 import { NewVariableDialogComponent } from './feature-set-creation/new-variable-dialog/new-variable-dialog.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

@@ -16,10 +16,12 @@
  * information in the project root.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-feature-set-list',
@@ -27,12 +29,15 @@ import { UserCommunicationService } from '../core/services/user-communication.se
   styleUrls: ['./feature-set-list.component.css']
 })
 export class FeatureSetListComponent implements OnInit {
+
   displayedColumns: string[] = ['name', 'description', 'variables', 'created_by', 'created_on', 'details'];
   dataSource = [];
+  test = 'hola mundo.';
 
   constructor(
     private backendService: BackendService,
-    private userCommunication: UserCommunicationService
+    private userCommunication: UserCommunicationService,
+    private router: Router,
     ) { }
 
     ngOnInit(): void {
@@ -42,8 +47,8 @@ export class FeatureSetListComponent implements OnInit {
     getFeatureSetList(): void {
       this.backendService.getFeaturesetsList().subscribe(
         (featuresetslist) => {
-          console.log(featuresetslist);
           this.dataSource = featuresetslist;
+          console.log('datasource de las listas', this.dataSource)
         },
         (err) => {
           this.backendService.handleError('home', err);
@@ -52,9 +57,10 @@ export class FeatureSetListComponent implements OnInit {
     }
 
     onSelectFeatureSet(selectedFeatureSet): void {
-      console.log('The selected feature set is: ' + selectedFeatureSet);
+      console.log('The selected feature set is: ', selectedFeatureSet);
       // TO DO Feature set details dialog
-      this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
+     // this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
+      this.router.navigate(['/fsdetails'], {state: {selectedFeatureSet}});
     }
 
 }
