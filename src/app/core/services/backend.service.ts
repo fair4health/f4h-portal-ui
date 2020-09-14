@@ -24,6 +24,7 @@ import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 
 import { environment } from './../../../environments/environment';
+import { HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,13 @@ export class BackendService {
   }
 
   public getUseCaseList(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+
+    // return this.httpClient.get(environment.restApiPPDDM + 'manager/project', httpOptions);
     return this.httpClient.get(environment.restApiUrl + 'manager/project');
   }
 
