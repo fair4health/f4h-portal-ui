@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
 //  restApiUrl: 'http://localhost:3000/'
-  restApiUrl: 'http://f4h-portal.ari-health.eu/'
+  restApiUrl: 'http://f4h-portal.ari-health.eu/',
+  restApiPPDDM: 'https://f4h.srdc.com.tr/'
 };
 
 /*
