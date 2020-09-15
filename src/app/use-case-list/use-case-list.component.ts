@@ -66,7 +66,6 @@ export class UseCaseListComponent implements OnInit {
   onUseCaseSelected(useCaseSelected: UseCase): void {
     console.log('Use case is selected ' + JSON.stringify(useCaseSelected));
     if (useCaseSelected.project_type === 'association') {
-      console.log('Association use case selected!');
       this.localStorage.setProjectId(useCaseSelected.project_id);
       this.router.navigate(['/ucmenu']);
     } else if (useCaseSelected.project_type === 'prediction') {

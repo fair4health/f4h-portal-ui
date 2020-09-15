@@ -20,7 +20,9 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 import { MatTable } from '@angular/material/table';
 
+
 import { BackendService } from '../core/services/backend.service';
+import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 
 @Component({
@@ -38,6 +40,7 @@ export class DataSetDashboardComponent implements OnInit {
 
   constructor(
     private backendService: BackendService,
+    private localStorage: LocalStorageService,
     private userCommunication: UserCommunicationService
     ) { }
 
@@ -46,7 +49,7 @@ export class DataSetDashboardComponent implements OnInit {
   }
 
   getDataSetsList(): void {
-    this.backendService.getDataSetsList().subscribe(
+    this.backendService.getDataSetsList(this.localStorage.projectId).subscribe(
       (datasetsList) => {
         console.log(datasetsList);
         datasetsList.forEach(element => {
