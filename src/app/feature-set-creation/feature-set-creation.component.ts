@@ -40,6 +40,8 @@ export class FeatureSetCreationComponent implements OnInit {
   name: string;
   description: string;
   newVariable: Variable;
+  componentTitle: string;
+  componentDirection: string;
 
   @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['name', 'description', 'variable_type', 'variable_data_type', 'fhir_query', 'fhir_path', 'delete'];
@@ -54,6 +56,22 @@ export class FeatureSetCreationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    if (history.state.selectedFeatureSet) {
+      this.fillFields();
+      this.componentTitle = 'Edit feature set';
+      this.componentDirection = 'Feature set edition';
+    } else {
+      this.componentTitle = 'Create a new feature set';
+      this.componentDirection = 'Feature set creation';
+    }
+
+  }
+
+  fillFields(): void {
+    this.name = history.state.selectedFeatureSet.name;
+    this.description = history.state.selectedFeatureSet.description ;
+    this.dataSource = history.state.selectedFeatureSet.variables;
   }
 
   onNewVariable(): void {
@@ -79,15 +97,20 @@ export class FeatureSetCreationComponent implements OnInit {
     newFeatureSet.description = this.description;
     newFeatureSet.project_id = this.localStorage.projectId;
     newFeatureSet.variables = this.dataSource;
-    console.log('Feature set to save: ' + JSON.stringify(newFeatureSet));
-    this.backendService.postFeatureset(newFeatureSet).subscribe(
-      (data) => {
-        console.log('New feature set creation answer received! ' + JSON.stringify(data));
-      },
-      (err) => {
-        this.backendService.handleError('home', err);
-        this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed!');
-      });
+    console.log('Feature set to save: ', newFeatureSet);
+    if (history.state.selectedFeatureSet) {
+      console.log('Update existent feature set.');
+    } else {
+
+      this.backendService.postFeatureset(newFeatureSet).subscribe(
+        (data) => {
+          console.log('New feature set creation answer received! ' + JSON.stringify(data));
+        },
+        (err) => {
+          this.backendService.handleError('home', err);
+          this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed!');
+        });
+      }
   }
 
   onCancel(): void {
