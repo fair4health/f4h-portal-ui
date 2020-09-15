@@ -32,7 +32,6 @@ export class FeatureSetListComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'description', 'variables', 'created_by', 'created_on', 'details'];
   dataSource = [];
-  test = 'hola mundo.';
 
   constructor(
     private backendService: BackendService,
