@@ -18,7 +18,7 @@
 
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { HttpErrorResponse, HttpParams, HttpHeaders } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
@@ -53,7 +53,14 @@ export class BackendService {
   }
 
   public getUseCaseList(): Observable<any> {
-    return this.httpClient.get(environment.restApiUrl + 'manager/project');
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+
+    return this.httpClient.get(environment.restApiPPDDM + 'manager/project', httpOptions);
+    // eturn this.httpClient.get(environment.restApiUrl + 'manager/project');
   }
 
   public getUseCase(id): Observable<any> {
