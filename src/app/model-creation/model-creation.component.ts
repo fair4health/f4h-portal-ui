@@ -18,6 +18,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { LocalStorageService } from '../core/services/local-storage.service';
 
 import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
@@ -45,6 +46,7 @@ export class ModelCreationComponent implements OnInit {
 
   constructor(
     private backendService: BackendService,
+    private localStorage: LocalStorageService,
     private userCommunication: UserCommunicationService,
     private formBuilder: FormBuilder
     ) {}
@@ -74,7 +76,7 @@ export class ModelCreationComponent implements OnInit {
   }
 
   getDataSets(): void {
-    this.backendService.getDataSetsList().subscribe(
+    this.backendService.getDataSetsList(this.localStorage.projectId).subscribe(
       (datasets) => {
         console.log(datasets);
         this.datasetSelectionDataSource = datasets;

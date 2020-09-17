@@ -19,6 +19,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 import { BackendService } from '../core/services/backend.service';
+import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 import { Router } from '@angular/router';
 
@@ -36,6 +37,7 @@ export class FeatureSetListComponent implements OnInit {
   constructor(
     private backendService: BackendService,
     private userCommunication: UserCommunicationService,
+    private localStorage: LocalStorageService,
     private router: Router,
     ) { }
 
@@ -44,7 +46,7 @@ export class FeatureSetListComponent implements OnInit {
     }
 
     getFeatureSetList(): void {
-      this.backendService.getFeaturesetsList().subscribe(
+      this.backendService.getFeaturesetsList(this.localStorage.projectId).subscribe(
         (featuresetslist) => {
           this.dataSource = featuresetslist;
           console.log('datasource de las listas', this.dataSource)

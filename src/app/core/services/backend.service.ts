@@ -60,15 +60,27 @@ export class BackendService {
     };
 
     return this.httpClient.get(environment.restApiPPDDM + 'manager/project', httpOptions);
-    // eturn this.httpClient.get(environment.restApiUrl + 'manager/project');
+    // return this.httpClient.get(environment.restApiUrl + 'manager/project');
   }
 
   public getUseCase(id): Observable<any> {
-    return this.httpClient.get(environment.restApiUrl + 'manager/project/' + id);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    return this.httpClient.get(environment.restApiPPDDM + 'manager/project/' + id, httpOptions);
   }
 
-  public getFeaturesetsList(): Observable<any> {
-    return this.httpClient.get(environment.restApiUrl + 'manager/featureset');
+  public getFeaturesetsList(id): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    console.log('getFeaturesetsList   - manager/featureset?project_id=' + id);
+    return this.httpClient.get(environment.restApiPPDDM + 'manager/featureset?project_id=' + id, httpOptions);
+    // return this.httpClient.get(environment.restApiUrl + 'manager/featureset');
   }
 
   public postFeatureset(featureSet): Observable<any> {
@@ -76,15 +88,36 @@ export class BackendService {
   }
 
   public getModelsList(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    console.log('getModelsList   - manager/dm-model');
+    // return this.httpClient.get(environment.restApiPPDDM + 'manager/dm-model', httpOptions);
     return this.httpClient.get(environment.restApiUrl + 'manager/dm-model');
   }
 
-  public getDataSetsList(): Observable<any> {
-    return this.httpClient.get(environment.restApiUrl + 'manager/dataset');
+  public getDataSetsList(id): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    console.log('getDataSetsList - manager/dataset?project_id=' + id);
+    return this.httpClient.get(environment.restApiPPDDM + 'manager/dataset?project_id=' + id , httpOptions);
+    // return this.httpClient.get(environment.restApiUrl + 'manager/dataset');
   }
 
   public getFeatureList(): Observable<any> {
     // TO DO Update this api method with a real one based on featureset
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    console.log('getFeatureList   - features');
+    // return this.httpClient.get(environment.restApiPPDDM + 'manager/featureset', httpOptions);
     return this.httpClient.get(environment.restApiUrl + 'features');
   }
 
