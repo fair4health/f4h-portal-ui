@@ -19,6 +19,7 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 import { MatTable } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 
 import { BackendService } from '../core/services/backend.service';
@@ -41,7 +42,8 @@ export class DataSetDashboardComponent implements OnInit {
   constructor(
     private backendService: BackendService,
     private localStorage: LocalStorageService,
-    private userCommunication: UserCommunicationService
+    private userCommunication: UserCommunicationService,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
@@ -80,8 +82,9 @@ export class DataSetDashboardComponent implements OnInit {
   }
 
   onSelectDataSet(selectedDataSet): void {
-    console.log('The selected data set is: ' + selectedDataSet);
+    console.log('The selected data set is: ', selectedDataSet);
     // TO DO Feature set details dialog
-    this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
+    // this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
+    this.router.navigate(['/dsdetails'], {state: {selectedDataSet}});
   }
 }

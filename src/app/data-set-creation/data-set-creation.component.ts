@@ -24,8 +24,8 @@ import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 
 import { Dataset } from '../shared/dataset';
-import { FeatureSet } from '../shared/feature-set';
 import { ElegibilityCriteria } from '../shared/elegibility-criteria';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-data-set-creation',
@@ -49,6 +49,8 @@ export class DataSetCreationComponent implements OnInit {
   featureSetsDisplayedColumns: string[] = [' ', 'name', 'description', 'numbervariables', 'created_by', 'creation_time', 'select'];
   selectedFeatureSetRow;
 
+  componentDirection: string;
+
   constructor(
     private formBuilder: FormBuilder,
     private backendService: BackendService,
@@ -58,13 +60,16 @@ export class DataSetCreationComponent implements OnInit {
 
   ngOnInit(): void {
     this.newDataSet = new Dataset();
+
     this.newDataSet.project_id = this.localStorage.projectId;
     this.elegibilityCriteriaList = [];
     this.newDataSet.eligibility_criteria = this.elegibilityCriteriaList;
     this.newElegibilityCriteria = new ElegibilityCriteria();
 
     this.formGroup1 = this.formBuilder.group({
-      formGroup1: ['', Validators.required]
+    //  formGroup1: ['', Validators.required]
+      name: ['',  Validators.required],
+      description: ['',  Validators.required],
     });
     this.formGroup2 = this.formBuilder.group({
       formGroup2: ['', Validators.required]
@@ -78,14 +83,31 @@ export class DataSetCreationComponent implements OnInit {
     this.formGroup5 = this.formBuilder.group({
       formGroup5: ['', Validators.required]
     });
+
     this.getFeatureList();
+
+    if (history.state.selectedDataSet) {
+        this.componentDirection = 'Data set edition';
+        this.onSeeDataSet();
+    } else {
+      this.componentDirection = 'Data set creation';
+    }
   }
 
   getFeatureList(): void {
-    this.backendService.getFeatureList().subscribe(
+   // this.backendService.getFeatureList().subscribe(
+    this.backendService.getFeaturesetsList(this.newDataSet.project_id).subscribe(
       (featurelist) => {
-        console.log(featurelist);
         this.featureSetsDataSource = featurelist;
+
+        if (history.state.selectedDataSet) {
+          this.featureSetsDataSource.forEach(element => {
+            // tslint:disable-next-line: no-string-literal
+            if (element.featureset_id === this.newDataSet.featureset['featureset_id']) {
+              this.selectedFeatureSetRow = element;
+            }
+          });
+        }
       },
       (err) => {
         this.backendService.handleError('home', err);
@@ -106,6 +128,20 @@ export class DataSetCreationComponent implements OnInit {
   onAddElegibilityCriteria(): void {
     this.elegibilityCriteriaList.push(this.newElegibilityCriteria);
     this.newElegibilityCriteria = new ElegibilityCriteria();
+  }
+
+  onSeeDataSet(): void {
+    this.getDataSet(history.state.selectedDataSet).subscribe(x => {
+      this.newDataSet = x;
+      this.formGroup1.get('name').setValue(this.newDataSet.name);
+      this.formGroup1.get('description').setValue(this.newDataSet.description);
+      this.selectedFeatureSetRow = this.newDataSet.featureset;
+      this.elegibilityCriteriaList = this.newDataSet.eligibility_criteria;
+    });
+  }
+
+  getDataSet(dataSet): any {
+    return of(dataSet);
   }
 
 }

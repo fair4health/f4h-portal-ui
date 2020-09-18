@@ -44,6 +44,7 @@ const routes: Routes = [
   { path: 'fsdetails', component: FeatureSetCreationComponent},
   { path: 'dscreation', component: DataSetCreationComponent},
   { path: 'dsdashboard', component: DataSetDashboardComponent},
+  { path: 'dsdetails', component: DataSetCreationComponent},
   { path: 'mdashboard', component: ModelDashboardComponent},
   { path: 'mcreation', component: ModelCreationComponent},
 
