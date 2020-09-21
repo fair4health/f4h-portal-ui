@@ -1,9 +1,8 @@
 <div class="nav-path">
-  <a mat-button [routerLink]="['/uclist']">Home</a>>><a mat-button [routerLink]="['/ucmenu']">Use case</a>>><a mat-button [routerLink]="['/dsdashboard']">Data set management</a>>><a mat-button color="primary">Data set creation</a>
+  <a mat-button [routerLink]="['/uclist']">Home</a>>><a mat-button [routerLink]="['/ucmenu']">Use case</a>>><a mat-button [routerLink]="['/dsdashboard']">Data set management</a>>><a mat-button color="primary">{{componentDirection}}</a>
 </div>
 
 <mat-divider></mat-divider>
-
 <div class="content" >
 
   <mat-horizontal-stepper [linear]="false" #stepper>
@@ -12,12 +11,12 @@
         <ng-template matStepLabel>Name & description</ng-template>
         <mat-form-field appearance="fill">
           <mat-label>Data set name</mat-label>
-          <input matInput placeholder="Data set name" [(ngModel)]='newDataSet.name' formControlName="formGroup1" required>
+          <input matInput placeholder="Data set name" formControlName="name" required>
         </mat-form-field>
         <br>
         <mat-form-field appearance="fill">
           <mat-label>Description</mat-label>
-          <input matInput placeholder="Description" [(ngModel)]='newDataSet.description' formControlName="formGroup1" required>
+          <input matInput placeholder="Description"  formControlName="description" required>
         </mat-form-field>
         <div>
           <button mat-button matStepperNext color="primary">Next</button>
