@@ -24,6 +24,7 @@ import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 
 import { DmModel } from '../shared/dm-model';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-model-creation',
@@ -44,6 +45,8 @@ export class ModelCreationComponent implements OnInit {
   datasetSelectionDisplayedColumns: string[] = ['name', 'description', 'data_sources', 'created_by', 'creation_time', 'details'];
   datasetSelectionDataSource;
 
+  componentDirection: string;
+
   constructor(
     private backendService: BackendService,
     private localStorage: LocalStorageService,
@@ -51,12 +54,21 @@ export class ModelCreationComponent implements OnInit {
     private formBuilder: FormBuilder
     ) {}
 
+
+    /**
+     * TODO: methods to get data in the sections:
+     *  3 - Categorial variables.
+     *  4 - Missing data.
+     *  5 - Algorithm selection.
+     */
   ngOnInit(): void {
     this.newDMModel = new DmModel();
     this.getDataSets();
 
     this.formGroup1 = this.formBuilder.group({
-      formGroup1: ['', Validators.required]
+      // formGroup1: ['', Validators.required]
+      name: ['',  Validators.required],
+      description: ['',  Validators.required],
     });
     this.formGroup2 = this.formBuilder.group({
       formGroup2: ['', Validators.required]
@@ -73,6 +85,12 @@ export class ModelCreationComponent implements OnInit {
     this.formGroup6 = this.formBuilder.group({
       formGroup5: ['', Validators.required]
     });
+    if (history.state.selectedModel) {
+      this.onSeeModel();
+      this.componentDirection = 'Model edition';
+    } else {
+      this.componentDirection = 'Model creation';
+    }
   }
 
   getDataSets(): void {
@@ -85,5 +103,17 @@ export class ModelCreationComponent implements OnInit {
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get datasets list operation failed');
       });
+  }
+
+  onSeeModel(): void {
+    this.getModel(history.state.selectedModel).subscribe(data => {
+      this.newDMModel = data;
+      this.formGroup1.get('name').setValue(this.newDMModel.name);
+      this.formGroup1.get('description').setValue(this.newDMModel.description);
+    });
+  }
+
+  getModel(model): any {
+    return of(model);
   }
 }
