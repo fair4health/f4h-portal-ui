@@ -19,6 +19,7 @@
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 import { MatTable } from '@angular/material/table';
+import { Router } from '@angular/router';
 
 import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
@@ -38,7 +39,8 @@ export class ModelDashboardComponent implements OnInit {
 
   constructor(
     private backendService: BackendService,
-    private userCommunication: UserCommunicationService
+    private userCommunication: UserCommunicationService,
+    private router: Router
     ) { }
 
   ngOnInit(): void {
@@ -83,8 +85,8 @@ export class ModelDashboardComponent implements OnInit {
   }
 
   onSelectModel(selectedModel): void {
-    console.log('The selected model is: ' + selectedModel);
+    console.log('The selected model is: ', selectedModel);
     // TO DO Feature set details dialog
-    this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
+    this.router.navigate(['/mcreation'], {state: {selectedModel}});
   }
 }
