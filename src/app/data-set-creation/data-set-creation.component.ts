@@ -20,13 +20,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { MatStepper } from '@angular/material/stepper';
+import { MatTableDataSource } from '@angular/material/table';
+import { SelectionModel } from '@angular/cdk/collections';
 
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 
 import { Dataset } from '../shared/dataset';
-import { FeatureSet } from '../shared/feature-set';
+import { DataSource } from '../shared/data-source';
 import { ElegibilityCriteria } from '../shared/elegibility-criteria';
 
 @Component({
@@ -46,10 +48,15 @@ export class DataSetCreationComponent implements OnInit {
   newElegibilityCriteria: ElegibilityCriteria;
   elegibilityCriteriaList: ElegibilityCriteria[];
 
-  // Get feature list
+  // Feature list
   featureSetsDataSource;
   featureSetsDisplayedColumns: string[] = [' ', 'name', 'description', 'numbervariables', 'created_by', 'created_on', 'select'];
   selectedFeatureSetRow;
+
+  // Data sources
+  dataSourcesDataSource = new MatTableDataSource<DataSource>();
+  dataSourcesDisplayedColumns: string[] = [' ', 'name', 'description', 'numbervariables', 'created_by', 'created_on', 'select'];
+  selectedDataSourcesRows = new SelectionModel<DataSource>(true, []);
 
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -67,7 +74,6 @@ export class DataSetCreationComponent implements OnInit {
     this.newDataSet.eligibility_criteria = this.elegibilityCriteriaList;
     this.newElegibilityCriteria = new ElegibilityCriteria();
 
-    this.getFeatureList();
 
     this.formGroup1 = this.formBuilder.group({
       formGroup1: ['', Validators.required]
@@ -86,13 +92,35 @@ export class DataSetCreationComponent implements OnInit {
     });
   }
 
-  onStepChange(event: any): void {
-    console.log('Data set creation step: ' + event.selectedIndex);
-    // selected index is 0..n
 
+  onStepChange(event: any): void {
+    // selected index is 0..n
+    switch(event.selectedIndex) {
+      case 1: {
+        console.log('Data set creation step ' + event.selectedIndex + ' requires feautere set list');
+        this.getFeatureList();
+        break;
+      }
+      case 2: {
+        console.log('Data set creation step ' + event.selectedIndex + ' requires dataset query');
+        if (this.isDatasetAlreadyCreated()) {
+          // Dataset is already created
+
+        } else {
+          // Create dataset with information from previous steps
+
+        }
+        break;
+      }
+      default: {
+        console.log('Starting data set creation step ' + event.selectedIndex);
+        break;
+      }
+   }
   }
 
   moveToStep(index: number): void {
+    // selected index is 0..n-1
     this.stepper.selectedIndex = index;
   }
 
@@ -103,7 +131,7 @@ export class DataSetCreationComponent implements OnInit {
         this.featureSetsDataSource = featurelist;
       },
       (err) => {
-        this.backendService.handleError('home', err);
+        this.backendService.handleError('dataset creation', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get feature set list operation failed');
       });
   }
@@ -123,6 +151,41 @@ export class DataSetCreationComponent implements OnInit {
     this.newElegibilityCriteria = new ElegibilityCriteria();
   }
 
+  isDatasetAlreadyCreated(): boolean {
+    return Boolean(this.localStorage.datasetId);
+  }
+
+  createDataset(): void {
+    this.backendService.postDataSet(this.newDataSet).subscribe(
+      (datasetInfo) => {
+        console.log(datasetInfo);
+        this.data = ;
+      },
+      (err) => {
+        this.backendService.handleError('dataset creation', err);
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Post data set operation failed');
+      });
+  }
+
+  // Manage checkbox in data sources table
+  isAllDataSourcesSelected(): boolean {
+    const numSelected = this.selectedDataSourcesRows.selected.length;
+    const numRows = this.dataSourcesDataSource.data.length;
+    return numSelected === numRows;
+  }
+
+  dataSourcesTableMasterToggle(): void {
+    this.isAllDataSourcesSelected() ?
+        this.selectedDataSourcesRows.clear() :
+        this.dataSourcesDataSource.data.forEach(row => this.selectedDataSourcesRows.select(row));
+  }
+
+  dataSourcesCheckboxLabel(row?: DataSource): string {
+    if (!row) {
+      return `${this.isAllDataSourcesSelected() ? 'select' : 'deselect'} all`;
+    }
+    return `${this.selectedDataSourcesRows.isSelected(row) ? 'deselect' : 'select'} row`;
+  }
 
 
 }

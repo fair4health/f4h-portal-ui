@@ -24,6 +24,7 @@ import { Injectable } from '@angular/core';
 export class LocalStorageService {
 
   projectId: string;
+  datasetId: string;
 
   constructor() { }
 
@@ -32,7 +33,14 @@ export class LocalStorageService {
     console.log('A new projectId has been set: ' + projectId);
   }
 
+  setDatasetId(datasetId): void {
+    this.datasetId = datasetId;
+    console.log('A new datasetId has been set: ' + datasetId);
+  }
+
   reset(): void {
     this.projectId = '';
+    this.datasetId = '';
+    console.log('Shared info (project, dataset, etc.) has been deleted');
   }
 }
