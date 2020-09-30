@@ -47,6 +47,10 @@ export class DataSetCreationComponent implements OnInit {
   // Get feature list
   featureSetsDataSource;
   featureSetsDisplayedColumns: string[] = [' ', 'name', 'description', 'numbervariables', 'created_by', 'creation_time', 'select'];
+
+  resultsAndStaticsColumns: string[] = ['state', 'dataSourceId', 'endpoint', 'name'];
+  resultsAndStaticsDataSource;
+
   selectedFeatureSetRow;
 
   componentDirection: string;
@@ -85,7 +89,7 @@ export class DataSetCreationComponent implements OnInit {
     });
 
     this.getFeatureList();
-
+    this.getDataSource();
     if (history.state.selectedDataSet) {
         this.componentDirection = 'Data set edition';
         this.onSeeDataSet();
@@ -113,6 +117,17 @@ export class DataSetCreationComponent implements OnInit {
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get feature set list operation failed');
       });
+  }
+
+  getDataSource(): void {
+    this.backendService.getDataSetsList(this.newDataSet.project_id).subscribe(data => {
+      this.resultsAndStaticsDataSource = [];
+      data.forEach(element => {
+        element.dataset_sources.forEach(elem => {
+          this.resultsAndStaticsDataSource.push(elem);
+        });
+      });
+    });
   }
 
   onSelectFeatureSetDetails(element): void {
