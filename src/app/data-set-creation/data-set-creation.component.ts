@@ -90,6 +90,7 @@ export class DataSetCreationComponent implements OnInit {
 
     this.getFeatureList();
     this.getDataSource();
+
     if (history.state.selectedDataSet) {
         this.componentDirection = 'Data set edition';
         this.onSeeDataSet();
@@ -141,7 +142,13 @@ export class DataSetCreationComponent implements OnInit {
   }
 
   onAddElegibilityCriteria(): void {
-    this.elegibilityCriteriaList.push(this.newElegibilityCriteria);
+
+    // Check if the fields of the form of Elegibility criteria are void
+    // if just one is filled, add to the list, if no one is, don't push it to the table
+    // Should be both required?
+    if (this.newElegibilityCriteria.fhir_query || this.newElegibilityCriteria.fhir_path) {
+      this.elegibilityCriteriaList.push(this.newElegibilityCriteria);
+    }
     this.newElegibilityCriteria = new ElegibilityCriteria();
   }
 
@@ -157,6 +164,29 @@ export class DataSetCreationComponent implements OnInit {
 
   getDataSet(dataSet): any {
     return of(dataSet);
+  }
+
+  onSaveDataSet(): void {
+    if (history.state.selectedDataSet) {
+      this.updateDataSet();
+    } else {
+      this.saveNewDataSet();
+    }
+  }
+
+  saveNewDataSet(): void {
+    console.log('guardar nuevo data set');
+  }
+
+  updateDataSet(): void {
+    Object.keys(this.formGroup1.controls).forEach(key => {
+      this.newDataSet[key] = this.formGroup1.get(key).value;
+    });
+    console.log('datos actualizados en el componente: ', this.newDataSet);
+    console.log('actualizar data set');
+    this.backendService.updateDataSet(this.newDataSet.project_id, this.newDataSet).subscribe( data => {
+      console.log('DATA', data);
+    });
   }
 
 }
