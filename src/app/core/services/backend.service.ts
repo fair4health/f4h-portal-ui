@@ -150,4 +150,13 @@ export class BackendService {
     console.log('data set: ', dataSet);
     return this.httpClient.put(environment.restApiPPDDM + 'manager/dataset/' + id, dataSet, httpOptions);
   }
+
+  saveDataSet(id, dataSet): any {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    return this.httpClient.post(environment.restApiPPDDM + 'manager/dataset', dataSet, httpOptions);
+  }
 }

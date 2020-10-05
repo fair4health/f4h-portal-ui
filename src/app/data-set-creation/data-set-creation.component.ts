@@ -64,7 +64,6 @@ export class DataSetCreationComponent implements OnInit {
 
   ngOnInit(): void {
     this.newDataSet = new Dataset();
-
     this.newDataSet.project_id = this.localStorage.projectId;
     this.elegibilityCriteriaList = [];
     this.newDataSet.eligibility_criteria = this.elegibilityCriteriaList;
@@ -175,7 +174,17 @@ export class DataSetCreationComponent implements OnInit {
   }
 
   saveNewDataSet(): void {
-    console.log('guardar nuevo data set');
+
+    console.log('guardar nuevo data set: ', this.newDataSet);
+    Object.keys(this.formGroup1.controls).forEach(key => {
+      this.newDataSet[key] = this.formGroup1.get(key).value;
+    });
+    // this is a mock of created_by of data set, it will be removed.
+    this.newDataSet['created_by'] = '1903';
+    this.backendService.saveDataSet(this.newDataSet.project_id, this.newDataSet).subscribe(data => {
+      console.log(data);
+      this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
+    });
   }
 
   updateDataSet(): void {
@@ -186,6 +195,7 @@ export class DataSetCreationComponent implements OnInit {
     console.log('actualizar data set');
     this.backendService.updateDataSet(this.newDataSet.project_id, this.newDataSet).subscribe( data => {
       console.log('DATA', data);
+        this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data + '" created successfully')
     });
   }
 
