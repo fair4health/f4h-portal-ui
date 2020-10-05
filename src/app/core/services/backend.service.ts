@@ -133,4 +133,30 @@ export class BackendService {
     }
     console.error(errorText);
   }
+
+
+/**
+ * This method saves Data Set, refers to 3.4 - Update Data Set: Updates the data set resource
+ * in Platform Repository by changing its execution state to "final"
+ */
+  updateDataSet(id, dataSet): any {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    // console.log('getDataSetsList - manager/dataset/' + id);
+    console.log('URL base: ', environment.restApiPPDDM + 'manager/dataset/' + id);
+    console.log('data set: ', dataSet);
+    return this.httpClient.put(environment.restApiPPDDM + 'manager/dataset/' + id, dataSet, httpOptions);
+  }
+
+  saveDataSet(id, dataSet): any {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    return this.httpClient.post(environment.restApiPPDDM + 'manager/dataset', dataSet, httpOptions);
+  }
 }
