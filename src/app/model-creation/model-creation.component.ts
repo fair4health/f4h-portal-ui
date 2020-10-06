@@ -45,6 +45,9 @@ export class ModelCreationComponent implements OnInit {
   datasetSelectionDisplayedColumns: string[] = ['name', 'description', 'data_sources', 'created_by', 'creation_time', 'details'];
   datasetSelectionDataSource;
 
+  categorialVariablesColumns: string[] = ['name', 'fhir_path', 'fhir_query', 'variable_type'];
+  categorigalVariablesDataSource;
+
   componentDirection: string;
 
   constructor(
@@ -110,10 +113,20 @@ export class ModelCreationComponent implements OnInit {
       this.newDMModel = data;
       this.formGroup1.get('name').setValue(this.newDMModel.name);
       this.formGroup1.get('description').setValue(this.newDMModel.description);
+      this.getCategorialVariables();
     });
   }
 
   getModel(model): any {
     return of(model);
+  }
+
+  getCategorialVariables(): void {
+    this.categorigalVariablesDataSource = [];
+    this.newDMModel.variable_configurations.forEach(element => {
+      if (element.variable.variable_data_type === 'categorical') {
+        this.categorigalVariablesDataSource.push(element.variable);
+      }
+    });
   }
 }
