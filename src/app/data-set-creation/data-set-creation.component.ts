@@ -47,8 +47,8 @@ export class DataSetCreationComponent implements OnInit {
   // Get feature list
   featureSetsDataSource;
   featureSetsDisplayedColumns: string[] = [' ', 'name', 'description', 'numbervariables', 'created_by', 'creation_time', 'select'];
-
   resultsAndStaticsColumns: string[] = ['state', 'dataSourceId', 'endpoint', 'name'];
+  // resultsAndStaticsColumns: string[] = ['state', 'dataSourceId', 'n_records', 'age', 'gender', 'smoking_st', 'heart_f', 'n_drugs'];
   resultsAndStaticsDataSource;
 
   selectedFeatureSetRow;
