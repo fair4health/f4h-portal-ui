@@ -75,6 +75,32 @@
       <form [formGroup]="formGroup3">
         <ng-template matStepLabel>Categorial variables</ng-template>
 
+        <table mat-table [dataSource]="categorigalVariablesDataSource" class="mat-elevation-z8">
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="fhir_path">
+            <th mat-header-cell *matHeaderCellDef> FHIR path </th>
+            <td mat-cell *matCellDef="let element"> {{element.fhir_path}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="fhir_query">
+            <th mat-header-cell *matHeaderCellDef> FHIR query </th>
+            <td mat-cell *matCellDef="let element"> {{element.fhir_query}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="variable_type">
+            <th mat-header-cell *matHeaderCellDef> Type </th>
+            <td mat-cell *matCellDef="let element"> {{element.variable_type}} </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="categorialVariablesColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: categorialVariablesColumns;"></tr>
+        </table>
+
         <div>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
