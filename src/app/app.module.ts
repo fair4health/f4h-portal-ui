@@ -160,7 +160,7 @@ import { NewVariableDialogComponent } from './feature-set-creation/new-variable-
     MatTooltipModule,
 
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
