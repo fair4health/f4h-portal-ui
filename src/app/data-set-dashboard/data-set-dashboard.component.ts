@@ -82,7 +82,7 @@ export class DataSetDashboardComponent implements OnInit {
   }
 
   onSelectDataSet(selectedDataSet): void {
-    console.log(JSON.stringify(selectedDataSet));
+    console.log(selectedDataSet);
     // TO DO Feature set details dialog
     // this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
     this.router.navigate(['/dsdetails'], {state: {selectedDataSet}});

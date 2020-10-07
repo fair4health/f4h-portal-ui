@@ -88,7 +88,6 @@ export class DataSetCreationComponent implements OnInit {
     });
 
     this.getFeatureList();
-    this.getDataSource();
 
     if (history.state.selectedDataSet) {
         this.componentDirection = 'Data set edition';
@@ -119,17 +118,6 @@ export class DataSetCreationComponent implements OnInit {
       });
   }
 
-  getDataSource(): void {
-    this.backendService.getDataSetsList(this.newDataSet.project_id).subscribe(data => {
-      this.resultsAndStaticsDataSource = [];
-      data.forEach(element => {
-        element.dataset_sources.forEach(elem => {
-          this.resultsAndStaticsDataSource.push(elem);
-        });
-      });
-    });
-  }
-
   onSelectFeatureSetDetails(element): void {
     console.log('Selected view details of featureset: ' + JSON.stringify(element));
     this.userCommunication.createMessage(this.userCommunication.INFO, 'Details dialog not implemented yet!');
@@ -158,11 +146,20 @@ export class DataSetCreationComponent implements OnInit {
       this.formGroup1.get('description').setValue(this.newDataSet.description);
       this.selectedFeatureSetRow = this.newDataSet.featureset;
       this.elegibilityCriteriaList = this.newDataSet.eligibility_criteria;
+      this.getDataSource(x.dataset_sources);
     });
   }
 
   getDataSet(dataSet): any {
     return of(dataSet);
+  }
+
+  // extract data sources to set in the table of results and statistics.
+  getDataSource(dataSetSources): void {
+    this.resultsAndStaticsDataSource = [];
+    dataSetSources.forEach(element => {
+      this.resultsAndStaticsDataSource.push(element);
+    });
   }
 
   onSaveDataSet(): void {
@@ -174,15 +171,12 @@ export class DataSetCreationComponent implements OnInit {
   }
 
   saveNewDataSet(): void {
-
-    console.log('guardar nuevo data set: ', this.newDataSet);
     Object.keys(this.formGroup1.controls).forEach(key => {
       this.newDataSet[key] = this.formGroup1.get(key).value;
     });
     // this is a mock of created_by of data set, it will be removed.
     this.newDataSet['created_by'] = '1903';
     this.backendService.saveDataSet(this.newDataSet.project_id, this.newDataSet).subscribe(data => {
-      console.log(data);
       this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
     });
   }
@@ -191,11 +185,8 @@ export class DataSetCreationComponent implements OnInit {
     Object.keys(this.formGroup1.controls).forEach(key => {
       this.newDataSet[key] = this.formGroup1.get(key).value;
     });
-    console.log('datos actualizados en el componente: ', this.newDataSet);
-    console.log('actualizar data set');
     this.backendService.updateDataSet(this.newDataSet.project_id, this.newDataSet).subscribe( data => {
-      console.log('DATA', data);
-        this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data + '" created successfully')
+      this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data + '" created successfully')
     });
   }
 
