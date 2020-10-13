@@ -3,6 +3,29 @@ input, mat-form-field {
   width: 100%;
 }
 
+.operation-input {
+  width: 50%;
+  height: 2em;
+  border-radius: 3px;
+  border: #878b88 1px solid;
+  text-align: center;
+}
+
+.select-operation{
+  width: 60%;
+  height: 2em;
+  border-radius: 3px;
+  border: #878b88 1px solid;
+}
+
+.operation-column{
+  width: 30%;
+}
+
+.value-column {
+  width: 10%;
+}
+
 table {
   width: 100%;
 }

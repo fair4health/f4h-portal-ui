@@ -17,7 +17,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageService } from '../core/services/local-storage.service';
 
 import { BackendService } from '../core/services/backend.service';
@@ -47,6 +47,18 @@ export class ModelCreationComponent implements OnInit {
 
   categorialVariablesColumns: string[] = ['name', 'fhir_path', 'fhir_query', 'variable_type'];
   categorigalVariablesDataSource;
+
+  missingDataColumns: string[] = ['name', 'variable_type', 'operation', 'value'];
+  missingDataDataSource;
+  operations: any[] = [
+    {value: 'set_minimum', viewValue: 'Set minimum'},
+    {value: 'set_maximum', viewValue: 'Set maximun'},
+    {value: 'set_average', viewValue: 'Set average'},
+    {value: 'set_mean', viewValue: 'Set mean'},
+    {value: 'set_median', viewValue: 'Set median'},
+    {value: 'set_specific', viewValue: 'Set specific'},
+  ];
+  selectedOperation;
 
   componentDirection: string;
 
@@ -80,7 +92,8 @@ export class ModelCreationComponent implements OnInit {
       formGroup3: ['', Validators.required]
     });
     this.formGroup4 = this.formBuilder.group({
-      formGroup4: ['', Validators.required]
+      // formGroup4: ['', Validators.required]
+      missing_data_operation: ['']
     });
     this.formGroup5 = this.formBuilder.group({
       formGroup5: ['', Validators.required]
@@ -114,6 +127,7 @@ export class ModelCreationComponent implements OnInit {
       this.formGroup1.get('name').setValue(this.newDMModel.name);
       this.formGroup1.get('description').setValue(this.newDMModel.description);
       this.getCategorialVariables();
+      this.getMissingData();
     });
   }
 
@@ -128,5 +142,27 @@ export class ModelCreationComponent implements OnInit {
         this.categorigalVariablesDataSource.push(element.variable);
       }
     });
+  }
+
+  getMissingData(): void {
+    this.missingDataDataSource = [];
+    this.newDMModel.variable_configurations.forEach(element => {
+      this.missingDataDataSource.push(element);
+    });
+  }
+
+  saveOperations(operator, element): void {
+
+    element.missing_data_operation = operator;
+
+    if (operator === 'set_specific') {
+      element.missing_data_specific_value = '0';
+    } else {
+      delete element.missing_data_specific_value;
+    }
+  }
+
+  specificValueChange(opValue, element): void {
+    element.missing_data_specific_value = opValue.value;
   }
 }
