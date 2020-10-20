@@ -75,15 +75,17 @@ export class FeatureSetCreationComponent implements OnInit {
   }
 
   onNewVariable(): void {
+    this.newVariable = new Variable();
     const dialogRef = this.dialog.open(NewVariableDialogComponent, {
       width: '80%',
-      data: {newVariable: this.newVariable}
+      data: {newVariable: this.newVariable }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       if (result) {
         this.newVariable = result;
+        delete this.newVariable['newVariable']
         this.dataSource.push(this.newVariable);
         this.table.renderRows();
       }
@@ -101,10 +103,12 @@ export class FeatureSetCreationComponent implements OnInit {
     if (history.state.selectedFeatureSet) {
       console.log('Update existent feature set.');
     } else {
-
-      this.backendService.postFeatureset(newFeatureSet).subscribe(
+      newFeatureSet['created_by'] = '1903';
+      console.log('nuevo feature set', newFeatureSet);
+      this.backendService.saveFeatureSet(newFeatureSet).subscribe(
         (data) => {
-          console.log('New feature set creation answer received! ' + JSON.stringify(data));
+          console.log('New feature set creation answer received! ', data);
+          this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
         },
         (err) => {
           this.backendService.handleError('home', err);

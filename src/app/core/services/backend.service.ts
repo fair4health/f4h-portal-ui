@@ -159,4 +159,14 @@ export class BackendService {
     };
     return this.httpClient.post(environment.restApiPPDDM + 'manager/dataset', dataSet, httpOptions);
   }
+
+  saveFeatureSet(featureSet): any {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    console.log('featureset: ', featureSet)
+    return this.httpClient.post(environment.restApiPPDDM + 'manager/featureset', featureSet, httpOptions);
+  }
 }
