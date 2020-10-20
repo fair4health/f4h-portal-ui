@@ -24,7 +24,9 @@
 
     <ng-container matColumnDef="variables">
       <th mat-header-cell *matHeaderCellDef> Number of variables </th>
-      <td mat-cell *matCellDef="let element"> {{element.variables.length}} </td>
+      <td mat-cell *matCellDef="let element"> 
+        <p *ngIf="element.variables">{{element.variables.length}} </p>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="created_by">
