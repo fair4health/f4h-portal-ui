@@ -25,6 +25,8 @@ import { UserCommunicationService } from '../core/services/user-communication.se
 
 import { DmModel } from '../shared/dm-model';
 import { of } from 'rxjs';
+import { variable } from '@angular/compiler/src/output/output_ast';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-model-creation',
@@ -42,7 +44,7 @@ export class ModelCreationComponent implements OnInit {
   newDMModel: DmModel;
   selectedDatasetRow;
 
-  datasetSelectionDisplayedColumns: string[] = ['name', 'description', 'data_sources', 'created_by', 'creation_time', 'details'];
+  datasetSelectionDisplayedColumns: string[] = ['select', 'name', 'description', 'data_sources', 'created_by', 'creation_time', 'details'];
   datasetSelectionDataSource;
 
   categorialVariablesColumns: string[] = ['name', 'fhir_path', 'fhir_query', 'variable_type'];
@@ -61,6 +63,7 @@ export class ModelCreationComponent implements OnInit {
   selectedOperation;
 
   componentDirection: string;
+  featureSetVariables;
 
   constructor(
     private backendService: BackendService,
@@ -149,6 +152,7 @@ export class ModelCreationComponent implements OnInit {
     this.newDMModel.variable_configurations.forEach(element => {
       this.missingDataDataSource.push(element);
     });
+    console.log('missing data: ', this.missingDataDataSource)
   }
 
   saveOperations(operator, element): void {
@@ -165,4 +169,24 @@ export class ModelCreationComponent implements OnInit {
   specificValueChange(opValue, element): void {
     element.missing_data_specific_value = opValue.value;
   }
+
+  selectDataSet(dataSet): void {
+    this.missingDataDataSource = [];
+    this.categorigalVariablesDataSource = [];
+    dataSet.featureset.variables.forEach(element => {
+      this.missingDataDataSource.push({
+        encoding_type: element.variable_data_type,
+        missing_data_operation: '',
+        variable: element
+      });
+    });
+
+    dataSet.featureset.variables.forEach(element => {
+      if (element.variable_data_type === 'categorical') {
+        this.categorigalVariablesDataSource.push(element);
+      }
+    });
+  }
+
+
 }

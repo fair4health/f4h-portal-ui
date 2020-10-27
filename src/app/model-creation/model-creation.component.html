@@ -30,14 +30,25 @@
       <form [formGroup]="formGroup2">
         <ng-template matStepLabel>Data set selection</ng-template>
           <table mat-table [dataSource]="datasetSelectionDataSource" class="mat-elevation-z8">
-            <ng-container matColumnDef="radio">
-              <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
-              <mat-cell *matCellDef="let row">
+          
+         <!--   <ng-container matColumnDef="select">
+              <mat-header-cell *matHeaderCellDef></mat-header-cell> 
+              <mat-cell *matCellDef="let element">
                 <mat-radio-group [(ngModel)]="selectedDatasetRow">
-                  <mat-radio-button [value]="row"></mat-radio-button>
+                  <mat-radio-button [value]="element"></mat-radio-button>
                 </mat-radio-group>
               </mat-cell>
             </ng-container>
+-->
+            <!-- Radio button Column -->
+            <ng-container matColumnDef="select">
+              <th mat-header-cell *matHeaderCellDef>
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-radio-button [value]="row" (change)="selectDataSet(row)"></mat-radio-button>
+              </td>
+            </ng-container>
+
             <ng-container matColumnDef="name">
               <th mat-header-cell *matHeaderCellDef> name </th>
               <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -72,6 +83,7 @@
       </form>
     </mat-step>
     <mat-step [stepControl]="formGroup3">
+     
       <form [formGroup]="formGroup3">
         <ng-template matStepLabel>Categorial variables</ng-template>
 
