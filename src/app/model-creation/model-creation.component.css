@@ -29,3 +29,7 @@ input, mat-form-field {
 table {
   width: 100%;
 }
+
+.mat-input-element:disabled {
+  color: black;
+}

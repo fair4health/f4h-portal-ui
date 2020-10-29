@@ -55,6 +55,8 @@ export class DataSetCreationComponent implements OnInit {
 
   componentDirection: string;
 
+  isDisabled: boolean;
+
   constructor(
     private formBuilder: FormBuilder,
     private backendService: BackendService,
@@ -91,8 +93,12 @@ export class DataSetCreationComponent implements OnInit {
 
     if (history.state.selectedDataSet) {
         this.componentDirection = 'Data set edition';
+        this.isDisabled = true;
+        this.formGroup1.disable();
+        this.formGroup3.disable();
         this.onSeeDataSet();
     } else {
+      this.isDisabled = false;
       this.componentDirection = 'Data set creation';
     }
   }
@@ -164,7 +170,7 @@ export class DataSetCreationComponent implements OnInit {
 
   onSaveDataSet(): void {
     if (history.state.selectedDataSet) {
-      this.updateDataSet();
+    //  this.updateDataSet();
     } else {
       this.saveNewDataSet();
     }

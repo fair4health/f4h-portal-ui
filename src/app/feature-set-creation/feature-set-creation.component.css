@@ -3,6 +3,16 @@ input, mat-form-field {
   width: 100%;
 }
 
+.mat-input-element:disabled {
+  color: black;
+}
+
+/*
+.mat-select-disabled .mat-select-value {
+  color: rgba(black, 0.38);
+}
+*/
+
 table {
   width: 100%;
 }

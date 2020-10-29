@@ -38,7 +38,7 @@
               <th mat-header-cell *matHeaderCellDef>
               </th>
               <td mat-cell *matCellDef="let row">
-                <mat-radio-button [value]="row"></mat-radio-button>
+                <mat-radio-button [value]="row" [disabled]="isDisabled"></mat-radio-button>
               </td>
             </ng-container>
 
@@ -106,7 +106,7 @@
               <input matInput placeholder="Path" [(ngModel)]='newElegibilityCriteria.fhir_path' formControlName="formGroup3">
             </mat-form-field>
             <div>
-              <button mat-button (click)="onAddElegibilityCriteria()"><mat-icon>playlist_add</mat-icon></button>
+              <button mat-button (click)="onAddElegibilityCriteria()" [disabled]="isDisabled"><mat-icon>playlist_add</mat-icon></button>
               <br>
               <br>
             </div>
@@ -211,8 +211,8 @@
 
         <div>
           <button mat-button matStepperPrevious color="primary" >Back</button>
-          <button mat-button (click) ="stepper.reset()" color="primary" >Reset</button>
-          <button mat-button (click) ="onSaveDataSet()" color="primary" >Save</button>
+          <button mat-button (click) ="stepper.reset()" color="primary" [disabled]="isDisabled">Reset</button>
+          <button mat-button (click) ="onSaveDataSet()" color="primary" [disabled]="isDisabled">Save</button>
         </div>
       </form>
     </mat-step>

@@ -14,3 +14,7 @@ table {
 .querying {
   color: darkorange;
 }
+
+.mat-input-element:disabled {
+  color: black;
+}

@@ -42,6 +42,7 @@ export class FeatureSetCreationComponent implements OnInit {
   newVariable: Variable;
   componentTitle: string;
   componentDirection: string;
+  isDisabled: boolean;
 
   @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['name', 'description', 'variable_type', 'variable_data_type', 'fhir_query', 'fhir_path', 'delete'];
@@ -59,9 +60,11 @@ export class FeatureSetCreationComponent implements OnInit {
 
     if (history.state.selectedFeatureSet) {
       this.fillFields();
+      this.isDisabled = true;
       this.componentTitle = 'Edit feature set';
       this.componentDirection = 'Feature set edition';
     } else {
+      this.isDisabled = false;
       this.componentTitle = 'Create a new feature set';
       this.componentDirection = 'Feature set creation';
     }
@@ -69,6 +72,7 @@ export class FeatureSetCreationComponent implements OnInit {
   }
 
   fillFields(): void {
+
     this.name = history.state.selectedFeatureSet.name;
     this.description = history.state.selectedFeatureSet.description ;
     this.dataSource = history.state.selectedFeatureSet.variables;
