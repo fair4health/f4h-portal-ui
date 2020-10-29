@@ -64,6 +64,7 @@ export class ModelCreationComponent implements OnInit {
 
   componentDirection: string;
   featureSetVariables;
+  isDisabled: boolean;
 
   constructor(
     private backendService: BackendService,
@@ -106,8 +107,11 @@ export class ModelCreationComponent implements OnInit {
     });
     if (history.state.selectedModel) {
       this.onSeeModel();
+      this.formGroup1.disable();
+      this.isDisabled = true;
       this.componentDirection = 'Model edition';
     } else {
+      this.isDisabled = false;
       this.componentDirection = 'Model creation';
     }
   }
