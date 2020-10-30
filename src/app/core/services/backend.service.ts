@@ -45,11 +45,11 @@ export class BackendService {
       params
     };
     // Demo purposes
-    if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
-      return this.httpClient.get(environment.restApiUrl + 'login', options);
-    } else {
-      return throwError('{"code": 401, "message": "Not authorized"}');
-    }
+    // if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
+    return this.httpClient.get(environment.oauthLogin + 'login', options);
+    // } else {
+      // return throwError('{"code": 401, "message": "Not authorized"}');
+    // }
   }
 
   public getUseCaseList(): Observable<any> {
