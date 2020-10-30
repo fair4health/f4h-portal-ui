@@ -34,6 +34,8 @@ export class UseCaseMenuComponent implements OnInit {
 
   useCaseSelectedId: string;
   useCase: UseCase;
+  useCaseType: string;
+  cols: number;
 
   constructor(
     private route: ActivatedRoute,
@@ -57,9 +59,17 @@ export class UseCaseMenuComponent implements OnInit {
         // Array check to work with real service and mock service
         if (Array.isArray(usecase)) {
           this.useCase = usecase[0];
+          this.useCaseType = usecase[0].project_type;
         } else {
           this.useCase = usecase;
+          this.useCaseType = usecase.project_type;
         }
+        if (this.useCaseType === 'prediction') {
+          this.cols = 2;
+        }else if (this.useCaseType === 'association') {
+          this.cols = 3;
+        }
+
         this.localStorage.setProjectId(this.useCaseSelectedId);
       },
       (err) => {
@@ -81,5 +91,10 @@ export class UseCaseMenuComponent implements OnInit {
   onModelMgmt(): void {
     console.log('Model management');
     this.router.navigate(['/mdashboard']);
+  }
+
+  onProspectiveStudy(): void {
+    console.log('Prospective study selected');
+    this.userCommunication.createMessage(this.userCommunication.INFO, 'Prediction Study is not supported yet');
   }
 }

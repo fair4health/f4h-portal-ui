@@ -1,5 +1,10 @@
 .featuremanagement-card {
   max-width: 400px;
+ 
+}
+
+.data-card {
+  margin-bottom: 20px;
 }
 
 .dataSetmanagement-card {
@@ -7,6 +12,16 @@
 }
 
 .modelmanagement-card {
+  max-width: 400px;
+}
+
+.predictive-study-card{
+  max-width: 400px;
+}
+
+.predictive-study-card-header {
+  background-color: #6db044;
+  color: white;
   max-width: 400px;
 }
 
@@ -32,6 +47,9 @@
   background-color: chocolate;
 }
 
+.featuremanagement-card-buttom {
+  background-color: #6db044;
+}
 
 .modelmanagement-buttom {
   background-color: darkslateblue;
@@ -55,4 +73,8 @@ mat-grid-tile mat-card{
 .use-case-header {
   border: 1px dotted grey;
   padding: 4px;
+}
+
+mat-grid-tile{
+  margin-bottom: 10px !important;
 }

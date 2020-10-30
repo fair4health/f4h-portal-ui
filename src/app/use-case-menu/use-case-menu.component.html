@@ -12,9 +12,9 @@
 
 <br>
 
-<mat-grid-list cols="3" rowHeight="250px">
+  <mat-grid-list [cols]="cols" rowHeight="250px">
   <mat-grid-tile>
-    <mat-card class="featuremanagement-card">
+    <mat-card class="featuremanagement-card data-card">
       <mat-card-header class="featuremanagement-card-header">
         <mat-card-title>Feature Set Management</mat-card-title>
       </mat-card-header>
@@ -31,8 +31,9 @@
       </mat-card-actions>
     </mat-card>
   </mat-grid-tile>
+  <br>
   <mat-grid-tile>
-    <mat-card class="dataSetmanagement-card">
+    <mat-card class="dataSetmanagement-card data-card">
       <mat-card-header class="dataSetmanagement-card-header">
         <mat-card-title>Data Set Management</mat-card-title>
       </mat-card-header>
@@ -49,8 +50,9 @@
       </mat-card-actions>
     </mat-card>
   </mat-grid-tile>
+  <br>
   <mat-grid-tile>
-    <mat-card class="modelmanagement-card">
+    <mat-card class="modelmanagement-card data-card">
       <mat-card-header class="modelmanagement-card-header">
         <mat-card-title>Model management</mat-card-title>
       </mat-card-header>
@@ -61,6 +63,25 @@
       </mat-card-content>
       <mat-card-actions>
         <button mat-raised-button color="primary" class="modelmanagement-buttom" (click)="onModelMgmt()">Select</button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-grid-tile>
+  <br>
+  <mat-grid-tile>
+    <mat-card class="predictive-study-card data-card data-card" *ngIf="useCaseType === 'prediction'">
+      <mat-card-header class="predictive-study-card-header">
+        <mat-card-title>Prospective Study</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>Feature set is like an empty Excel template. </p>
+        <mat-divider></mat-divider>
+        <p>Create your feature set template by specifying FHIR Queries and FHOR Paths.</p>
+        <mat-divider></mat-divider>
+        <p>Use later it on creating your data set.</p>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-raised-button color="primary" class="featuremanagement-card-buttom"
+          (click)="onProspectiveStudy()">Select</button>
       </mat-card-actions>
     </mat-card>
   </mat-grid-tile>
