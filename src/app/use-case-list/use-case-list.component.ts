@@ -69,9 +69,8 @@ export class UseCaseListComponent implements OnInit {
       this.localStorage.setProjectId(useCaseSelected.project_id);
       this.router.navigate(['/ucmenu']);
     } else if (useCaseSelected.project_type === 'prediction') {
-      console.log('Prediction use case selected!');
-      // TO DO prediction use case navigation
-      this.userCommunication.createMessage(this.userCommunication.INFO, 'Prediction use case is not supported yet');
+      this.localStorage.setProjectId(useCaseSelected.project_id);
+      this.router.navigate(['/ucmenu']);
     } else {
       console.log('Project type does not match association nor prediction');
       this.userCommunication.createMessage(this.userCommunication.ERROR, 'Project type does not match association nor prediction');
