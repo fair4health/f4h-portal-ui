@@ -59,8 +59,7 @@ export class UseCaseListComponent implements OnInit {
   }
 
   onCreateNewUseCase(): void {
-    // TO DO
-    this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
+    this.router.navigate(['/uccreation']);
   }
 
   onUseCaseSelected(useCaseSelected: UseCase): void {

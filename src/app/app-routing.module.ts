@@ -33,12 +33,14 @@ import { DataSetCreationComponent } from './data-set-creation/data-set-creation.
 import { DataSetDashboardComponent } from './data-set-dashboard/data-set-dashboard.component';
 import { ModelDashboardComponent } from './model-dashboard/model-dashboard.component';
 import { ModelCreationComponent } from './model-creation/model-creation.component';
+import { UseCaseCreationComponent } from './usecase-creation/usecase-creation.component';
 
 const routes: Routes = [
   { path: '', component: CoverPageComponent},
   { path: 'login', component: LoginComponent},
   { path: 'uclist', component: UseCaseListComponent},
   { path: 'ucmenu', component: UseCaseMenuComponent},
+  { path: 'uccreation', component: UseCaseCreationComponent},
   { path: 'fscreation', component: FeatureSetCreationComponent},
   { path: 'fslist', component: FeatureSetListComponent},
   { path: 'fsdetails', component: FeatureSetCreationComponent},

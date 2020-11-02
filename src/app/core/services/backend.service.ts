@@ -24,6 +24,7 @@ import { Observable } from 'rxjs';
 import { throwError } from 'rxjs';
 
 import { environment } from './../../../environments/environment';
+import { UseCase } from 'src/app/shared/use-case';
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +71,17 @@ export class BackendService {
       })
     };
     return this.httpClient.get(environment.restApiPPDDM + 'manager/project/' + id, httpOptions);
+  }
+
+  saveUseCase(useCase): Observable<any> {
+    console.log(useCase);
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    return this.httpClient.post(environment.restApiPPDDM + 'manager/project', useCase, httpOptions);
   }
 
   public getFeaturesetsList(id): Observable<any> {
