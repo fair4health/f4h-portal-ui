@@ -88,6 +88,7 @@ import { ModelCreationComponent } from './model-creation/model-creation.componen
 import { CoverPageComponent } from './cover-page/cover-page.component';
 import { LogoutDialogComponent } from './header/logout-dialog/logout-dialog.component';
 import { NewVariableDialogComponent } from './feature-set-creation/new-variable-dialog/new-variable-dialog.component';
+import { UseCaseCreationComponent } from './usecase-creation/usecase-creation.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { NewVariableDialogComponent } from './feature-set-creation/new-variable-
     CoverPageComponent,
     LogoutDialogComponent,
     NewVariableDialogComponent,
+    UseCaseCreationComponent,
   ],
   imports: [
     CoreModule,

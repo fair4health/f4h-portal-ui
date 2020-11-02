@@ -1,0 +1,37 @@
+<!-- nav path -->
+<div class="nav-path">
+    <a mat-button [routerLink]="['/uclist']">Home</a>>><a mat-button color="primary">Use case creation</a>
+</div>
+
+<mat-divider></mat-divider>
+
+<!-- Form content -->
+<div class="content">
+    <form [formGroup]="useCaseForm">
+        <!-- use case NAME-->
+        <mat-form-field appearance="fill">
+            <mat-label>Use case name</mat-label>
+            <input matInput ngDefaultControl formControlName='name'>
+        </mat-form-field>
+        <br>
+
+        <!-- use case DESCRIPTION-->
+        <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <input matInput ngDefaultControl formControlName='description'>
+        </mat-form-field>
+        <br>
+
+        <!-- use case TYPE drop-down-->
+        <mat-form-field appearance="fill">
+            <mat-label>Data type</mat-label>
+            <mat-select formControlName="project_type"  matNativeControl name="select">
+                <mat-option value="prediction">Prediction</mat-option>
+                <mat-option value="association">Association</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
+    <!-- Buttons save and reset -->
+    <button mat-raised-button color="primary" (click)="onSave()">Save</button> &nbsp;&nbsp; 
+    <button mat-raised-button color="warn" (click)="onCancel()">Cancel</button>
+</div>
