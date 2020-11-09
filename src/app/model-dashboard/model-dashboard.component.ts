@@ -22,6 +22,7 @@ import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 
 import { BackendService } from '../core/services/backend.service';
+import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 
 @Component({
@@ -40,7 +41,8 @@ export class ModelDashboardComponent implements OnInit {
   constructor(
     private backendService: BackendService,
     private userCommunication: UserCommunicationService,
-    private router: Router
+    private router: Router,
+    private localStorage: LocalStorageService
     ) { }
 
   ngOnInit(): void {
@@ -48,7 +50,8 @@ export class ModelDashboardComponent implements OnInit {
   }
 
   getModelsList(): void {
-    this.backendService.getModelsList().subscribe(
+
+    this.backendService.getModels(this.localStorage.projectId).subscribe(
       (modelslist) => {
         console.log(modelslist);
         modelslist.forEach(element => {
@@ -60,7 +63,7 @@ export class ModelDashboardComponent implements OnInit {
 
           let datasetSourcesList = '';
           element.dataset.dataset_sources.forEach(innerElement => {
-            datasetSourcesList = datasetSourcesList + innerElement.data_source.name + ' ';
+            datasetSourcesList = datasetSourcesList + innerElement.agent.name + ' ';
           });
           element.dataset = datasetSourcesList;
 
