@@ -99,15 +99,44 @@ export class BackendService {
     return this.httpClient.post(environment.restApiUrl + 'manager/featureset', featureSet);
   }
 
+  // get model list from the mockup api
   public getModelsList(): Observable<any> {
     const httpOptions = {
       headers: new HttpHeaders({
         Authorization: 'Bearer anytokenfordemopurpose'
       })
     };
+
     console.log('getModelsList   - manager/dm-model');
     // return this.httpClient.get(environment.restApiPPDDM + 'manager/dm-model', httpOptions);
-    return this.httpClient.get(environment.restApiUrl + 'manager/dm-model');
+    return this.httpClient.get(environment.restApiUrl + 'manager/dm-model/');
+  }
+
+  // get model list from SRDC api
+
+  public getModels(projectId: string): any {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+
+    console.log('getModelsList   - manager/dm-model');
+    // return this.httpClient.get(environment.restApiPPDDM + 'manager/dm-model', httpOptions);
+    return this.httpClient.get(environment.restApiPPDDM + 'manager/dm-model?project_id=' + projectId, httpOptions);
+
+  }
+
+  public saveModel(model): Observable<any> {
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+
+    return this.httpClient.post(environment.restApiPPDDM + 'manager/dm-model', model, httpOptions);
   }
 
   public getDataSetsList(id): Observable<any> {

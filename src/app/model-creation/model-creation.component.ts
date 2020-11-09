@@ -27,6 +27,8 @@ import { DmModel } from '../shared/dm-model';
 import { of } from 'rxjs';
 import { variable } from '@angular/compiler/src/output/output_ast';
 import { MatTableDataSource } from '@angular/material/table';
+import { Algorithm } from '../shared/algorithm';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-model-creation',
@@ -60,17 +62,37 @@ export class ModelCreationComponent implements OnInit {
     {value: 'set_median', viewValue: 'Set median'},
     {value: 'set_specific', viewValue: 'Set specific'},
   ];
-  selectedOperation;
 
+  selectedOperation;
   componentDirection: string;
   featureSetVariables;
   isDisabled: boolean;
+  selectedAlgorithm = new Algorithm();
+  usecaseType: string;
+
+  associationAlgoritms: any[] = [
+    {value: 'arl_brute_force', viewValue: 'Brute Force Association Rule Algorithm'},
+    {value: 'arl_apriori', viewValue: 'Apriori Association Rule Algorithm'},
+    {value: 'arl_eclat', viewValue: 'Eclat Association Rule Algorithm'},
+    {value: 'arl_fpgrowth', viewValue: 'SetFP Growth Association Rule Algorithm'},
+  ];
+
+  classificationAlgorithms: any[] = [
+    {value: 'classification_svm', viewValue: 'Support Vector Machine Classification Algorithm'},
+    {value: 'classification_logistic_regression', viewValue: 'Logistic Regression Classification Algorithm'},
+    {value: 'classification_decision_tree', viewValue: 'Decision Tree Classification Algorithm'},
+    {value: 'classification_random_forest', viewValue: 'Random Forest Classification Algorithm'},
+    {value: 'classification_gbt', viewValue: 'Gradient Boosted Tree Classification Algorithm'},
+    {value: 'classification_naive_bayes', viewValue: 'Naive Bayes Classification Algorithm'},
+    {value: 'classification_knn', viewValue: 'K-Nearest Neighbours Classification Algorithm'}
+  ];
 
   constructor(
     private backendService: BackendService,
     private localStorage: LocalStorageService,
     private userCommunication: UserCommunicationService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
     ) {}
 
 
@@ -90,7 +112,7 @@ export class ModelCreationComponent implements OnInit {
       description: ['',  Validators.required],
     });
     this.formGroup2 = this.formBuilder.group({
-      formGroup2: ['', Validators.required]
+      dataset: ['', Validators.required]
     });
     this.formGroup3 = this.formBuilder.group({
       formGroup3: ['', Validators.required]
@@ -100,11 +122,13 @@ export class ModelCreationComponent implements OnInit {
       missing_data_operation: ['']
     });
     this.formGroup5 = this.formBuilder.group({
-      formGroup5: ['', Validators.required]
+      algorithm: ['', Validators.required]
+
     });
     this.formGroup6 = this.formBuilder.group({
-      formGroup5: ['', Validators.required]
+      formGroup6: ['', Validators.required]
     });
+
     if (history.state.selectedModel) {
       this.onSeeModel();
       this.formGroup1.disable();
@@ -113,7 +137,9 @@ export class ModelCreationComponent implements OnInit {
     } else {
       this.isDisabled = false;
       this.componentDirection = 'Model creation';
+      this.getUseCaseType(this.localStorage.projectId);
     }
+
   }
 
   getDataSets(): void {
@@ -121,6 +147,7 @@ export class ModelCreationComponent implements OnInit {
       (datasets) => {
         console.log(datasets);
         this.datasetSelectionDataSource = datasets;
+
       },
       (err) => {
         this.backendService.handleError('home', err);
@@ -130,6 +157,7 @@ export class ModelCreationComponent implements OnInit {
 
   onSeeModel(): void {
     this.getModel(history.state.selectedModel).subscribe(data => {
+      console.log('EXISTING MODEL: ', data);
       this.newDMModel = data;
       this.formGroup1.get('name').setValue(this.newDMModel.name);
       this.formGroup1.get('description').setValue(this.newDMModel.description);
@@ -175,6 +203,7 @@ export class ModelCreationComponent implements OnInit {
   }
 
   selectDataSet(dataSet): void {
+    this.formGroup2.get('dataset').setValue(dataSet);
     this.missingDataDataSource = [];
     this.categorigalVariablesDataSource = [];
     dataSet.featureset.variables.forEach(element => {
@@ -192,5 +221,45 @@ export class ModelCreationComponent implements OnInit {
     });
   }
 
+  getUseCaseType(id: string): void {
+    this.backendService.getUseCase(id).subscribe(
+      (usecase) => {
+        console.log('usecase: ', usecase);
+        this.usecaseType = usecase.project_type;
+      });
+  }
+
+  onSave(): void {
+
+    Object.keys(this.formGroup1.controls).forEach(key => {
+      this.newDMModel[key] = this.formGroup1.get(key).value;
+    });
+
+    this.newDMModel.dataset = this.formGroup2.get('dataset').value;
+    this.newDMModel.algorithms = [];
+    this.newDMModel.algorithms.push(this.selectedAlgorithm);
+    this.newDMModel.created_by = '1903';
+    this.newDMModel.project_id = this.localStorage.projectId;
+
+    console.log('new model: ', this.newDMModel);
+
+    this.backendService.saveModel(this.newDMModel).subscribe(
+      (response) => {
+        console.log('New model creation answer received! ', response);
+        this.userCommunication.createMessage('snack-bar-success', 'Model "' + response.name + '" created successfully')
+        this.router.navigate(['/mdashboard']);
+      },
+
+      (err) => {
+        this.backendService.handleError('home', err);
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'New model creation failed!');
+      }
+    );
+  }
+
+  onChangeAlgorithm(value ): void {
+    this.selectedAlgorithm = new Algorithm();
+    this.selectedAlgorithm.name = value;
+  }
 
 }

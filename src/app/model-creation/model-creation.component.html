@@ -31,20 +31,11 @@
         <ng-template matStepLabel>Data set selection</ng-template>
           <table mat-table [dataSource]="datasetSelectionDataSource" class="mat-elevation-z8">
           
-         <!--   <ng-container matColumnDef="select">
-              <mat-header-cell *matHeaderCellDef></mat-header-cell> 
-              <mat-cell *matCellDef="let element">
-                <mat-radio-group [(ngModel)]="selectedDatasetRow">
-                  <mat-radio-button [value]="element"></mat-radio-button>
-                </mat-radio-group>
-              </mat-cell>
-            </ng-container>
--->
             <!-- Radio button Column -->
             <ng-container matColumnDef="select">
               <th mat-header-cell *matHeaderCellDef>
               </th>
-              <td mat-cell *matCellDef="let row">
+              <td mat-cell *matCellDef="let row" >
                 <mat-radio-button [value]="row" (change)="selectDataSet(row)" [disabled]="isDisabled"></mat-radio-button>
               </td>
             </ng-container>
@@ -172,6 +163,20 @@
       <form [formGroup]="formGroup5">
         <ng-template matStepLabel>Algorithm selection</ng-template>
 
+          <mat-form-field appearance="fill">
+            <mat-label>Algorithm</mat-label>
+            <mat-select *ngIf="usecaseType === 'prediction'" formControlname="algorithm" name="algorithmName" (selectionChange)="onChangeAlgorithm($event.value)">
+              <mat-option *ngFor="let algName of classificationAlgorithms" [value]="algName.value">
+                {{algName.viewValue}}
+              </mat-option>
+            </mat-select>
+            <mat-select *ngIf="usecaseType === 'association'" formControlname="algorithm" name="algorithmName" (selectionChange)="onChangeAlgorithm($event.value)">
+              <mat-option *ngFor="let algName of associationAlgoritms" [value]="algName.value">
+                {{algName.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <br>
         <div>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>
@@ -185,6 +190,7 @@
         <div>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button (click)="stepper.reset()">Reset</button>
+          <button mat-button (click)="onSave()">Save</button>
         </div>
       </form>
     </mat-step>
