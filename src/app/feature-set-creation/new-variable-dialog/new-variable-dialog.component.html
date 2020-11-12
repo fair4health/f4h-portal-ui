@@ -14,7 +14,7 @@
   <br>
   <mat-form-field appearance="fill">
     <mat-label>FHIR Query</mat-label>
-    <input matInput [(ngModel)]="data.fhir_query">
+    <input matInput [(ngModel)]="data.fhir_query" [pattern]="pattern">
   </mat-form-field>
   <br>
 
