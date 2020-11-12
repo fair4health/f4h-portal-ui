@@ -99,7 +99,7 @@
           <div class="form-fields-group">
             <mat-form-field appearance="fill">
               <mat-label>Search query</mat-label>
-              <input matInput placeholder="Search query" [(ngModel)]='newElegibilityCriteria.fhir_query' formControlName="formGroup3">
+              <input matInput placeholder="Search query" [pattern]="pattern" [(ngModel)]='newElegibilityCriteria.fhir_query' formControlName="formGroup3">
             </mat-form-field>
             <mat-form-field appearance="fill">
               <mat-label>FHIR Path</mat-label>

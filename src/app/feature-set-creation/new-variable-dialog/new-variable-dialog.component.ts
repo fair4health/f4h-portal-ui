@@ -11,12 +11,14 @@ import { Variable } from '../../shared/variable';
 export class NewVariableDialogComponent implements OnInit {
 
   fhirpathInputType = '1';
+  pattern = '^\/[?a-zA-Z0-9]+?[a-zA-Z0-9._%+-:=]{1,100}$';
 
   constructor(
     public dialogRef: MatDialogRef<NewVariableDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Variable) {}
 
   ngOnInit(): void {
+    console.log('pattern', this.pattern);
   }
 
   onNoClick(): void {

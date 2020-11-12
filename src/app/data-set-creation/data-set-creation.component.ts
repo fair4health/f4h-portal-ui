@@ -56,6 +56,7 @@ export class DataSetCreationComponent implements OnInit {
   componentDirection: string;
 
   isDisabled: boolean;
+  pattern = '^\/[?a-zA-Z0-9]+?[a-zA-Z0-9._%+-:=]{1,100}$';
 
   constructor(
     private formBuilder: FormBuilder,
