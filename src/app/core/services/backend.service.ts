@@ -210,4 +210,26 @@ export class BackendService {
     console.log('featureset: ', featureSet)
     return this.httpClient.post(environment.restApiPPDDM + 'manager/featureset', featureSet, httpOptions);
   }
+
+  // prospective study service methods
+
+  predict(prediction): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+
+    console.log('prediction service: ', prediction)
+    return this.httpClient.post(environment.restApiPPDDM + 'manager/predict', prediction, httpOptions);
+  }
+
+  getProspectiveStudies(): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    return this.httpClient.get(environment.restApiPPDDM + 'manager/prospective', httpOptions);
+  }
 }

@@ -1,0 +1,87 @@
+input, mat-form-field {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+}
+
+
+.predict-button {
+    background-color: #6db044;
+}
+
+.form-prediction {
+    border: grey solid 1px;
+    width: 50%;
+    height: auto;
+    background-color: white;
+    float: left;
+}
+
+.pred-button-panel {
+    width: 20%;
+    text-align: center;
+    margin: auto;
+}
+
+.prediction-panel {
+    border: grey solid 1px;
+    background-color: white;
+    width: 30%;
+    height: 300px;
+    float: right;
+    text-align: center;
+    margin: auto;
+}
+
+.prediction-result {
+  font-size: 8em;
+}
+
+.prediction-input {
+  width: 50%;
+  width: 60%;
+}
+
+.prediction-label{
+  padding: 2%;
+  font-weight: bold;
+  width: 30%;
+  text-align: end;
+}
+
+.prediction-form {
+  display: flex;
+}
+
+.prediction-radio-button {
+  margin: 3%;
+}
+
+.upload-panel {
+  height: 300px;
+  width: 100%;
+  text-align: center;
+  margin: auto;
+  overflow: auto;
+}
+
+.uploadOption {
+  text-align: center;
+  margin: auto;
+}
+
+.upload-icon {
+  font-size: 200px !important;
+}
+
+.table-head-variable {
+  width: 200px;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  padding: 10px;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}

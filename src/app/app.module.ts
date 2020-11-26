@@ -89,6 +89,8 @@ import { CoverPageComponent } from './cover-page/cover-page.component';
 import { LogoutDialogComponent } from './header/logout-dialog/logout-dialog.component';
 import { NewVariableDialogComponent } from './feature-set-creation/new-variable-dialog/new-variable-dialog.component';
 import { UseCaseCreationComponent } from './usecase-creation/usecase-creation.component';
+import { ProspectiveStudyComponent } from './prospective-study/prospective-study.component';
+import { ProspectiveStudyCreationComponent } from './prospective-study-creation/prospective-study-creation.component';
 
 @NgModule({
   declarations: [
@@ -110,6 +112,8 @@ import { UseCaseCreationComponent } from './usecase-creation/usecase-creation.co
     LogoutDialogComponent,
     NewVariableDialogComponent,
     UseCaseCreationComponent,
+    ProspectiveStudyComponent,
+    ProspectiveStudyCreationComponent,
   ],
   imports: [
     CoreModule,
