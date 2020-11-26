@@ -1,0 +1,247 @@
+<div class="nav-path">
+  <a mat-button [routerLink]="['/uclist']">Home</a>>>
+  <a mat-button [routerLink]="['/ucmenu']">Use case</a>>>
+  <a mat-button [routerLink]="['/psdashboard']">Prospective Study management</a>>>
+  <a mat-button color="primary">Create Study management</a>
+</div>
+
+<mat-divider></mat-divider>
+<br>
+
+<div class="content">
+
+  <!-- steper: define the 3 sections of the form. -->
+  <mat-horizontal-stepper [linear]="false" #stepper>
+
+    <!-- first step Name and Description. -->
+    <mat-step [stepControl]="formGroup1">
+
+      <!-- first form: name and description. -->
+      <form [formGroup]="formGroup1">
+        <ng-template matStepLabel>Name & Description</ng-template>
+
+          <!-- name input -->
+          <mat-form-field appearance="fill">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Data set name" formControlName="name" required>
+          </mat-form-field>
+          <br>
+
+          <!-- description input -->
+          <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="Description"  formControlName="description" required>
+          </mat-form-field>
+
+          <!-- next button: go to the second step: model section -->
+          <div>
+            <button mat-button matStepperNext color="primary">Next</button>
+          </div>
+      </form> 
+    </mat-step>
+
+    <!-- second step: Model section -->
+    <mat-step [stepControl]="formGroup2">
+
+      <!-- second form: table of models and select a model -->
+      <form [formGroup]="formGroup2">
+        <ng-template matStepLabel>Model Selection</ng-template>
+
+        <!-- table of the models -->
+        <table mat-table class="mat-elevation-z8" [dataSource]="models">
+
+          <ng-container matColumnDef="sel">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let row">
+              <mat-radio-button [value]="row" (change)="onSelectModel($event)"></mat-radio-button>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="algorithm">
+            <th mat-header-cell *matHeaderCellDef>Algorithm</th>
+            <td mat-cell *matCellDef="let element"> 
+              <p *ngFor="let algorithm of element.algorithms">
+                {{algorithm.name}} 
+              </p>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="data_source">
+            <th mat-header-cell *matHeaderCellDef>Data Source</th>
+            <td mat-cell *matCellDef="let element"> {{element.dataset.name}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="created_by">
+            <th mat-header-cell *matHeaderCellDef>Created by</th>
+            <td mat-cell *matCellDef="let element"> {{element.created_by}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="creation_time">
+            <th mat-header-cell *matHeaderCellDef>Creation time</th>
+            <td mat-cell *matCellDef="let element"> {{element.created_on}} </td> 
+          </ng-container>
+
+          <ng-container matColumnDef="see_details">
+            <th mat-header-cell *matHeaderCellDef> See details </th>
+            <td mat-cell *matCellDef="let element"> <a (click)='onSeeModel(element)'>
+              <mat-icon>find_in_page</mat-icon></a> 
+            </td>
+          </ng-container>
+            
+          <tr mat-header-row *matHeaderRowDef="modelTableColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: modelTableColumns;"></tr>
+        </table>
+
+        <div>
+          <button mat-button matStepperPrevious color="primary" >Back</button>
+          <button mat-button matStepperNext color="primary">Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+
+    <!-- Prediction step -->
+    <mat-step [stepControl]="formGroup3">
+      <form [formGroup]="formGroup3">
+        <ng-template matStepLabel>Prediction</ng-template>
+
+          <!-- container of the 3 subsection of prediction-->
+          <mat-accordion>
+
+            <!-- -->
+            <mat-expansion-panel hideToggle>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Make prediction for a patient
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+
+              <div style="display: flex;">
+                <div class="form-prediction">
+
+                  <div *ngFor="let variable of variablesDataSet" class="prediction-form">
+
+                    <div class="prediction-label">
+                      <mat-label class="pred-label">{{variable.name}}:</mat-label>
+                    </div>
+
+                    <div class="prediction-input">
+                      <mat-form-field *ngIf="variable.variable_data_type === 'categorical'" appearance="legacy" class="pred-input">
+                        <input matInput placeholder="Text" [formControlName]="variable.name">
+                      </mat-form-field>
+  
+                      <mat-radio-group
+                      *ngIf="variable.variable_data_type === 'numeric' && variable.fhir_path === 'value:exists'"
+                      aria-labelledby="example-radio-group-label"
+                      class="example-radio-group"
+                      [formControlName]="variable.name">
+
+                        <mat-radio-button class="prediction-radio-button" value="1">
+                          yes
+                        </mat-radio-button>
+
+                        <mat-radio-button class="prediction-radio-button" value="0">
+                          no
+                        </mat-radio-button>
+
+                      </mat-radio-group>
+  
+                      <mat-form-field *ngIf="variable.variable_data_type === 'numeric' && variable.fhir_path != 'value:exists'" appearance="legacy" class="pred-input">
+                        <input matInput placeholder="Number" type="number" [formControlName]="variable.name">
+                      </mat-form-field>
+                    </div>
+
+                  </div>
+
+                </div>
+    
+                <div class="pred-button-panel">
+                  <button mat-raised-button color="primary" class="predict-button" (click)="onPredict()">
+                      Predict
+                  </button>
+                </div>
+    
+                <div class="prediction-panel">
+                  <div>
+                    <h1>Prediction</h1>
+                    <p class="prediction-result" [ngStyle]="{'color': predcolor}">
+                      {{predicrionResult}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                Make prediction for list of patients
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p>List of patients prediction</p>
+
+                        <div class="upload-panel">
+
+                          <div *ngIf="!patientsPredictions" class="uploadOption">
+                            <mat-icon class="upload-icon" aria-hidden="false" aria-label="Example backup icon">backup</mat-icon>
+                          
+                            <input type="file" #csvReader name="Upload CSV" 
+                                    id="txtFileUpload" (change)="uploadpatientFile($event)" accept=".csv" />
+  
+                          </div>
+                          
+                          <div *ngIf="patientsPredictions">
+                            <table mat-table class="mat-elevation-z8" [dataSource]="patientsPredictions">
+                              <ng-container [matColumnDef]="column" *ngFor="let column of patientsPredictionsColumns[0]">
+                                <th mat-header-cell *matHeaderCellDef class="table-head-variable"> {{column}} </th>
+                                <td mat-cell *matCellDef="let element" >
+                                   {{element[column]}}
+                                </td>
+                                
+
+                              </ng-container>
+                                
+                                <tr mat-header-row *matHeaderRowDef="patientsPredictionsColumns[0]"></tr>
+                                <tr mat-row *matRowDef="let row; columns: patientsPredictionsColumns[0];"></tr>
+                            </table>
+                          </div>
+
+                        </div>
+                    </mat-expansion-panel>
+
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                See all predictions
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                      
+
+                    </mat-expansion-panel>
+
+                  </mat-accordion>
+                  
+                <div>
+                    <button mat-button matStepperPrevious color="primary" >Back</button>
+                    <button mat-button color="primary" (click)="onSave()">Save</button>
+                </div>
+            </form>
+
+        </mat-step>
+
+    </mat-horizontal-stepper>
+
+    <!-- final of stepper -->
+
+</div>

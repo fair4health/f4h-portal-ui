@@ -56,16 +56,22 @@ export class DataSetDashboardComponent implements OnInit {
         console.log(datasetsList);
         datasetsList.forEach(element => {
           let datasetSourcesList = '';
+          console.log('element.datasources', element.dataset_sources);
+          console.log('datasource: ', element);
           element.dataset_sources.forEach(innerElement => {
-            datasetSourcesList = datasetSourcesList + innerElement.data_source.name + ' ';
+            console.log('innerElement', innerElement)
+           // datasetSourcesList = datasetSourcesList + innerElement.data_source.name + ' ';
           });
           element.dataset = datasetSourcesList;
 
           if (element.execution_state === 'final') {
             this.dataSourceReady.push(element);
+            console.log('datasource: ', this.dataSourceReady);
           } else {
             this.dataSourceInProgress.push(element);
+            console.log('datasource: ', this.dataSourceInProgress);
           }
+          
           console.log('Source updated in table sources. ' + this.dataSourceReady.length + ' and ' + this.dataSourceInProgress.length + ' rows');
         });
         if (this.table.first) {
@@ -74,6 +80,8 @@ export class DataSetDashboardComponent implements OnInit {
         if (this.table.last) {
           this.table.last.renderRows();
         }
+
+        
       },
       (err) => {
         this.backendService.handleError('home', err);

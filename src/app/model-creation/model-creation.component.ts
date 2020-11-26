@@ -240,6 +240,8 @@ export class ModelCreationComponent implements OnInit {
     this.newDMModel.algorithms.push(this.selectedAlgorithm);
     this.newDMModel.created_by = '1903';
     this.newDMModel.project_id = this.localStorage.projectId;
+    this.newDMModel.training_size = 0.7;
+    this.newDMModel.test_size = 0.3;
 
     console.log('new model: ', this.newDMModel);
 

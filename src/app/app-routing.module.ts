@@ -34,6 +34,8 @@ import { DataSetDashboardComponent } from './data-set-dashboard/data-set-dashboa
 import { ModelDashboardComponent } from './model-dashboard/model-dashboard.component';
 import { ModelCreationComponent } from './model-creation/model-creation.component';
 import { UseCaseCreationComponent } from './usecase-creation/usecase-creation.component';
+import { ProspectiveStudyComponent } from './prospective-study/prospective-study.component';
+import { ProspectiveStudyCreationComponent } from './prospective-study-creation/prospective-study-creation.component';
 
 const routes: Routes = [
   { path: '', component: CoverPageComponent},
@@ -49,6 +51,8 @@ const routes: Routes = [
   { path: 'dsdetails', component: DataSetCreationComponent},
   { path: 'mdashboard', component: ModelDashboardComponent},
   { path: 'mcreation', component: ModelCreationComponent},
+  { path: 'psdashboard', component: ProspectiveStudyComponent},
+  { path: 'pscreation', component: ProspectiveStudyCreationComponent},
 
   { path: 'usecase', component: UsecaseComponent },
   { path: 'newusecase', component: NewusecaseComponent },
