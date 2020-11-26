@@ -65,10 +65,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     }
 
     getModels(): void {
-      //  console.log('Project id: ', this.localStorage.projectId);
         this.backendService.getModels(this.projectId).subscribe(
             (models) => {
-                console.log('received models: ', models);
                 this.models = models;
             }
         );
@@ -93,8 +91,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         this.variables = {
 
         };
-        this.variables['variables'] = [];
-        this.variables['data_mining_model'] = this.selectedModel;
+        this.variables.variables = [];
+        this.variables.data_mining_model = this.selectedModel;
 
         console.log(this.formGroup3)
         Object.keys(this.formGroup3.controls).forEach(key => {
@@ -105,28 +103,25 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 data_type: ''
             };
 
-            this.variable['name'] = key;
-            this.variable['value'] = this.formGroup3.get(key).value;
+            this.variable.name = key;
+            this.variable.value = this.formGroup3.get(key).value;
             this.variablesDataSet.forEach(el => {
               if (el.name === key) {
 
                 if (el.variable_data_type === 'numeric') {
-                  this.variable['value'] = this.variable['value'].toString();
-                  this.variable['data_type'] = 'integer';
+                  this.variable.value = this.variable.value.toString();
+                  this.variable.data_type = 'integer';
                 } else {
-                  this.variable['data_type'] = 'string';
+                  this.variable.data_type = 'string';
                 }
               }
             });
 
-            this.variables['variables'].push(this.variable);
-            this.variables['identifier'] = '1';
+            this.variables.variables.push(this.variable);
+            this.variables.identifier = '1';
         });
 
-        console.log(this.variables);
-
         this.backendService.predict(this.variables).subscribe(data => {
-            console.log(data);
             this.prospectiveStudy.prediction = data;
             this.predicrionResult = data.prediction;
             if (data.prediction === 1) {
@@ -138,7 +133,6 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     }
 
     onSave(): void {
-      console.log(this.formGroup1.get('name'));
       this.prospectiveStudy.data_mining_model = this.selectedModel;
 
       console.log('prospective study to save: ', this.prospectiveStudy);
@@ -153,25 +147,17 @@ export class ProspectiveStudyCreationComponent implements OnInit {
      */
     uploadpatientFile(event): void {
 
-      console.log('lista de variables: ', this.variablesDataSet);
-
-      this.x = true;
       const files = event.srcElement.files;
-      console.log('files: ', files);
-
       const input = event.target;
-      console.log('input: ', input)
+      const reader = new FileReader();
 
-      let reader = new FileReader(); // no hace falta importar
       reader.readAsText(input.files[0]);
       reader.onload = () => {
-        let csvData = reader.result;
-        console.log('csvData: ', csvData);
-        let csvRecordsArray = (<string>csvData).split(/\r\n|\n/);
-        console.log('csvRecordsArray', csvRecordsArray);
+        const csvData = reader.result;
+        const csvRecordsArray = (csvData as string).split(/\r\n|\n/);
 
       //  this.patientsPredictionsColumns = this.getHeaders(csvRecordsArray);
-        let columns = this.getHeaders(csvRecordsArray);
+        const columns = this.getHeaders(csvRecordsArray);
         for (let i = 0; i < this.variablesDataSet.length; i++) {
           if (this.variablesDataSet[i].name === columns[0][i]) {
             this.errorUploadingList = true;
@@ -187,23 +173,17 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.patientsPredictionsColumns.push(element);
           });
 
-        //  console.log('columna: ', this.patientsPredictionsColumns);
-  
           this.patientsPredictions = this.getRecordsFromDocument(csvRecordsArray, columns.length);
-          console.log(this.patientsPredictionsColumns);
-
-        //  console.log(this.patientsPredictions);
-          
 
           for (let i = 0; i < this.patientsPredictions.length; i++) {
             this.variables = {};
-            this.variables['variables'] = [];
-            this.variables['data_mining_model'] = this.selectedModel;
+            this.variables.variables = [];
+            this.variables.data_mining_model = this.selectedModel;
             const element = this.patientsPredictions[i];
 
             Object.keys(this.patientsPredictions[i]).forEach(key => {
 
-              let variable = {
+              const variable = {
                   name: '',
                   value: '',
                   data_type: ''
@@ -214,37 +194,33 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
               this.variablesDataSet.forEach(el => {
                 if (el.name === key) {
-  
+
                   if (el.variable_data_type === 'numeric') {
-                    variable['value'] = variable['value'].toString();
+                    variable.value = variable.value.toString();
                     variable.data_type = 'integer';
                   } else {
                     variable.data_type = 'string';
                   }
                 }
               });
-              this.variables['variables'].push(variable);
+              this.variables.variables.push(variable);
             });
 
-         //   this.variables['variables'] = this.patientsPredictions[i];
-            this.variables['identifier'] = '1';
-            this.variables['data_mining_model'] = this.selectedModel;
+            this.variables.identifier = '1';
+            this.variables.data_mining_model = this.selectedModel;
 
             this.backendService.predict(this.variables).subscribe(
               data => {
-                console.log(data);
-                this.patientsPredictions[i]['prediction'] = data.prediction;
+                this.patientsPredictions[i].prediction = data.prediction;
                 if (data.prediction === 1) {
                   this.predcolor = '#3fc100';
                 } else if (data.prediction === 0) {
                   this.predcolor = '#f83d17';
                 }
               }
-            )
-            
-          }
-          
+            );
 
+          }
 
         } else if (!this.errorUploadingList) {
           this.userCommunication.createMessage(this.userCommunication.ERROR,
@@ -257,14 +233,12 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     getRecordsFromDocument(recordsArray: any, headerLength: any): any {
 
       let object: any = {};
-      let data: any[] = [];
-
-    //  console.log('records array', recordsArray);
-
+      const data: any[] = [];
       const headers = recordsArray[0].split(';');
 
       for (let i = 1; i < recordsArray.length - 1; i++) {
-        const curruntRecord = (<string>recordsArray[i]).split(';');
+        // tslint:disable-next-line: no-angle-bracket-type-assertion
+        const curruntRecord = ( <string> recordsArray[i]).split(';');
 
         headers.forEach(element => {
           object[element] = '';
@@ -284,13 +258,11 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     }
 
     getHeaders(recordsArray): any {
-      let headers = (<string>recordsArray[0]).split(',');
-      let headerArray = [];
-     // console.log(headers)
+      const headers = (recordsArray[0] as string).split(',');
+      const headerArray = [];
       headers.forEach( element => {
         headerArray.push(element.split(';'));
       });
-      console.log('headers array: ', headerArray);
       return headerArray;
     }
 
