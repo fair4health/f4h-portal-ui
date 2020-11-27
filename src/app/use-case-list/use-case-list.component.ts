@@ -64,11 +64,9 @@ export class UseCaseListComponent implements OnInit {
 
   onUseCaseSelected(useCaseSelected: UseCase): void {
     console.log('Use case is selected ' + JSON.stringify(useCaseSelected));
-    if (useCaseSelected.project_type === 'association') {
+    if (useCaseSelected.project_type === 'association' || useCaseSelected.project_type === 'prediction') {
       this.localStorage.setProjectId(useCaseSelected.project_id);
-      this.router.navigate(['/ucmenu']);
-    } else if (useCaseSelected.project_type === 'prediction') {
-      this.localStorage.setProjectId(useCaseSelected.project_id);
+      this.localStorage.setProjectName(useCaseSelected.name);
       this.router.navigate(['/ucmenu']);
     } else {
       console.log('Project type does not match association nor prediction');

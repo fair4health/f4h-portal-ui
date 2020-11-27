@@ -54,6 +54,7 @@ export class DataSetCreationComponent implements OnInit {
   selectedFeatureSetRow;
 
   componentDirection: string;
+  usecaseName: string;
 
   isDisabled: boolean;
   pattern = '^\/[?a-zA-Z0-9]+?[a-zA-Z0-9._%+-:=]{1,100}$';
@@ -71,6 +72,7 @@ export class DataSetCreationComponent implements OnInit {
     this.elegibilityCriteriaList = [];
     this.newDataSet.eligibility_criteria = this.elegibilityCriteriaList;
     this.newElegibilityCriteria = new ElegibilityCriteria();
+    this.usecaseName = this.localStorage.projectName;
 
     this.formGroup1 = this.formBuilder.group({
     //  formGroup1: ['', Validators.required]

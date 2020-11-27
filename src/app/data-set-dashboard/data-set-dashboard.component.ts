@@ -39,6 +39,8 @@ export class DataSetDashboardComponent implements OnInit {
   dataSourceReady = [];
   dataSourceInProgress = [];
 
+  usecaseName: string;
+
   constructor(
     private backendService: BackendService,
     private localStorage: LocalStorageService,
@@ -48,6 +50,7 @@ export class DataSetDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getDataSetsList();
+    this.usecaseName = this.localStorage.projectName;
   }
 
   getDataSetsList(): void {
@@ -71,7 +74,6 @@ export class DataSetDashboardComponent implements OnInit {
             this.dataSourceInProgress.push(element);
             console.log('datasource: ', this.dataSourceInProgress);
           }
-          
           console.log('Source updated in table sources. ' + this.dataSourceReady.length + ' and ' + this.dataSourceInProgress.length + ' rows');
         });
         if (this.table.first) {
@@ -80,8 +82,6 @@ export class DataSetDashboardComponent implements OnInit {
         if (this.table.last) {
           this.table.last.renderRows();
         }
-
-        
       },
       (err) => {
         this.backendService.handleError('home', err);

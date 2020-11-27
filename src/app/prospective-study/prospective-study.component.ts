@@ -13,6 +13,7 @@ export class ProspectiveStudyComponent implements OnInit {
 
   psColumns: string[] = ['name', 'description', 'model', 'data_source', 'n_of_patients', 'created_by', 'creation_time', 'see_details'];
   dataSource = [];
+  usecaseName: string;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -22,6 +23,7 @@ export class ProspectiveStudyComponent implements OnInit {
   ngOnInit(): void {
     console.log('Project ID:', this.localStorage.projectId);
     this.getProspectiveStudies();
+    this.usecaseName = this.localStorage.projectName;
   }
 
   getProspectiveStudies(): void {

@@ -38,6 +38,8 @@ export class ModelDashboardComponent implements OnInit {
   dataSourceReady = [];
   dataSourceInProgress = [];
 
+  usecaseName: string;
+
   constructor(
     private backendService: BackendService,
     private userCommunication: UserCommunicationService,
@@ -47,6 +49,7 @@ export class ModelDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.getModelsList();
+    this.usecaseName = this.localStorage.projectName;
   }
 
   getModelsList(): void {

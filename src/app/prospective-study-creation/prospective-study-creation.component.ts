@@ -46,22 +46,22 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     x = false;
 
     prospectiveStudy: ProspectiveStudy;
-    
+    usecaseName: string;
 
     ngOnInit(): void {
+      this.usecaseName = this.localStorage.projectName;
+      this.prospectiveStudy = new ProspectiveStudy();
+      this.formGroup1 = this.formBuilder.group({
+          name: ['',  Validators.required],
+          description: ['',  Validators.required],
+      });
+      this.formGroup2 = this.formBuilder.group({
+          formGroup2: ['', Validators.required]
+      });
+      this.formGroup3 = this.formBuilder.group({
+      });
 
-        this.prospectiveStudy = new ProspectiveStudy();
-        this.formGroup1 = this.formBuilder.group({
-            name: ['',  Validators.required],
-            description: ['',  Validators.required],
-        });
-        this.formGroup2 = this.formBuilder.group({
-            formGroup2: ['', Validators.required]
-        });
-        this.formGroup3 = this.formBuilder.group({
-        });
-
-        this.getModels();
+      this.getModels();
     }
 
     getModels(): void {

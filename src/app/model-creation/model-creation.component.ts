@@ -46,6 +46,8 @@ export class ModelCreationComponent implements OnInit {
   newDMModel: DmModel;
   selectedDatasetRow;
 
+  usecaseName: string;
+
   datasetSelectionDisplayedColumns: string[] = ['select', 'name', 'description', 'data_sources', 'created_by', 'creation_time', 'details'];
   datasetSelectionDataSource;
 
@@ -105,6 +107,7 @@ export class ModelCreationComponent implements OnInit {
   ngOnInit(): void {
     this.newDMModel = new DmModel();
     this.getDataSets();
+    this.usecaseName = this.localStorage.projectName;
 
     this.formGroup1 = this.formBuilder.group({
       // formGroup1: ['', Validators.required]
