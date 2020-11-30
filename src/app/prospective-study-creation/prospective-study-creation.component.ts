@@ -1,15 +1,10 @@
-
-import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 import { DmModel } from '../shared/dm-model';
 import { ProspectiveStudy } from '../shared/prospectiveStudy';
-import { Variable } from '../shared/variable';
 
 @Component({
   selector: 'app-prospective-study-creation',
@@ -43,10 +38,12 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
     errorUploadingList: boolean;
 
-    x = false;
+    predictionList: any[] = [];
+    predictionColumnsList: string[] = [];
+    variableResultList: any[] = [];
+
 
     prospectiveStudy: ProspectiveStudy;
-    
 
     ngOnInit(): void {
 
@@ -62,6 +59,18 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         });
 
         this.getModels();
+
+        if(history.state.prescriptionStudy) {
+          this.onSelectStudy();
+        }
+    }
+
+    onSelectStudy(){
+      console.log(history.state.prescriptionStudy);
+      let selectedPrescriptionStudy = history.state.prescriptionStudy;
+      this.formGroup1.get('name').setValue(selectedPrescriptionStudy.name);
+      this.formGroup1.get('description').setValue(selectedPrescriptionStudy.description);
+      this.selectedModel = selectedPrescriptionStudy.data_mining_model;
     }
 
     getModels(): void {
@@ -83,8 +92,10 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 this.variablesDataSet.push(element);
 
                 this.formGroup3.addControl(element.name, new FormControl(''));
+                this.predictionColumnsList.push(element.name);
             }
         });
+
     }
 
     onPredict(): void {
@@ -116,35 +127,50 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 }
               }
             });
-
             this.variables.variables.push(this.variable);
             this.variables.identifier = '1';
         });
 
         this.backendService.predict(this.variables).subscribe(data => {
-            this.prospectiveStudy.prediction = data;
             this.predicrionResult = data.prediction;
             if (data.prediction === 1) {
               this.predcolor = '#3fc100';
             } else if (data.prediction === 0) {
               this.predcolor = '#f83d17';
             }
+
+            this.formGroup3.addControl('prediction', new FormControl(''));
+            this.formGroup3.get('prediction').setValue(data.prediction);
+
+            Object.keys(this.formGroup3.controls).forEach(key => {
+              this.formGroup3.get(key).setValue(String(this.formGroup3.get(key).value));
+          });
+
+            this.variableResultList.push(this.formGroup3.value);
+
+            this.predictionList.push(data);
+
         });
     }
 
     onSave(): void {
       this.prospectiveStudy.data_mining_model = this.selectedModel;
+      console.log('form group 1: ',this.formGroup1.value)
+
+      this.prospectiveStudy.name = this.formGroup1.get('name').value;
+      this.prospectiveStudy.description = this.formGroup1.get('description').value;
+      this.prospectiveStudy.created_by = '1903';
+      this.prospectiveStudy.predictions = this.predictionList;
 
       console.log('prospective study to save: ', this.prospectiveStudy);
+
+      this.backendService.onSaveprospectiveStudy(this.prospectiveStudy).subscribe(
+        (data) => {
+          console.log('response: ', data)
+        }
+      );
     }
 
-
-    /**
-     * TODO:
-     * 1- validador de archivo (pasar el array y la posicion [0])
-     * 2 - permitir json y excel
-     * 3 - Crear DTO para la estructura del archivo o de la variable ¿?
-     */
     uploadpatientFile(event): void {
 
       const files = event.srcElement.files;
@@ -174,7 +200,12 @@ export class ProspectiveStudyCreationComponent implements OnInit {
           });
 
           this.patientsPredictions = this.getRecordsFromDocument(csvRecordsArray, columns.length);
-
+          console.log('patients prediction: ', this.patientsPredictions);
+          
+          this.patientsPredictions.forEach(element => {
+           this.variableResultList.push(element);
+          })
+          console.log('--', this.variableResultList);
           for (let i = 0; i < this.patientsPredictions.length; i++) {
             this.variables = {};
             this.variables.variables = [];
@@ -217,6 +248,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 } else if (data.prediction === 0) {
                   this.predcolor = '#f83d17';
                 }
+                this.predictionList.push(data);
               }
             );
 

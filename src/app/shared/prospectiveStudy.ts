@@ -4,7 +4,7 @@ export class ProspectiveStudy {
   project_id: string;
   name: string;
   description: string;
-  prediction: any[];
+  predictions: any[];
   created_by: string;
   data_mining_model: DmModel;
 }

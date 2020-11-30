@@ -206,10 +206,13 @@
                               <ng-container [matColumnDef]="column" *ngFor="let column of patientsPredictionsColumns[0]">
                                 <th mat-header-cell *matHeaderCellDef class="table-head-variable"> {{column}} </th>
                                 <td mat-cell *matCellDef="let element" >
-                                   {{element[column]}}
+                                  
+                                   <div *ngIf="column === 'prediction'">
+                                     <p *ngIf="element[column] === 0" [ngStyle]="{'color': '#f83d17'}">{{element[column]}}</p> 
+                                     <p *ngIf="element[column] === 1" [ngStyle]="{'color': '#3fc100'}">{{element[column]}}</p> 
+                                   </div>
+                                   <p *ngIf="column != 'prediction'" style="color: black;"> {{element[column]}}</p>
                                 </td>
-                                
-
                               </ng-container>
                                 
                                 <tr mat-header-row *matHeaderRowDef="patientsPredictionsColumns[0]"></tr>
@@ -227,6 +230,17 @@
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                       
+                        <table mat-table class="mat-elevation-z8" [dataSource]="variableResultList">
+                          <ng-container [matColumnDef]="column" *ngFor="let column of predictionColumnsList">
+                            <th mat-header-cell *matHeaderCellDef class="table-head-variable"> {{column}} </th>
+                            <td mat-cell *matCellDef="let element" >
+                               <p>  {{element[column]}}</p>
+                            </td>
+                          </ng-container>
+                            
+                            <tr mat-header-row *matHeaderRowDef="predictionColumnsList"></tr>
+                            <tr mat-row *matRowDef="let row; columns: predictionColumnsList;"></tr>
+                        </table>
 
                     </mat-expansion-panel>
 
