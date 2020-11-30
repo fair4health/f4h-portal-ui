@@ -232,4 +232,13 @@ export class BackendService {
     };
     return this.httpClient.get(environment.restApiPPDDM + 'manager/prospective', httpOptions);
   }
+
+  onSaveprospectiveStudy(pospectiveStudy): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    return this.httpClient.post(environment.restApiPPDDM + 'manager/prospective', pospectiveStudy, httpOptions);
+  }
 }

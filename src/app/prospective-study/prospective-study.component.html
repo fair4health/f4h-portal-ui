@@ -13,45 +13,50 @@
 
     <!-- TABLE OF PROSPECTIVE STUDIES -->
     <!-- TODO: poner datasource cuando tenga los datos-->
-    <table mat-table class="mat-elevation-z8">
+    <table mat-table class="mat-elevation-z8" [dataSource]="dataSource">
         <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
-        <!-- <td mat-cell *matCellDef="let element"> {{element.name}} </td> -->
+         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="description">
             <th mat-header-cell *matHeaderCellDef> Description </th>
-            <!-- <td mat-cell *matCellDef="let element"> {{element.name}} </td> -->
+             <td mat-cell *matCellDef="let element"> {{element.description}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="model">
+        <ng-container matColumnDef="data_mining_model">
             <th mat-header-cell *matHeaderCellDef> Model </th>
-            <!-- <td mat-cell *matCellDef="let element"> {{element.name}} </td> -->
+         <td mat-cell *matCellDef="let element"> {{element.data_mining_model.name}} </td>
         </ng-container>
 
         <ng-container matColumnDef="data_source">
             <th mat-header-cell *matHeaderCellDef> Data source </th>
-            <!-- <td mat-cell *matCellDef="let element"> {{element.name}} </td> -->
+           <td mat-cell *matCellDef="let element"> {{element.data_mining_model.dataset.name}} </td> 
         </ng-container>
 
-        <ng-container matColumnDef="n_of_patients">
+        <ng-container matColumnDef="predictions">
             <th mat-header-cell *matHeaderCellDef> # of patients </th>
-            <!-- <td mat-cell *matCellDef="let element"> {{element.name}} </td> -->
+            <td mat-cell *matCellDef="let element"> {{element.predictions.length}} </td>
         </ng-container>
 
         <ng-container matColumnDef="created_by">
             <th mat-header-cell *matHeaderCellDef> Created by </th>
-            <!-- <td mat-cell *matCellDef="let element"> {{element.name}} </td> -->
+            <td mat-cell *matCellDef="let element"> {{element.created_by}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="creation_time">
+        <ng-container matColumnDef="created_on">
             <th mat-header-cell *matHeaderCellDef> Created time </th>
-            <!-- <td mat-cell *matCellDef="let element"> {{element.name}} </td> -->
+            <td mat-cell *matCellDef="let element"> {{element.created_on}} </td>
         </ng-container>
 
         <ng-container matColumnDef="see_details">
-            <th mat-header-cell *matHeaderCellDef> See details </th>
-            <!-- <td mat-cell *matCellDef="let element"> {{element.name}} </td> -->
+
+          <mat-header-cell *matHeaderCellDef>See details</mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-button (click)="showDetails(row)">
+              <mat-icon aria-hidden="false" >visibility</mat-icon>
+            </button>
+          </mat-cell>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="psColumns"></tr>
