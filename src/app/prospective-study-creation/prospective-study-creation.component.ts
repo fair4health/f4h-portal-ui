@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
@@ -16,7 +16,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     constructor(private formBuilder: FormBuilder,
                 private backendService: BackendService,
                 private localStorage: LocalStorageService,
-                private userCommunication: UserCommunicationService) {
+                private userCommunication: UserCommunicationService,
+                private changeDetectorRefs: ChangeDetectorRef) {
                 }
 
     formGroup1: FormGroup;
@@ -42,6 +43,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     predictionColumnsList: string[] = [];
     variableResultList: any[] = [];
 
+    selectedPrescriptionStudy: any;
+
 
     prospectiveStudy: ProspectiveStudy;
 
@@ -60,17 +63,27 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
         this.getModels();
 
-        if(history.state.prescriptionStudy) {
+        if (history.state.prescriptionStudy) {
           this.onSelectStudy();
         }
     }
 
     onSelectStudy(){
       console.log(history.state.prescriptionStudy);
-      let selectedPrescriptionStudy = history.state.prescriptionStudy;
-      this.formGroup1.get('name').setValue(selectedPrescriptionStudy.name);
-      this.formGroup1.get('description').setValue(selectedPrescriptionStudy.description);
-      this.selectedModel = selectedPrescriptionStudy.data_mining_model;
+      this.selectedPrescriptionStudy = history.state.prescriptionStudy;
+      this.formGroup1.get('name').setValue(this.selectedPrescriptionStudy.name);
+      this.formGroup1.get('description').setValue(this.selectedPrescriptionStudy.description);
+      this.selectedModel = this.selectedPrescriptionStudy.data_mining_model;
+      console.log(this.selectedModel);
+      this.selectedModel.dataset.featureset.variables.forEach(element => {
+        if (element.variable_type === 'independent') {
+            this.variablesDataSet.push(element);
+
+            this.formGroup3.addControl(element.name, new FormControl(''));
+            this.predictionColumnsList.push(element.name);
+        }
+      });
+      this.variableResultList = this.selectedPrescriptionStudy.predictions;
     }
 
     getModels(): void {
@@ -146,8 +159,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
               this.formGroup3.get(key).setValue(String(this.formGroup3.get(key).value));
           });
 
-            this.variableResultList.push(this.formGroup3.value);
-
+            this.variableResultList.push(data);
             this.predictionList.push(data);
 
         });
@@ -202,10 +214,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
           this.patientsPredictions = this.getRecordsFromDocument(csvRecordsArray, columns.length);
           console.log('patients prediction: ', this.patientsPredictions);
           
-          this.patientsPredictions.forEach(element => {
-           this.variableResultList.push(element);
-          })
-          console.log('--', this.variableResultList);
+          
+          
           for (let i = 0; i < this.patientsPredictions.length; i++) {
             this.variables = {};
             this.variables.variables = [];
@@ -249,6 +259,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                   this.predcolor = '#f83d17';
                 }
                 this.predictionList.push(data);
+
+                this.variableResultList.push(element);
               }
             );
 
