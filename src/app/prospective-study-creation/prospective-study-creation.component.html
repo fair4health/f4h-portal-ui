@@ -53,8 +53,15 @@
           <ng-container matColumnDef="sel">
             <th mat-header-cell *matHeaderCellDef></th>
             <td mat-cell *matCellDef="let row">
-              <mat-radio-button *ngIf="selectedPrescriptionStudy" [value]="row" (change)="onSelectModel($event)" [checked]="selectedModel.model_id === row.model_id"></mat-radio-button>
-              <mat-radio-button *ngIf="!selectedPrescriptionStudy" [value]="row" (change)="onSelectModel($event)"></mat-radio-button>
+              <div *ngIf="selectedPrescriptionStudy">
+                <mat-radio-button  [value]="row" [checked]="selectedModel.model_id === row.model_id" disabled></mat-radio-button>
+               
+              </div>
+              <div *ngIf="!selectedPrescriptionStudy">
+
+                <mat-radio-button [value]="row" (change)="onSelectModel($event)"></mat-radio-button>
+              </div>
+              
             </td>
           </ng-container>
 
@@ -175,6 +182,7 @@
                 <div class="prediction-panel">
                   <div>
                     <h1>Prediction</h1>
+                    <h3>for {{useCaseName}}</h3>
                     <div *ngIf="predicrionResult == '0'" >
                       <p class="prediction-result" [ngStyle]="{'color': predcolor}">False</p>
                     </div>

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
@@ -17,7 +18,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 private backendService: BackendService,
                 private localStorage: LocalStorageService,
                 private userCommunication: UserCommunicationService,
-                private changeDetectorRefs: ChangeDetectorRef) {
+                private router: Router) {
                 }
 
     formGroup1: FormGroup;
@@ -44,37 +45,41 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     variableResultList: any[] = [];
 
     selectedPrescriptionStudy: any;
+    useCaseName: any;
 
 
     prospectiveStudy: ProspectiveStudy;
 
     ngOnInit(): void {
 
-        this.prospectiveStudy = new ProspectiveStudy();
-        this.formGroup1 = this.formBuilder.group({
-            name: ['',  Validators.required],
-            description: ['',  Validators.required],
-        });
-        this.formGroup2 = this.formBuilder.group({
-            formGroup2: ['', Validators.required]
-        });
-        this.formGroup3 = this.formBuilder.group({
-        });
-
-        this.getModels();
-
-        if (history.state.prescriptionStudy) {
-          this.onSelectStudy();
+      this.backendService.getUseCase(this.projectId).subscribe(
+        data => {
+          this.useCaseName = data.name;
         }
+      );
+      this.prospectiveStudy = new ProspectiveStudy();
+      this.formGroup1 = this.formBuilder.group({
+          name: ['',  Validators.required],
+          description: ['',  Validators.required],
+      });
+      this.formGroup2 = this.formBuilder.group({
+        model: new FormControl('')
+      });
+      this.formGroup3 = this.formBuilder.group({
+      });
+
+      this.getModels();
+
+      if (history.state.prescriptionStudy) {
+        this.onSelectStudy();
+      }
     }
 
-    onSelectStudy(){
-      console.log(history.state.prescriptionStudy);
+    onSelectStudy(): void{
       this.selectedPrescriptionStudy = history.state.prescriptionStudy;
       this.formGroup1.get('name').setValue(this.selectedPrescriptionStudy.name);
       this.formGroup1.get('description').setValue(this.selectedPrescriptionStudy.description);
       this.selectedModel = this.selectedPrescriptionStudy.data_mining_model;
-      console.log(this.selectedModel);
       this.selectedModel.dataset.featureset.variables.forEach(element => {
         if (element.variable_type === 'independent') {
             this.variablesDataSet.push(element);
@@ -84,6 +89,10 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         }
       });
       this.variableResultList = this.selectedPrescriptionStudy.predictions;
+
+      this.formGroup1.disable();
+      this.formGroup2.disable();
+      this.formGroup3.disable();
     }
 
     getModels(): void {
@@ -118,7 +127,6 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         this.variables.variables = [];
         this.variables.data_mining_model = this.selectedModel;
 
-        console.log(this.formGroup3)
         Object.keys(this.formGroup3.controls).forEach(key => {
 
             this.variable = {
@@ -166,19 +174,17 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     }
 
     onSave(): void {
-      this.prospectiveStudy.data_mining_model = this.selectedModel;
-      console.log('form group 1: ',this.formGroup1.value)
 
+      this.prospectiveStudy.data_mining_model = this.selectedModel;
       this.prospectiveStudy.name = this.formGroup1.get('name').value;
       this.prospectiveStudy.description = this.formGroup1.get('description').value;
       this.prospectiveStudy.created_by = '1903';
       this.prospectiveStudy.predictions = this.predictionList;
 
-      console.log('prospective study to save: ', this.prospectiveStudy);
-
       this.backendService.onSaveprospectiveStudy(this.prospectiveStudy).subscribe(
         (data) => {
-          console.log('response: ', data)
+          this.router.navigate(['/psdashboard']);
+          this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Prospective study ' + data.name + ' created correctlly');
         }
       );
     }
@@ -212,10 +218,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
           });
 
           this.patientsPredictions = this.getRecordsFromDocument(csvRecordsArray, columns.length);
-          console.log('patients prediction: ', this.patientsPredictions);
-          
-          
-          
+
+          // tslint:disable-next-line: prefer-for-of
           for (let i = 0; i < this.patientsPredictions.length; i++) {
             this.variables = {};
             this.variables.variables = [];
