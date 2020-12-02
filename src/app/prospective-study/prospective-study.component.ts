@@ -10,10 +10,9 @@ import { LocalStorageService } from '../core/services/local-storage.service';
 })
 export class ProspectiveStudyComponent implements OnInit {
 
-  // variables
-
   psColumns: string[] = ['name', 'description', 'data_mining_model', 'data_source', 'predictions', 'created_by', 'created_on', 'see_details'];
   dataSource = [];
+  useCaseName: string;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -22,6 +21,7 @@ export class ProspectiveStudyComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.useCaseName = this.localStorage.projectName;
     console.log('Project ID:', this.localStorage.projectId);
     this.getProspectiveStudies();
   }

@@ -58,6 +58,8 @@ export class DataSetCreationComponent implements OnInit {
   isDisabled: boolean;
   pattern = '^\/[?a-zA-Z0-9]+?[a-zA-Z0-9._%+-:=]{1,100}$';
 
+  usecasename: string;
+
   constructor(
     private formBuilder: FormBuilder,
     private backendService: BackendService,
@@ -66,6 +68,8 @@ export class DataSetCreationComponent implements OnInit {
     ) {}
 
   ngOnInit(): void {
+
+    this.usecasename = this.localStorage.projectName;
     this.newDataSet = new Dataset();
     this.newDataSet.project_id = this.localStorage.projectId;
     this.elegibilityCriteriaList = [];

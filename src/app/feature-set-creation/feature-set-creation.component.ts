@@ -47,6 +47,7 @@ export class FeatureSetCreationComponent implements OnInit {
   @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['name', 'description', 'variable_type', 'variable_data_type', 'fhir_query', 'fhir_path', 'delete'];
   dataSource = [];
+  usacasename: string;
 
   constructor(
     private router: Router,
@@ -57,6 +58,8 @@ export class FeatureSetCreationComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
+    this.usacasename = this.localStorage.projectName;
 
     if (history.state.selectedFeatureSet) {
       this.fillFields();

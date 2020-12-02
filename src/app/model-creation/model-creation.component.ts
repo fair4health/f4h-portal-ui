@@ -25,8 +25,6 @@ import { UserCommunicationService } from '../core/services/user-communication.se
 
 import { DmModel } from '../shared/dm-model';
 import { of } from 'rxjs';
-import { variable } from '@angular/compiler/src/output/output_ast';
-import { MatTableDataSource } from '@angular/material/table';
 import { Algorithm } from '../shared/algorithm';
 import { Router } from '@angular/router';
 
@@ -69,23 +67,25 @@ export class ModelCreationComponent implements OnInit {
   isDisabled: boolean;
   selectedAlgorithm = new Algorithm();
   usecaseType: string;
+  useCaseName: string;
 
-  associationAlgoritms: any[] = [
-    {value: 'arl_brute_force', viewValue: 'Brute Force Association Rule Algorithm'},
-    {value: 'arl_apriori', viewValue: 'Apriori Association Rule Algorithm'},
-    {value: 'arl_eclat', viewValue: 'Eclat Association Rule Algorithm'},
-    {value: 'arl_fpgrowth', viewValue: 'SetFP Growth Association Rule Algorithm'},
+  algorithmParameterForm: any = [];
+  algorithmsList: any = [];
+
+  algorithms: any[] = [
+    {value: 'arl_prefix_span', viewValue: 'Prefix Span Algorithm', type: ''},
+    {value: 'arl_fpgrowth', viewValue: 'Frequent Pattern Tree Association Rule Algorithm', type: ''},
+    {value: 'classification_svm', viewValue: 'Support Vector Machine Classification Algorithm', type: 'SVM'},
+    {value: 'classification_logistic_regression', viewValue: 'Logistic Regression Classification Algorithm', type: 'logistic_regression'},
+    {value: 'classification_decision_tree', viewValue: 'Decision Tree Classification Algorithm', type: 'decision_tree'},
+    {value: 'classification_gbt', viewValue: 'Gradient Boosted Tree Classification Algorithm', type: 'GBT'},
+    {value: 'classification_naive_bayes', viewValue: 'Naive Bayes Classification Algorithm', type: ''},
+    {value: 'regression_linear', viewValue: 'Linear Regression Algorithm', type: ''},
+    {value: 'regression_decision_tree', viewValue: 'Decision Tree Regression Algorithm', type: 'decision_tree'},
+    {value: 'regression_random_forest', viewValue: 'Random Forest Regression  Algorithm', type: 'random_forest'},
+    {value: 'regression_gbt', viewValue: 'Gradient Boosted Tree Regression Algorithm', type: 'GBT'}
   ];
 
-  classificationAlgorithms: any[] = [
-    {value: 'classification_svm', viewValue: 'Support Vector Machine Classification Algorithm'},
-    {value: 'classification_logistic_regression', viewValue: 'Logistic Regression Classification Algorithm'},
-    {value: 'classification_decision_tree', viewValue: 'Decision Tree Classification Algorithm'},
-    {value: 'classification_random_forest', viewValue: 'Random Forest Classification Algorithm'},
-    {value: 'classification_gbt', viewValue: 'Gradient Boosted Tree Classification Algorithm'},
-    {value: 'classification_naive_bayes', viewValue: 'Naive Bayes Classification Algorithm'},
-    {value: 'classification_knn', viewValue: 'K-Nearest Neighbours Classification Algorithm'}
-  ];
 
   constructor(
     private backendService: BackendService,
@@ -103,6 +103,8 @@ export class ModelCreationComponent implements OnInit {
      *  5 - Algorithm selection.
      */
   ngOnInit(): void {
+
+    this.useCaseName = this.localStorage.projectName;
     this.newDMModel = new DmModel();
     this.getDataSets();
 
@@ -122,7 +124,6 @@ export class ModelCreationComponent implements OnInit {
       missing_data_operation: ['']
     });
     this.formGroup5 = this.formBuilder.group({
-      algorithm: ['', Validators.required]
 
     });
     this.formGroup6 = this.formBuilder.group({
@@ -132,6 +133,7 @@ export class ModelCreationComponent implements OnInit {
     if (history.state.selectedModel) {
       this.onSeeModel();
       this.formGroup1.disable();
+      this.formGroup5.disable();
       this.isDisabled = true;
       this.componentDirection = 'Model edition';
     } else {
@@ -145,7 +147,6 @@ export class ModelCreationComponent implements OnInit {
   getDataSets(): void {
     this.backendService.getDataSetsList(this.localStorage.projectId).subscribe(
       (datasets) => {
-        console.log(datasets);
         this.datasetSelectionDataSource = datasets;
 
       },
@@ -156,35 +157,41 @@ export class ModelCreationComponent implements OnInit {
   }
 
   onSeeModel(): void {
-    this.getModel(history.state.selectedModel).subscribe(data => {
-      console.log('EXISTING MODEL: ', data);
-      this.newDMModel = data;
-      this.formGroup1.get('name').setValue(this.newDMModel.name);
-      this.formGroup1.get('description').setValue(this.newDMModel.description);
-      this.getCategorialVariables();
-      this.getMissingData();
-    });
-  }
 
-  getModel(model): any {
-    return of(model);
+    this.backendService.getModel(history.state.selectedModel.model_id).subscribe(
+      data => {
+        console.log('EXISTING MODEL -->', data)
+        this.newDMModel = data;
+        this.formGroup1.get('name').setValue(this.newDMModel.name);
+        this.formGroup1.get('description').setValue(this.newDMModel.description);
+        this.algorithmsList = data.algorithms;
+        this.getCategorialVariables();
+        this.getMissingData();
+      }
+    );
+
   }
 
   getCategorialVariables(): void {
     this.categorigalVariablesDataSource = [];
-    this.newDMModel.variable_configurations.forEach(element => {
+  /*  this.newDMModel.variable_configurations.forEach(element => {
       if (element.variable.variable_data_type === 'categorical') {
         this.categorigalVariablesDataSource.push(element.variable);
+      }
+    });*/
+
+    this.newDMModel.dataset.featureset.variables.forEach(element => {
+      if (element.variable_data_type === 'categorical') {
+        this.categorigalVariablesDataSource.push(element);
       }
     });
   }
 
   getMissingData(): void {
     this.missingDataDataSource = [];
-    this.newDMModel.variable_configurations.forEach(element => {
+    this.newDMModel.dataset.featureset.variables.forEach(element => {
       this.missingDataDataSource.push(element);
     });
-    console.log('missing data: ', this.missingDataDataSource)
   }
 
   saveOperations(operator, element): void {
@@ -224,7 +231,6 @@ export class ModelCreationComponent implements OnInit {
   getUseCaseType(id: string): void {
     this.backendService.getUseCase(id).subscribe(
       (usecase) => {
-        console.log('usecase: ', usecase);
         this.usecaseType = usecase.project_type;
       });
   }
@@ -237,7 +243,8 @@ export class ModelCreationComponent implements OnInit {
 
     this.newDMModel.dataset = this.formGroup2.get('dataset').value;
     this.newDMModel.algorithms = [];
-    this.newDMModel.algorithms.push(this.selectedAlgorithm);
+    // this.newDMModel.algorithms.push(this.selectedAlgorithm);
+    this.newDMModel.algorithms = this.algorithmsList;
     this.newDMModel.created_by = '1903';
     this.newDMModel.project_id = this.localStorage.projectId;
     this.newDMModel.training_size = 0.7;
@@ -247,8 +254,7 @@ export class ModelCreationComponent implements OnInit {
 
     this.backendService.saveModel(this.newDMModel).subscribe(
       (response) => {
-        console.log('New model creation answer received! ', response);
-        this.userCommunication.createMessage('snack-bar-success', 'Model "' + response.name + '" created successfully')
+        this.userCommunication.createMessage('snack-bar-success', 'Model "' + response.name + '" created successfully');
         this.router.navigate(['/mdashboard']);
       },
 
@@ -259,9 +265,73 @@ export class ModelCreationComponent implements OnInit {
     );
   }
 
-  onChangeAlgorithm(value ): void {
+  onChangeAlgorithm(algorithm): void {
     this.selectedAlgorithm = new Algorithm();
-    this.selectedAlgorithm.name = value;
+    this.selectedAlgorithm.name = algorithm.value;
+    this.formGroup5.reset();
+    this.algorithmParameterForm = [];
+    this.algorithmParameterForm = [
+      {name: 'num_folds', label: 'Value of k in k-fold Cross validation'},
+      {name: 'max_parallelism', label: 'The maximum level of parallelism to evaluate models in parallel.'},
+      {name: 'metric', label: 'Metric to use on Cross validation'},
+    ];
+
+    if (algorithm.type === 'logistic_regression') {
+      this.algorithmParameterForm.push(
+        {name: 'threshold', label: 'Threshold'},
+        {name: 'max_iter', label: 'Maximum number of iterations'},
+        {name: 'reg_param', label: 'Regularization parameter'},
+        {name: 'elasticnet_param', label: 'ElasticNet mixing parameter'},
+      );
+    } else if (algorithm.type === 'SVM'){
+      this.algorithmParameterForm.push(
+        {name: 'max_iter', label: 'Maximum number of iterations'},
+        {name: 'reg_param', label: 'Regularization parameter'}
+      );
+    } else if (algorithm.type === 'decision_tree'){
+      this.algorithmParameterForm.push(
+        {name: 'max_depth', label: 'Maximum depth of a tree'},
+        {name: 'min_info_gain', label: 'For a node to be split further, the split must improve at least this much r'},
+        {name: 'impurity', label: 'The node impurity is a measure of the homogeneity of the labels at the node'},
+        );
+    } else if (algorithm.type === 'GBT'){
+      this.algorithmParameterForm.push(
+        {name: 'max_iter', label: 'Maximum number of iterations'},
+        {name: 'max_depth', label: 'Maximum depth of a tree'},
+        {name: 'min_info_gain', label: 'For a node to be split further, the split must improve at least this much r'},
+        {name: 'feature_subset_strategy', label: 'Number of features to use as candidates for splitting at each tree node. '},
+        );
+    } else if (algorithm.type === 'random_forest'){
+      this.algorithmParameterForm.push(
+        {name: 'max_depth', label: 'Maximum depth of a tree'},
+        {name: 'min_info_gain', label: 'For a node to be split further, the split must improve at least this much r'},
+        {name: 'min_info_gain', label: 'For a node to be split further, the split must improve at least this much r'},
+        {name: 'impurity', label: 'The node impurity is a measure of the homogeneity of the labels at the node'},
+        {name: 'num_trees', label: 'Number of trees in the forest. '},
+        {name: 'feature_subset_strategy', label: 'Number of features to use as candidates for splitting at each tree node.'},
+      );
+    }
+
+    this.algorithmParameterForm.forEach(element => {
+      this.formGroup5.addControl(element.name, new FormControl('', Validators.required));
+    });
+
+  }
+
+  addAlgorithm(): void {
+    this.selectedAlgorithm.parameters = [];
+
+    this.algorithmParameterForm.forEach(element => {
+      this.selectedAlgorithm.parameters.push(
+        {
+          name: element.name,
+          data_type: 'string',
+          value: this.formGroup5.get(element.name).value,
+        }
+      );
+    });
+
+    this.algorithmsList.push(this.selectedAlgorithm);
   }
 
 }

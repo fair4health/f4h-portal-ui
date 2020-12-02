@@ -4,6 +4,7 @@
 
 <mat-divider></mat-divider>
 
+<p><b>Use case: </b> {{useCaseName}}</p>
 
 <div class="content">
 
@@ -163,20 +164,52 @@
       <form [formGroup]="formGroup5">
         <ng-template matStepLabel>Algorithm selection</ng-template>
 
-          <mat-form-field appearance="fill">
-            <mat-label>Algorithm</mat-label>
-            <mat-select *ngIf="usecaseType === 'prediction'" formControlname="algorithm" name="algorithmName" (selectionChange)="onChangeAlgorithm($event.value)">
-              <mat-option *ngFor="let algName of classificationAlgorithms" [value]="algName.value">
-                {{algName.viewValue}}
-              </mat-option>
-            </mat-select>
-            <mat-select *ngIf="usecaseType === 'association'" formControlname="algorithm" name="algorithmName" (selectionChange)="onChangeAlgorithm($event.value)">
-              <mat-option *ngFor="let algName of associationAlgoritms" [value]="algName.value">
-                {{algName.viewValue}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <br>
+          
+
+          <!-- Algorithm section -->
+          <div class="algorithm-section">
+
+            <!-- algorithm definition form -->
+            <div class="algorithm-definition">
+              <mat-form-field appearance="fill">
+                <mat-label>Algorithm</mat-label>
+                <mat-select name="algorithmName" (selectionChange)="onChangeAlgorithm($event.value)" [disabled]="isDisabled">
+                  <mat-option *ngFor="let algName of algorithms" [value]="algName">
+                    {{algName.viewValue}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <br>
+              <mat-form-field *ngFor="let input of algorithmParameterForm" appearance="legacy">
+                <mat-label>{{input.label}}</mat-label>
+                <input matInput [formControlName]="input.name" [disabled]="isDisabled">
+              </mat-form-field>
+              <button [disabled]="isDisabled" mat-raised-button color="primary" class="add-algorithm-btn" (click)="addAlgorithm()"> Add </button>
+            </div>
+
+            <!-- list of algorithms -->
+            <div class="algorithm-list">
+              <div class="algorithm-created" *ngFor="let algorithm of algorithmsList">
+                <div class="alg-label">
+                  <b>Algorithm: </b>
+                </div>
+                <div class="alg-value">
+                  {{algorithm.name}}
+                </div> <br>
+
+                <div *ngFor="let parameter of algorithm.parameters">
+                  <div class="alg-label">
+                    <b>{{parameter.name}}: </b>
+                  </div>
+                  <div class="alg-value">
+                    {{parameter.value}}
+                  </div> <br>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          
         <div>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext>Next</button>

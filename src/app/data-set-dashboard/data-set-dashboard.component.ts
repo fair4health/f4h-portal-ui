@@ -38,6 +38,7 @@ export class DataSetDashboardComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'dataset_sources', 'execution_state', 'created_by', 'created_on', 'details'];
   dataSourceReady = [];
   dataSourceInProgress = [];
+  usacasename: string;
 
   constructor(
     private backendService: BackendService,
@@ -47,6 +48,7 @@ export class DataSetDashboardComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.usacasename = this.localStorage.projectName;
     this.getDataSetsList();
   }
 

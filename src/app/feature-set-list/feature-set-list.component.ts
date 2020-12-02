@@ -33,6 +33,7 @@ export class FeatureSetListComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'description', 'variables', 'created_by', 'created_on', 'details'];
   dataSource = [];
+  usacasename: string;
 
   constructor(
     private backendService: BackendService,
@@ -43,6 +44,7 @@ export class FeatureSetListComponent implements OnInit {
 
     ngOnInit(): void {
       this.getFeatureSetList();
+      this.usacasename = this.localStorage.projectName;
     }
 
     getFeatureSetList(): void {
