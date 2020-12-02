@@ -33,3 +33,49 @@ table {
 .mat-input-element:disabled {
   color: black;
 }
+
+.algorithm-section {
+  display: flex;
+}
+
+.algorithm-definition {
+  width: 65%;
+  float: left;
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 6px;
+  padding: 2%;
+}
+
+.algorithm-list {
+  background-color: violet;
+  width: 25%;
+  padding: 1%;
+  float: right;
+  margin-left: auto;
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 6px;
+}
+
+.algorithm-created {
+  background-color: white;
+  border: 1px solid grey;
+  border-radius: 3px;
+  padding: 1%;
+  box-shadow: 1px 1px 4px grey;
+  margin-bottom: 3%;
+}
+
+.alg-label {
+  float: left;
+}
+
+.alg-value {
+  float: right;
+}
+
+.add-algorithm-btn {
+  background-color: darkslateblue;
+  float: right;
+}

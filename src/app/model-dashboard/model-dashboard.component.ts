@@ -37,6 +37,7 @@ export class ModelDashboardComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'algorithms', 'dataset_sources', 'execution_state', 'created_by', 'created_on', 'details'];
   dataSourceReady = [];
   dataSourceInProgress = [];
+  useCaseName: string;
 
   constructor(
     private backendService: BackendService,
@@ -46,6 +47,7 @@ export class ModelDashboardComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.useCaseName = this.localStorage.projectName;
     this.getModelsList();
   }
 
@@ -53,7 +55,6 @@ export class ModelDashboardComponent implements OnInit {
 
     this.backendService.getModels(this.localStorage.projectId).subscribe(
       (modelslist) => {
-        console.log(modelslist);
         modelslist.forEach(element => {
           let algorithmsList = '';
           element.algorithms.forEach(innerElement => {
@@ -72,7 +73,6 @@ export class ModelDashboardComponent implements OnInit {
           } else {
             this.dataSourceInProgress.push(element);
           }
-          console.log('Model updated in table sources. ' + this.dataSourceReady.length + ' and ' + this.dataSourceInProgress.length + ' rows');
         });
         if (this.table.first) {
           this.table.first.renderRows();

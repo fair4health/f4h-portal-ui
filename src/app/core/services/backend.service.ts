@@ -128,6 +128,16 @@ export class BackendService {
 
   }
 
+  getModel(modelId): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    return this.httpClient.get(environment.restApiPPDDM + 'manager/dm-model/' + modelId, httpOptions);
+
+  }
+
   public saveModel(model): Observable<any> {
 
     const httpOptions = {
@@ -145,7 +155,6 @@ export class BackendService {
         Authorization: 'Bearer anytokenfordemopurpose'
       })
     };
-    console.log('getDataSetsList - manager/dataset?project_id=' + id);
     return this.httpClient.get(environment.restApiPPDDM + 'manager/dataset?project_id=' + id , httpOptions);
     // return this.httpClient.get(environment.restApiUrl + 'manager/dataset');
   }

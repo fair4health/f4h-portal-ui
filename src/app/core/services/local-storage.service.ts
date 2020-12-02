@@ -24,6 +24,7 @@ import { Injectable } from '@angular/core';
 export class LocalStorageService {
 
   projectId: string;
+  projectName: string;
 
   constructor() { }
 
@@ -32,7 +33,13 @@ export class LocalStorageService {
     console.log('A new projectId has been set: ' + projectId);
   }
 
+  setProjectName(projectName): void {
+    this.projectName = projectName;
+    console.log('A new project name: ' + this.projectName);
+  }
+
   reset(): void {
     this.projectId = '';
+    this.projectName = '';
   }
 }
