@@ -96,6 +96,5 @@ export class UseCaseMenuComponent implements OnInit {
   onProspectiveStudy(): void {
     console.log('Prospective study selected');
     this.router.navigate(['/psdashboard']);
-    this.userCommunication.createMessage(this.userCommunication.INFO, 'Prediction Study is under construction');
   }
 }
