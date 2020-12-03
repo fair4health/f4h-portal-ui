@@ -88,6 +88,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.predictionColumnsList.push(element.name);
         }
       });
+      this.predictionColumnsList.push('prediction');
       this.variableResultList = this.selectedPrescriptionStudy.predictions;
 
       this.formGroup1.disable();

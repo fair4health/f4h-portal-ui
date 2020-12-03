@@ -222,8 +222,8 @@
                                 <td mat-cell *matCellDef="let element" >
                                   
                                    <div *ngIf="column === 'prediction'">
-                                     <p *ngIf="element[column] === 0" [ngStyle]="{'color': '#f83d17'}">{{element[column]}}</p> 
-                                     <p *ngIf="element[column] === 1" [ngStyle]="{'color': '#3fc100'}">{{element[column]}}</p> 
+                                     <p *ngIf="element[column] === 0" [ngStyle]="{'color': '#f83d17'}">False</p> 
+                                     <p *ngIf="element[column] === 1" [ngStyle]="{'color': '#3fc100'}">True</p> 
                                    </div>
                                    <p *ngIf="column != 'prediction'" style="color: black;"> {{element[column]}}</p>
                                 </td>
@@ -251,6 +251,14 @@
                             <td mat-cell *matCellDef="let element" >
                               <div *ngFor="let elem of element.variables">
                                 <p *ngIf="elem.name === column">{{elem.value}}</p>
+                              </div>
+                              <div *ngIf="column === 'prediction'">
+                                <p *ngIf="element.prediction === 0" style="color: #f83d17;">
+                                  False
+                                </p>
+                                <p *ngIf="element.prediction === 1" style="color: #3fc100;">
+                                  True
+                                </p>
                               </div>
                             </td>
                           </ng-container>
