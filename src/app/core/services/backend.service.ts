@@ -159,6 +159,15 @@ export class BackendService {
     // return this.httpClient.get(environment.restApiUrl + 'manager/dataset');
   }
 
+  public getDataSet(datasetId): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        Authorization: 'Bearer anytokenfordemopurpose'
+      })
+    };
+    return this.httpClient.get(environment.restApiPPDDM + 'manager/dataset/' + datasetId , httpOptions);
+  }
+
   public getFeatureList(): Observable<any> {
     // TO DO Update this api method with a real one based on featureset
     const httpOptions = {

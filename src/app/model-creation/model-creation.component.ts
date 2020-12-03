@@ -213,12 +213,16 @@ export class ModelCreationComponent implements OnInit {
     this.formGroup2.get('dataset').setValue(dataSet);
     this.missingDataDataSource = [];
     this.categorigalVariablesDataSource = [];
-    dataSet.featureset.variables.forEach(element => {
+    /* dataSet.featureset.variables.forEach(element => {
       this.missingDataDataSource.push({
         encoding_type: element.variable_data_type,
         missing_data_operation: '',
         variable: element
       });
+    });*/
+
+    dataSet.featureset.variables.forEach(element => {
+      this.missingDataDataSource.push(element);
     });
 
     dataSet.featureset.variables.forEach(element => {

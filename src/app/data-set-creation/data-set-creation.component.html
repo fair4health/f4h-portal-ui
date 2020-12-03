@@ -137,9 +137,8 @@
       <form [formGroup]="formGroup4">
         <ng-template matStepLabel>Results & statistics</ng-template>
 
-        <table mat-table [dataSource]="resultsAndStaticsDataSource" async class="mat-elevation-z8">
+      <!-- <table mat-table [dataSource]="resultsAndStaticsDataSource" async class="mat-elevation-z8">
 
-          <!-- Radio button Column -->
 
           <ng-container matColumnDef="state">
             <th mat-header-cell *matHeaderCellDef> State </th>
@@ -164,7 +163,7 @@
             <td mat-cell *matCellDef="let element"> {{element.data_source.endpoint}} </td>
           </ng-container>
 
-        <!--    TODO WHEN GET ALL THE NEEDED DATA TO FILL THIS TABLE -->
+           TODO WHEN GET ALL THE NEEDED DATA TO FILL THIS TABLE -->
         <!--
           <ng-container matColumnDef="age">
             <th mat-header-cell *matHeaderCellDef> Age </th>
@@ -197,9 +196,9 @@
           </ng-container>
         -->
 
-          <tr mat-header-row *matHeaderRowDef="resultsAndStaticsColumns"></tr>
+      <!--    <tr mat-header-row *matHeaderRowDef="resultsAndStaticsColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: resultsAndStaticsColumns;"></tr>
-        </table>
+        </table> -->
 
         <div>
           <button mat-button matStepperPrevious color="primary" >Back</button>
