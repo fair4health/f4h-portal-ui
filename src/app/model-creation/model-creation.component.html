@@ -119,12 +119,12 @@
 
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Variable name </th>
-            <td mat-cell *matCellDef="let element"> {{element.variable.name}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
           </ng-container>
         
           <ng-container matColumnDef="variable_type">
             <th mat-header-cell *matHeaderCellDef> Type </th>
-            <td mat-cell *matCellDef="let element"> {{element.encoding_type}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.variable_data_type}} </td>
           </ng-container>
         
           <ng-container matColumnDef="operation">

@@ -97,6 +97,7 @@ export class DataSetCreationComponent implements OnInit {
     this.getFeatureList();
 
     if (history.state.selectedDataSet) {
+      console.log(history.state.selectedDataSet)
         this.componentDirection = 'Data set edition';
         this.isDisabled = true;
         this.formGroup1.disable();
@@ -151,13 +152,14 @@ export class DataSetCreationComponent implements OnInit {
   }
 
   onSeeDataSet(): void {
-    this.getDataSet(history.state.selectedDataSet).subscribe(x => {
-      this.newDataSet = x;
+    this.backendService.getDataSet(history.state.selectedDataSet.dataset_id).subscribe(data => {
+      console.log('data: ', data);
+      this.newDataSet = data;
       this.formGroup1.get('name').setValue(this.newDataSet.name);
       this.formGroup1.get('description').setValue(this.newDataSet.description);
       this.selectedFeatureSetRow = this.newDataSet.featureset;
       this.elegibilityCriteriaList = this.newDataSet.eligibility_criteria;
-      this.getDataSource(x.dataset_sources);
+      this.getDataSource(data.dataset_sources);
     });
   }
 
@@ -167,6 +169,7 @@ export class DataSetCreationComponent implements OnInit {
 
   // extract data sources to set in the table of results and statistics.
   getDataSource(dataSetSources): void {
+    console.log(dataSetSources)
     this.resultsAndStaticsDataSource = [];
     dataSetSources.forEach(element => {
       this.resultsAndStaticsDataSource.push(element);
