@@ -24,6 +24,7 @@ import { UserCommunicationService } from '../core/services/user-communication.se
 import { LocalStorageService } from '../core/services/local-storage.service';
 
 import { UseCase } from '../shared/use-case';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-use-case-list',
@@ -41,16 +42,22 @@ export class UseCaseListComponent implements OnInit {
     private localStorage: LocalStorageService
     ) { }
 
-  ngOnInit(): void {
+    ngOnInit(): void {
     this.getUseCaseList();
     this.localStorage.reset();
   }
 
-  getUseCaseList(): void {
+  /* Set filter after the view init */
+  applyFilter(event: Event): void {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+   getUseCaseList(): void {
     this.backendService.getUseCaseList().subscribe(
       (usecaselist) => {
         console.log(usecaselist);
-        this.dataSource = usecaselist;
+        this.dataSource = new MatTableDataSource(usecaselist);
       },
       (err) => {
         this.backendService.handleError('home', err);
