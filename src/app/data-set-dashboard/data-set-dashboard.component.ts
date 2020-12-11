@@ -58,10 +58,8 @@ export class DataSetDashboardComponent implements OnInit {
         console.log(datasetsList);
         datasetsList.forEach(element => {
           let datasetSourcesList = '';
-          console.log('element.datasources', element.dataset_sources);
           console.log('datasource: ', element);
           element.dataset_sources.forEach(innerElement => {
-            console.log('innerElement', innerElement)
            // datasetSourcesList = datasetSourcesList + innerElement.data_source.name + ' ';
           });
           element.dataset = datasetSourcesList;

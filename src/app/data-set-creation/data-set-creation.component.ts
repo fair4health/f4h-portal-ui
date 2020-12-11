@@ -16,9 +16,8 @@
  * information in the project root.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
@@ -26,6 +25,8 @@ import { UserCommunicationService } from '../core/services/user-communication.se
 import { Dataset } from '../shared/dataset';
 import { ElegibilityCriteria } from '../shared/elegibility-criteria';
 import { of } from 'rxjs';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+
 
 @Component({
   selector: 'app-data-set-creation',
@@ -33,6 +34,9 @@ import { of } from 'rxjs';
   styleUrls: ['./data-set-creation.component.css']
 })
 export class DataSetCreationComponent implements OnInit {
+
+  @ViewChild(MatTable) table: MatTable<any>;
+
   formGroup1: FormGroup;
   formGroup2: FormGroup;
   formGroup3: FormGroup;
@@ -47,9 +51,12 @@ export class DataSetCreationComponent implements OnInit {
   // Get feature list
   featureSetsDataSource;
   featureSetsDisplayedColumns: string[] = [' ', 'name', 'description', 'numbervariables', 'created_by', 'creation_time', 'select'];
-  resultsAndStaticsColumns: string[] = ['state', 'dataSourceId', 'endpoint', 'name'];
+  resultsAndStaticsColumns: string[] = [];
   // resultsAndStaticsColumns: string[] = ['state', 'dataSourceId', 'n_records', 'age', 'gender', 'smoking_st', 'heart_f', 'n_drugs'];
   resultsAndStaticsDataSource;
+
+  completedData: string[] = [];
+  completeddataTable = new MatTableDataSource(this.completedData);
 
   selectedFeatureSetRow;
 
@@ -98,11 +105,11 @@ export class DataSetCreationComponent implements OnInit {
 
     if (history.state.selectedDataSet) {
       console.log(history.state.selectedDataSet)
-        this.componentDirection = 'Data set edition';
-        this.isDisabled = true;
-        this.formGroup1.disable();
-        this.formGroup3.disable();
-        this.onSeeDataSet();
+      this.componentDirection = 'Data set edition';
+      this.isDisabled = true;
+      this.formGroup1.disable();
+      this.formGroup3.disable();
+      this.onSeeDataSet();
     } else {
       this.isDisabled = false;
       this.componentDirection = 'Data set creation';
@@ -159,6 +166,13 @@ export class DataSetCreationComponent implements OnInit {
       this.formGroup1.get('description').setValue(this.newDataSet.description);
       this.selectedFeatureSetRow = this.newDataSet.featureset;
       this.elegibilityCriteriaList = this.newDataSet.eligibility_criteria;
+      data.dataset_sources.forEach(element => {
+        if (element.selection_status === 'selected') {
+          this.completedData.push(element);
+        }
+      });
+
+      this.completeddataTable = new MatTableDataSource(this.completedData);
       this.getDataSource(data.dataset_sources);
     });
   }
@@ -169,16 +183,29 @@ export class DataSetCreationComponent implements OnInit {
 
   // extract data sources to set in the table of results and statistics.
   getDataSource(dataSetSources): void {
-    console.log(dataSetSources)
+    this.resultsAndStaticsColumns = this.getColumnsDataSource(); // get columns of table
     this.resultsAndStaticsDataSource = [];
     dataSetSources.forEach(element => {
       this.resultsAndStaticsDataSource.push(element);
     });
+    console.log(this.resultsAndStaticsDataSource);
+  }
+
+  getColumnsDataSource(): any {
+    const variablesStringList = [];
+    variablesStringList.push(' ');
+    variablesStringList.push('agent');
+    variablesStringList.push('# of records');
+    this.newDataSet.featureset.variables.forEach(element => {
+      variablesStringList.push(element.name);
+    });
+    console.log('lista de variables: ', variablesStringList);
+    return variablesStringList;
   }
 
   onSaveDataSet(): void {
     if (history.state.selectedDataSet) {
-    //  this.updateDataSet();
+      this.updateDataSet();
     } else {
       this.saveNewDataSet();
     }
@@ -191,9 +218,11 @@ export class DataSetCreationComponent implements OnInit {
     // this is a mock of created_by of data set, it will be removed.
     this.newDataSet['created_by'] = '1903';
     this.backendService.saveDataSet(this.newDataSet.project_id, this.newDataSet).subscribe(data => {
+      this.getDataSource(data.dataset_sources);
       this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
     });
   }
+
 
   updateDataSet(): void {
     Object.keys(this.formGroup1.controls).forEach(key => {
@@ -202,6 +231,24 @@ export class DataSetCreationComponent implements OnInit {
     this.backendService.updateDataSet(this.newDataSet.project_id, this.newDataSet).subscribe( data => {
       this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data + '" created successfully')
     });
+  }
+
+  selectAgent(checked, element): void {
+    this.newDataSet.dataset_sources.forEach(elem => {
+      if (element.agent.agent_id === elem.agent.agent_id) {
+        if (checked) {
+          elem.selection_status = 'selected';
+          this.completedData.push(elem);
+          this.table.renderRows();
+        } else if (!checked) {
+          elem.selection_status = 'discarded';
+          const index = this.completedData.indexOf(elem);
+          this.completedData.splice(index, 1);
+          this.table.renderRows();
+        }
+      }
+    });
+    this.completeddataTable = new MatTableDataSource(this.completedData);
   }
 
 }
