@@ -218,6 +218,82 @@
     </mat-step>
     <mat-step [stepControl]="formGroup6">
       <form [formGroup]="formGroup6">
+        <ng-template matStepLabel>Parameters</ng-template>
+        <div class="params-container">
+
+          <mat-card class="params-card">
+
+            <div calss="grid">
+              <div class="col-1">
+
+                <label class="label-param">Trainig size</label> 
+                <label class="label-param">Validation size</label>
+                <label class="label-param">Test size</label>
+              </div>
+              <div class="col-2">
+                <mat-slider
+                  thumbLabel
+                  tickInterval="10"
+                  min="1"
+                  max="100"
+                  class="slider-btn">
+                </mat-slider>
+
+                <mat-slider
+                  thumbLabel
+                  tickInterval="10"
+                  min="1"
+                  max="100"
+                  class="slider-btn">
+                </mat-slider> 
+
+                <mat-slider
+                  thumbLabel
+                  tickInterval="10"
+                  min="1"
+                  max="100"
+                  class="slider-btn">
+                </mat-slider> 
+
+
+              </div>
+              <div class="col-3">
+                
+              </div>
+
+            </div>
+
+
+
+            
+            
+            <label > resultado</label>
+            <br>
+  
+            
+            
+            <label> resultado</label>
+            <br>
+  
+            
+            
+              <label> resultado</label>
+              <br>
+  
+          </mat-card>
+
+        </div>
+        
+
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="onSave()">Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="formGroup7">
+      <form [formGroup]="formGroup7">
         <ng-template matStepLabel>Generate & Completed</ng-template>
 
         <div>

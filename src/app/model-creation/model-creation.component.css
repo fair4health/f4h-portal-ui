@@ -79,3 +79,30 @@ table {
   background-color: darkslateblue;
   float: right;
 }
+
+.params-card {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.slider-btn {
+  width: 50%;
+}
+
+.grid {
+
+}
+
+.col1 {
+
+}
+
+.col2 {
+  
+}
+
+.col3 {
+  
+}

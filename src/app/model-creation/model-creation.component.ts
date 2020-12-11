@@ -40,6 +40,7 @@ export class ModelCreationComponent implements OnInit {
   formGroup4: FormGroup;
   formGroup5: FormGroup;
   formGroup6: FormGroup;
+  formGroup7: FormGroup;
 
   newDMModel: DmModel;
   selectedDatasetRow;
