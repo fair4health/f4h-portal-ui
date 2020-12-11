@@ -130,6 +130,11 @@ export class ModelCreationComponent implements OnInit {
     this.formGroup6 = this.formBuilder.group({
       formGroup6: ['', Validators.required]
     });
+    this.formGroup6 = this.formBuilder.group({
+      training_size: ['', Validators.required],
+      test_size: ['', Validators.required],
+      validation_size: ['', Validators.required]
+    });
 
     if (history.state.selectedModel) {
       this.onSeeModel();
@@ -252,8 +257,8 @@ export class ModelCreationComponent implements OnInit {
     this.newDMModel.algorithms = this.algorithmsList;
     this.newDMModel.created_by = '1903';
     this.newDMModel.project_id = this.localStorage.projectId;
-    this.newDMModel.training_size = 0.7;
-    this.newDMModel.test_size = 0.3;
+    this.newDMModel.training_size = this.formGroup6.get('training_size').value / 100;
+    this.newDMModel.test_size = this.formGroup6.get('test_size').value / 100;
 
     console.log('new model: ', this.newDMModel);
 

@@ -223,7 +223,7 @@
 
           <mat-card class="params-card">
 
-            <div calss="grid">
+            <div class="grid">
               <div class="col-1">
 
                 <label class="label-param">Trainig size</label> 
@@ -236,7 +236,9 @@
                   tickInterval="10"
                   min="1"
                   max="100"
-                  class="slider-btn">
+                  class="slider-btn"
+                  formControlName="training_size"
+                  name="test_size">
                 </mat-slider>
 
                 <mat-slider
@@ -244,7 +246,8 @@
                   tickInterval="10"
                   min="1"
                   max="100"
-                  class="slider-btn">
+                  class="slider-btn"
+                  formControlName="validation_size">
                 </mat-slider> 
 
                 <mat-slider
@@ -252,34 +255,23 @@
                   tickInterval="10"
                   min="1"
                   max="100"
-                  class="slider-btn">
+                  class="slider-btn"
+                  formControlName="test_size">
                 </mat-slider> 
 
 
               </div>
               <div class="col-3">
-                
+                <label > {{formGroup6.controls.training_size.value / 100}} </label>
+                <br>
+                <label > {{formGroup6.controls.validation_size.value / 100}}</label>
+                <br>
+                <label > {{formGroup6.controls.test_size.value / 100}}</label>
+                <br>
               </div>
 
             </div>
 
-
-
-            
-            
-            <label > resultado</label>
-            <br>
-  
-            
-            
-            <label> resultado</label>
-            <br>
-  
-            
-            
-              <label> resultado</label>
-              <br>
-  
           </mat-card>
 
         </div>
@@ -287,7 +279,7 @@
 
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button matStepperNext (click)="onSave()">Next</button>
+          <button mat-button matStepperNext (click)="onSave()">Save and Next</button>
         </div>
       </form>
     </mat-step>
@@ -299,7 +291,7 @@
         <div>
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button (click)="stepper.reset()">Reset</button>
-          <button mat-button (click)="onSave()">Save</button>
+          <button mat-button>Close</button>
         </div>
       </form>
     </mat-step>

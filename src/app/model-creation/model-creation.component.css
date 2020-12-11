@@ -88,21 +88,26 @@ table {
 }
 
 .slider-btn {
-  width: 50%;
+  width: 100%;
 }
 
 .grid {
-
+  display: flex;
 }
 
-.col1 {
-
+.col-1 {
+  display: grid;
+  text-align: end;
+  width: 20%;
 }
 
-.col2 {
-  
+.col-2 {
+  display: grid;
+  width: 50%;
+  text-align: center;
 }
 
-.col3 {
-  
+.col-3 {
+  display: grid;
+  width: 20%;
 }
