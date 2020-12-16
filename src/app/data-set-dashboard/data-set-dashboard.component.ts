@@ -55,10 +55,8 @@ export class DataSetDashboardComponent implements OnInit {
   getDataSetsList(): void {
     this.backendService.getDataSetsList(this.localStorage.projectId).subscribe(
       (datasetsList) => {
-        console.log(datasetsList);
         datasetsList.forEach(element => {
           let datasetSourcesList = '';
-          console.log('datasource: ', element);
           element.dataset_sources.forEach(innerElement => {
            // datasetSourcesList = datasetSourcesList + innerElement.data_source.name + ' ';
           });
@@ -66,10 +64,8 @@ export class DataSetDashboardComponent implements OnInit {
 
           if (element.execution_state === 'final') {
             this.dataSourceReady.push(element);
-            console.log('datasource: ', this.dataSourceReady);
           } else {
             this.dataSourceInProgress.push(element);
-            console.log('datasource: ', this.dataSourceInProgress);
           }
           
           console.log('Source updated in table sources. ' + this.dataSourceReady.length + ' and ' + this.dataSourceInProgress.length + ' rows');
@@ -85,12 +81,10 @@ export class DataSetDashboardComponent implements OnInit {
       },
       (err) => {
         this.backendService.handleError('home', err);
-        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get data sets list operation failed');
-      });
+         });
   }
 
   onSelectDataSet(selectedDataSet): void {
-    console.log(selectedDataSet);
     // TO DO Feature set details dialog
     // this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
     this.router.navigate(['/dsdetails'], {state: {selectedDataSet}});

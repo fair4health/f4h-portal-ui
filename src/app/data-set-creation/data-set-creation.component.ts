@@ -104,7 +104,6 @@ export class DataSetCreationComponent implements OnInit {
     this.getFeatureList();
 
     if (history.state.selectedDataSet) {
-      console.log(history.state.selectedDataSet)
       this.componentDirection = 'Data set edition';
       this.isDisabled = true;
       this.formGroup1.disable();
@@ -199,7 +198,6 @@ export class DataSetCreationComponent implements OnInit {
     this.newDataSet.featureset.variables.forEach(element => {
       variablesStringList.push(element.name);
     });
-    console.log('lista de variables: ', variablesStringList);
     return variablesStringList;
   }
 
@@ -227,6 +225,12 @@ export class DataSetCreationComponent implements OnInit {
   updateDataSet(): void {
     Object.keys(this.formGroup1.controls).forEach(key => {
       this.newDataSet[key] = this.formGroup1.get(key).value;
+    });
+    console.log('updated data set: ', this.newDataSet);
+    this.newDataSet.dataset_sources.forEach(element => {
+      if (!element.execution_status) {
+          element.execution_status = 'discarded';
+      }
     });
     this.backendService.updateDataSet(this.newDataSet.project_id, this.newDataSet).subscribe( data => {
       this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data + '" created successfully')
