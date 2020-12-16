@@ -24,7 +24,6 @@ import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 
 import { DmModel } from '../shared/dm-model';
-import { of } from 'rxjs';
 import { Algorithm } from '../shared/algorithm';
 import { Router } from '@angular/router';
 
@@ -40,6 +39,7 @@ export class ModelCreationComponent implements OnInit {
   formGroup4: FormGroup;
   formGroup5: FormGroup;
   formGroup6: FormGroup;
+  formGroup7: FormGroup;
 
   newDMModel: DmModel;
   selectedDatasetRow;
@@ -72,7 +72,10 @@ export class ModelCreationComponent implements OnInit {
   algorithmParameterForm: any = [];
   algorithmsList: any = [];
 
-  algorithms: any[] = [
+  statistics: any;
+  statisticsColumns: string[] = ['statistics', 'results'];
+
+  algorithmsX: any[] = [
     {value: 'arl_prefix_span', viewValue: 'Prefix Span Algorithm', type: ''},
     {value: 'arl_fpgrowth', viewValue: 'Frequent Pattern Tree Association Rule Algorithm', type: ''},
     {value: 'classification_svm', viewValue: 'Support Vector Machine Classification Algorithm', type: 'SVM'},
@@ -85,6 +88,8 @@ export class ModelCreationComponent implements OnInit {
     {value: 'regression_random_forest', viewValue: 'Random Forest Regression  Algorithm', type: 'random_forest'},
     {value: 'regression_gbt', viewValue: 'Gradient Boosted Tree Regression Algorithm', type: 'GBT'}
   ];
+
+  algorithms = [];
 
 
   constructor(
@@ -120,16 +125,19 @@ export class ModelCreationComponent implements OnInit {
       formGroup3: ['', Validators.required]
     });
     this.formGroup4 = this.formBuilder.group({
-      // formGroup4: ['', Validators.required]
       missing_data_operation: ['']
     });
     this.formGroup5 = this.formBuilder.group({
-
+    });
+    this.formGroup7 = this.formBuilder.group({
+      formGroup7: ['', Validators.required]
     });
     this.formGroup6 = this.formBuilder.group({
-      formGroup6: ['', Validators.required]
+      training_size: ['', Validators.required],
+      test_size: ['', Validators.required],
+      validation_size: ['', Validators.required]
     });
-
+ 
     if (history.state.selectedModel) {
       this.onSeeModel();
       this.formGroup1.disable();
@@ -139,9 +147,11 @@ export class ModelCreationComponent implements OnInit {
     } else {
       this.isDisabled = false;
       this.componentDirection = 'Model creation';
-      this.getUseCaseType(this.localStorage.projectId);
     }
 
+    this.getUseCaseType(this.localStorage.projectId);
+    this.getAlgoritms();
+   
   }
 
   getDataSets(): void {
@@ -167,18 +177,46 @@ export class ModelCreationComponent implements OnInit {
         this.algorithmsList = data.algorithms;
         this.getCategorialVariables();
         this.getMissingData();
+        if (this.newDMModel['data_mining_state'] === 'ready') {
+          this.getStatistics();
+        }
       }
     );
 
   }
 
+  getStatistics() {
+    console.log(this.newDMModel['boosted_models'])
+    this.newDMModel['boosted_models'].forEach(element => {
+      this.statistics = element.calculated_test_statistics;
+       console.log(this.statistics);
+      //this.statisticsColumns = element
+    });
+  }
+
+  selectBostedModel(boostedModels) {
+    console.log(boostedModels);
+    // bustedModel['selection_status'] = 'selected'
+     this.newDMModel['boosted_models'].forEach(element => {
+       if (boostedModels === element) {
+         console.log('son iwales');
+         element['selection_status'] = 'selected'
+       } else {
+        element['selection_status'] = 'discarded'
+       }
+     });
+
+     this.backendService.updateModel(this.newDMModel['model_id'], this.newDMModel).subscribe(
+        data => {
+          console.log(data);
+          this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Model updated successfully');
+          this.router.navigate(['/mdashboard']);
+       }
+     );
+  }
+
   getCategorialVariables(): void {
     this.categorigalVariablesDataSource = [];
-  /*  this.newDMModel.variable_configurations.forEach(element => {
-      if (element.variable.variable_data_type === 'categorical') {
-        this.categorigalVariablesDataSource.push(element.variable);
-      }
-    });*/
 
     this.newDMModel.dataset.featureset.variables.forEach(element => {
       if (element.variable_data_type === 'categorical') {
@@ -213,13 +251,6 @@ export class ModelCreationComponent implements OnInit {
     this.formGroup2.get('dataset').setValue(dataSet);
     this.missingDataDataSource = [];
     this.categorigalVariablesDataSource = [];
-    /* dataSet.featureset.variables.forEach(element => {
-      this.missingDataDataSource.push({
-        encoding_type: element.variable_data_type,
-        missing_data_operation: '',
-        variable: element
-      });
-    });*/
 
     dataSet.featureset.variables.forEach(element => {
       this.missingDataDataSource.push(element);
@@ -244,22 +275,21 @@ export class ModelCreationComponent implements OnInit {
     Object.keys(this.formGroup1.controls).forEach(key => {
       this.newDMModel[key] = this.formGroup1.get(key).value;
     });
-
     this.newDMModel.dataset = this.formGroup2.get('dataset').value;
     this.newDMModel.algorithms = [];
-    // this.newDMModel.algorithms.push(this.selectedAlgorithm);
     this.newDMModel.algorithms = this.algorithmsList;
     this.newDMModel.created_by = '1903';
     this.newDMModel.project_id = this.localStorage.projectId;
-    this.newDMModel.training_size = 0.7;
-    this.newDMModel.test_size = 0.3;
+    this.newDMModel.training_size = this.formGroup6.get('training_size').value / 100;
+    this.newDMModel.test_size = this.formGroup6.get('test_size').value / 100;
+    this.newDMModel.validation_size = this.formGroup6.get('validation_size').value / 100;
 
     console.log('new model: ', this.newDMModel);
 
     this.backendService.saveModel(this.newDMModel).subscribe(
       (response) => {
         this.userCommunication.createMessage('snack-bar-success', 'Model "' + response.name + '" created successfully');
-        this.router.navigate(['/mdashboard']);
+        this.newDMModel = response;
       },
 
       (err) => {
@@ -271,71 +301,45 @@ export class ModelCreationComponent implements OnInit {
 
   onChangeAlgorithm(algorithm): void {
     this.selectedAlgorithm = new Algorithm();
-    this.selectedAlgorithm.name = algorithm.value;
-    this.formGroup5.reset();
-    this.algorithmParameterForm = [];
-    this.algorithmParameterForm = [
-      {name: 'num_folds', label: 'Value of k in k-fold Cross validation'},
-      {name: 'max_parallelism', label: 'The maximum level of parallelism to evaluate models in parallel.'},
-      {name: 'metric', label: 'Metric to use on Cross validation'},
-    ];
-
-    if (algorithm.type === 'logistic_regression') {
-      this.algorithmParameterForm.push(
-        {name: 'threshold', label: 'Threshold'},
-        {name: 'max_iter', label: 'Maximum number of iterations'},
-        {name: 'reg_param', label: 'Regularization parameter'},
-        {name: 'elasticnet_param', label: 'ElasticNet mixing parameter'},
-      );
-    } else if (algorithm.type === 'SVM'){
-      this.algorithmParameterForm.push(
-        {name: 'max_iter', label: 'Maximum number of iterations'},
-        {name: 'reg_param', label: 'Regularization parameter'}
-      );
-    } else if (algorithm.type === 'decision_tree'){
-      this.algorithmParameterForm.push(
-        {name: 'max_depth', label: 'Maximum depth of a tree'},
-        {name: 'min_info_gain', label: 'For a node to be split further, the split must improve at least this much r'},
-        {name: 'impurity', label: 'The node impurity is a measure of the homogeneity of the labels at the node'},
-        );
-    } else if (algorithm.type === 'GBT'){
-      this.algorithmParameterForm.push(
-        {name: 'max_iter', label: 'Maximum number of iterations'},
-        {name: 'max_depth', label: 'Maximum depth of a tree'},
-        {name: 'min_info_gain', label: 'For a node to be split further, the split must improve at least this much r'},
-        {name: 'feature_subset_strategy', label: 'Number of features to use as candidates for splitting at each tree node. '},
-        );
-    } else if (algorithm.type === 'random_forest'){
-      this.algorithmParameterForm.push(
-        {name: 'max_depth', label: 'Maximum depth of a tree'},
-        {name: 'min_info_gain', label: 'For a node to be split further, the split must improve at least this much r'},
-        {name: 'min_info_gain', label: 'For a node to be split further, the split must improve at least this much r'},
-        {name: 'impurity', label: 'The node impurity is a measure of the homogeneity of the labels at the node'},
-        {name: 'num_trees', label: 'Number of trees in the forest. '},
-        {name: 'feature_subset_strategy', label: 'Number of features to use as candidates for splitting at each tree node.'},
-      );
-    }
-
+    this.algorithmParameterForm = algorithm.parameters;
     this.algorithmParameterForm.forEach(element => {
-      this.formGroup5.addControl(element.name, new FormControl('', Validators.required));
+      this.formGroup5.addControl(element.name, new FormControl(element.value, Validators.required));
     });
-
+    this.selectedAlgorithm = algorithm;
   }
 
   addAlgorithm(): void {
-    this.selectedAlgorithm.parameters = [];
 
-    this.algorithmParameterForm.forEach(element => {
-      this.selectedAlgorithm.parameters.push(
-        {
-          name: element.name,
-          data_type: 'string',
-          value: this.formGroup5.get(element.name).value,
-        }
-      );
+    this.selectedAlgorithm.parameters.forEach(element => {
+      element.value = this.formGroup5.get(element.name).value;
     });
 
     this.algorithmsList.push(this.selectedAlgorithm);
+    delete this.selectedAlgorithm;
+
+  }
+
+  getAlgoritms(): void {
+    this.backendService.getAlgorithms().subscribe(
+      data => {
+        const x = [];
+        x.push(data);
+        if (this.usecaseType === 'prediction') {
+          x[0].forEach(element => {
+            if (element.name.startsWith('classification')) {
+              this.algorithms.push(element);
+            }
+          });
+        } else if (this.usecaseType === 'association') {
+          
+          x[0].forEach(element => {
+            if (element.name.startsWith('arl')) {
+              this.algorithms.push(element);
+            }
+          });
+        }
+      }
+    )
   }
 
 }

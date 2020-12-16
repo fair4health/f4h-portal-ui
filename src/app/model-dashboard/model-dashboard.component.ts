@@ -68,7 +68,7 @@ export class ModelDashboardComponent implements OnInit {
           });
           element.dataset = datasetSourcesList;
 
-          if (element.execution_state === 'final') {
+          if (element.data_mining_state === 'final') {
             this.dataSourceReady.push(element);
           } else {
             this.dataSourceInProgress.push(element);

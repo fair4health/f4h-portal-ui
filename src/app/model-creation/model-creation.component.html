@@ -164,8 +164,6 @@
       <form [formGroup]="formGroup5">
         <ng-template matStepLabel>Algorithm selection</ng-template>
 
-          
-
           <!-- Algorithm section -->
           <div class="algorithm-section">
 
@@ -174,14 +172,14 @@
               <mat-form-field appearance="fill">
                 <mat-label>Algorithm</mat-label>
                 <mat-select name="algorithmName" (selectionChange)="onChangeAlgorithm($event.value)" [disabled]="isDisabled">
-                  <mat-option *ngFor="let algName of algorithms" [value]="algName">
-                    {{algName.viewValue}}
+                  <mat-option *ngFor="let algorithm of algorithms" [value]="algorithm">
+                    {{algorithm.name}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
               <br>
               <mat-form-field *ngFor="let input of algorithmParameterForm" appearance="legacy">
-                <mat-label>{{input.label}}</mat-label>
+                <mat-label>{{input.name}}</mat-label>
                 <input matInput [formControlName]="input.name" [disabled]="isDisabled">
               </mat-form-field>
               <button [disabled]="isDisabled" mat-raised-button color="primary" class="add-algorithm-btn" (click)="addAlgorithm()"> Add </button>
@@ -218,12 +216,120 @@
     </mat-step>
     <mat-step [stepControl]="formGroup6">
       <form [formGroup]="formGroup6">
-        <ng-template matStepLabel>Generate & Completed</ng-template>
+        <ng-template matStepLabel>Parameters</ng-template>
+        <div class="params-container">
+
+          <mat-card class="params-card">
+
+            <div class="grid">
+              <div class="col-1">
+
+                <label class="label-param">Trainig size</label> 
+                <label class="label-param">Validation size</label>
+                <label class="label-param">Test size</label>
+              </div>
+              <div class="col-2">
+                <mat-slider
+                  thumbLabel
+                  tickInterval="10"
+                  min="1"
+                  max="100"
+                  class="slider-btn"
+                  formControlName="training_size"
+                  name="test_size">
+                </mat-slider>
+
+                <mat-slider
+                  thumbLabel
+                  tickInterval="10"
+                  min="1"
+                  max="100"
+                  class="slider-btn"
+                  formControlName="validation_size">
+                </mat-slider> 
+
+                <mat-slider
+                  thumbLabel
+                  tickInterval="10"
+                  min="1"
+                  max="100"
+                  class="slider-btn"
+                  formControlName="test_size">
+                </mat-slider> 
+
+
+              </div>
+              <div class="col-3">
+                <label > {{formGroup6.controls.training_size.value / 100}} </label>
+                <br>
+                <label > {{formGroup6.controls.validation_size.value / 100}}</label>
+                <br>
+                <label > {{formGroup6.controls.test_size.value / 100}}</label>
+                <br>
+              </div>
+
+            </div>
+
+          </mat-card>
+
+        </div>
+        
 
         <div>
           <button mat-button matStepperPrevious>Back</button>
-          <button mat-button (click)="stepper.reset()">Reset</button>
-          <button mat-button (click)="onSave()">Save</button>
+          <button mat-button matStepperNext (click)="onSave()">Save and Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <mat-step [stepControl]="formGroup7">
+      <form [formGroup]="formGroup7">
+        <ng-template matStepLabel>Generate & Completed</ng-template>
+
+          <div *ngIf="newDMModel['data_mining_state'] != 'ready'" class="not-ready-panel">
+            
+            <mat-spinner></mat-spinner>
+            <p>Generating Model...</p>
+
+          </div>
+          <div *ngIf="newDMModel['data_mining_state'] === 'ready'" class="boosted_models_panel">
+
+            <mat-card class="statistics-cards" *ngFor="let bustedModel of this.newDMModel['boosted_models']">
+
+              <div class="algorithm-description">
+                <div>
+                  <h3>{{bustedModel['algorithm']['name']}}</h3>
+                </div>
+                
+                <div class="param-cont" *ngFor="let value of bustedModel['algorithm']['parameters']">
+                  <div class="param-name">
+                    <b>{{ value.name }}:</b>
+                  </div>
+                  <div class="param-value">
+                    <p>{{ value.name }}: {{ value.value }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <table mat-table [dataSource]="statistics" class="mat-elevation-z8">
+                <ng-container matColumnDef="statistics">
+                  <th mat-header-cell *matHeaderCellDef> Statistics </th>
+                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+                <ng-container matColumnDef="results">
+                  <th mat-header-cell *matHeaderCellDef> Training results </th>
+                  <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+                </ng-container>
+  
+                <tr mat-header-row *matHeaderRowDef="statisticsColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: statisticsColumns;"></tr>
+              </table>
+              <br>
+              <button mat-raised-button color="primary" class="add-algorithm-btn" (click)="selectBostedModel(bustedModel)">Select</button>
+            </mat-card>
+          </div>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
         </div>
       </form>
     </mat-step>
