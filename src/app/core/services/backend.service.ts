@@ -30,6 +30,11 @@ import { UseCase } from 'src/app/shared/use-case';
   providedIn: 'root'
 })
 export class BackendService {
+  httpOptions = {
+    headers: new HttpHeaders({
+      Authorization: 'Bearer anytokenfordemopurpose'
+    })
+  };
 
   constructor(private httpClient: HttpClient) { }
 
@@ -37,26 +42,21 @@ export class BackendService {
     return this.httpClient.get(environment.restApiUrl + 'sample');
   }
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      Authorization: 'Bearer anytokenfordemopurpose'
-    })
-  };
-
   public login(username: string, password: string): Observable<any> {
-    const params = new HttpParams();
-    params.set('username', username);
-    params.set('password', password);
+    const headers = new HttpHeaders()
+      .set('Content-Type', 'application/json');
 
-    const options = {
-      params
+    const data = {
+      'username': username,
+      'password': password
     };
+
     // Demo purposes
-    if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
-      return this.httpClient.get(environment.restApiUrl + 'login', options);
-    } else {
-      return throwError('{"code": 401, "message": "Not authorized"}');
-    }
+    // if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
+    return this.httpClient.post(environment.loginOAUth + 'login', data);
+    // } else {
+     // return throwError('{"code": 401, "message": "Not authorized"}');
+    // }
   }
 
   public getUseCaseList(): Observable<any> {
@@ -67,14 +67,11 @@ export class BackendService {
   }
 
   public getUseCase(id): Observable<any> {
-    
     return this.httpClient.get(environment.restApiPPDDM + 'manager/project/' + id, this.httpOptions);
   }
 
   saveUseCase(useCase): Observable<any> {
-
     return this.httpClient.post(environment.restApiPPDDM + 'manager/project', useCase, this.httpOptions);
-  
   }
 
   public getFeaturesetsList(id): Observable<any> {
@@ -87,50 +84,37 @@ export class BackendService {
 
   // get model list from the mockup api
   public getModelsList(): Observable<any> {
-
     return this.httpClient.get(environment.restApiUrl + 'manager/dm-model/');
   }
 
   // get model list from SRDC api
 
   public getModels(projectId: string): any {
-
     return this.httpClient.get(environment.restApiPPDDM + 'manager/dm-model?project_id=' + projectId, this.httpOptions);
-
   }
 
   getModel(modelId): Observable<any> {
-
     return this.httpClient.get(environment.restApiPPDDM + 'manager/dm-model/' + modelId, this.httpOptions);
-
   }
 
   public saveModel(model): Observable<any> {
-
     return this.httpClient.post(environment.restApiPPDDM + 'manager/dm-model', model, this.httpOptions);
   }
 
   updateModel(id, model): any {
-
     return this.httpClient.put(environment.restApiPPDDM + 'manager/dm-model/' + id, model, this.httpOptions);
-
   }
 
   public getDataSetsList(id): Observable<any> {
-
     return this.httpClient.get(environment.restApiPPDDM + 'manager/dataset?project_id=' + id , this.httpOptions);
-
   }
 
   public getDataSet(datasetId): Observable<any> {
-
     return this.httpClient.get(environment.restApiPPDDM + 'manager/dataset/' + datasetId , this.httpOptions);
-  
   }
 
   // deprecated
   public getFeatureList(): Observable<any> {
-
     return this.httpClient.get(environment.restApiUrl + 'features');
   }
 
@@ -153,42 +137,32 @@ export class BackendService {
  * in Platform Repository by changing its execution state to "final"
  */
   updateDataSet(id, dataSet): any {
-
     return this.httpClient.put(environment.restApiPPDDM + 'manager/dataset/' + id, dataSet, this.httpOptions);
-
   }
 
   saveDataSet(id, dataSet): any {
-
     return this.httpClient.post(environment.restApiPPDDM + 'manager/dataset', dataSet, this.httpOptions);
-
   }
 
   saveFeatureSet(featureSet): any {
-
     return this.httpClient.post(environment.restApiPPDDM + 'manager/featureset', featureSet, this.httpOptions);
-
   }
 
   // prospective study service methods
 
   predict(prediction): Observable<any> {
-
     return this.httpClient.post(environment.restApiPPDDM + 'manager/predict', prediction, this.httpOptions);
   }
 
   getProspectiveStudies(): Observable<any> {
-
     return this.httpClient.get(environment.restApiPPDDM + 'manager/prospective', this.httpOptions);
   }
 
   onSaveprospectiveStudy(pospectiveStudy): Observable<any> {
-
     return this.httpClient.post(environment.restApiPPDDM + 'manager/prospective', pospectiveStudy, this.httpOptions);
   }
 
   getAlgorithms() {
     return this.httpClient.get(environment.restApiPPDDM + 'manager/algorithm', this.httpOptions);
-
   }
 }
