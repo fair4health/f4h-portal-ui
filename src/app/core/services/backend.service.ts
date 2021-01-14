@@ -43,8 +43,8 @@ export class BackendService {
   }
 
   public login(username: string, password: string): Observable<any> {
-    const headers = new HttpHeaders()
-      .set('Content-Type', 'application/json');
+    // const headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
     const data = {
       'username': username,
@@ -53,15 +53,13 @@ export class BackendService {
 
     // Demo purposes
     // if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
-    return this.httpClient.post(environment.loginOAUth + 'login', data);
+    return this.httpClient.post(environment.loginOAUth, data, {'headers': headers});
     // } else {
-     // return throwError('{"code": 401, "message": "Not authorized"}');
+    // return throwError('{"code": 401, "message": "Not authorized"}');
     // }
   }
 
   public getUseCaseList(): Observable<any> {
-
-
     return this.httpClient.get(environment.restApiPPDDM + 'manager/project', this.httpOptions);
     // return this.httpClient.get(environment.restApiUrl + 'manager/project');
   }
