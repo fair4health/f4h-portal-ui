@@ -7,8 +7,9 @@ export const environment = {
 //  restApiUrl: 'http://localhost:3000/'
   restApiUrl: 'https://f4h-portal.ari-health.eu/',
   restApiPPDDM: 'https://f4h.srdc.com.tr/',
-  loginOAUth: 'https://testbed.fair4health.eu/oauth/',
-  // loginOAUth: 'http://localhost:8081/'
+  // loginOAUth: 'https://testbed.fair4health.eu/oauth/login/',
+  // loginOAUth: 'http://localhost:8081/login/'
+  loginOAUth: 'http://localhost:3000/'
 };
 
 /*

@@ -9,7 +9,7 @@
       <a mat-button [routerLink]="" (click)="onLogin()">Login</a>
     </span>
     <span *ngIf="this.auth.isLoggedIn()">
-      {{this.auth.username}}
+      {{this.auth.role}}: {{this.auth.username}}
       &nbsp;&nbsp;
       <mat-icon aria-hidden="false" aria-label="user">face</mat-icon>
       &nbsp;&nbsp;&nbsp;&nbsp;
