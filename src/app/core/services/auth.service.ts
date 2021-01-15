@@ -26,6 +26,7 @@ export class AuthService {
 
   username: string;
   token: string;
+  role: string;
 
   constructor(
     private backendService: BackendService
@@ -39,9 +40,10 @@ export class AuthService {
     }
   }
 
-  login(user: string, token: string): void {
+  login(user: string, token: string, role: string): void {
     this.username = user;
     this.token = token;
+    this.role = role;
   }
 
   logout(): void {
