@@ -13,6 +13,7 @@
 <br>
 
   <mat-grid-list [cols]="cols" rowHeight="250px">
+  <div *ngIf="this.auth.role === 'Admin'">
   <mat-grid-tile>
     <mat-card class="featuremanagement-card data-card">
       <mat-card-header class="featuremanagement-card-header">
@@ -67,6 +68,7 @@
     </mat-card>
   </mat-grid-tile>
   <br>
+</div>
   <mat-grid-tile>
     <mat-card class="predictive-study-card data-card data-card" *ngIf="useCaseType === 'prediction'">
       <mat-card-header class="predictive-study-card-header">
