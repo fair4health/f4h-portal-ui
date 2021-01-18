@@ -11,7 +11,8 @@ export const environment = {
   // loginOAUth: 'http://localhost:8081/login'
   // loginOAUth: 'https://testbed.fair4health.eu/oauth/login/',
   // loginOAUth: 'http://localhost:8081/login/'
-  loginOAUth: 'http://localhost:3000/'
+  // loginOAUth: 'http://localhost:3000/'
+  loginOAUth: 'https://f4h-portal.ari-health.eu/'
 };
 
 /*

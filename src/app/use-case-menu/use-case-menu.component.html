@@ -13,7 +13,7 @@
 <br>
 
   <mat-grid-list [cols]="cols" rowHeight="250px">
-  <div *ngIf="this.auth.role === 'Admin'">
+  <div *ngIf="this.auth.role != 'Clinician'">
   <mat-grid-tile>
     <mat-card class="featuremanagement-card data-card">
       <mat-card-header class="featuremanagement-card-header">
