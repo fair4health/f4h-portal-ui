@@ -12,9 +12,9 @@
     "scope": "all",
     "session_state": "session_state",
     "token_type": "type",
-    "role":"Researcher"
+    "role":"Admin"
   },
-  "loginClinical": {
+  "loginClinician": {
     "access_token": "xyztoken",
     "expires_in": 100000,
     "id_token": "idtokenxample",
@@ -24,7 +24,7 @@
     "scope": "all",
     "session_state": "session_state",
     "token_type": "type",
-    "role":"Clinical"
+    "role":"Clinician"
   },
   "project": [
     {

@@ -24,6 +24,7 @@ import { UserCommunicationService } from '../core/services/user-communication.se
 import { LocalStorageService } from '../core/services/local-storage.service';
 
 import { UseCase } from '../shared/use-case';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-use-case-menu',
@@ -36,8 +37,10 @@ export class UseCaseMenuComponent implements OnInit {
   useCase: UseCase;
   useCaseType: string;
   cols: number;
+  role: string;
 
   constructor(
+    public auth: AuthService,
     private route: ActivatedRoute,
     private router: Router,
     private backendService: BackendService,
@@ -50,6 +53,10 @@ export class UseCaseMenuComponent implements OnInit {
     this.useCaseSelectedId = this.localStorage.projectId;
     console.log('Load use case: ' + this.useCaseSelectedId);
     this.getUseCase(this.useCaseSelectedId);
+
+    if (this.auth.isLoggedIn()) {
+      this.role = this.auth.role;
+    }
   }
 
   getUseCase(id: string): void {

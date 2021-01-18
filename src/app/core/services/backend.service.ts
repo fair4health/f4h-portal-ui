@@ -56,8 +56,8 @@ export class BackendService {
     // Demo purposes
     if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
       return this.httpClient.get(environment.loginOAUth + 'login');
-    }else if ('demoClinical' === username && password === atob('ZGVtbzIwMjA=')) {
-      return this.httpClient.get(environment.loginOAUth + 'loginClinical');
+    }else if ('demoClinician' === username && password === atob('ZGVtbzIwMjA=')) {
+      return this.httpClient.get(environment.loginOAUth + 'loginClinician');
     }
     else {
       return throwError('{"code": 401, "message": "Not authorized"}');
