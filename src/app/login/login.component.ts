@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
     this.backendService.login(user, pass).subscribe(
       (data) => {
         console.log('Login answer received!', data);
-        this.auth.login(user, data.access_token);
+        this.auth.login(user, data.access_token, data.role);
         this.router.navigate(['/uclist']);
       },
       (err) => {

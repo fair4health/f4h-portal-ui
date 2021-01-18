@@ -11,7 +11,20 @@
     "refresh_token": "xyzrefreshtoken",
     "scope": "all",
     "session_state": "session_state",
-    "token_type": "type"
+    "token_type": "type",
+    "role":"Admin"
+  },
+  "loginClinician": {
+    "access_token": "xyztoken",
+    "expires_in": 100000,
+    "id_token": "idtokenxample",
+    "not-before-policy": 0,
+    "refresh_expires_in": 0,
+    "refresh_token": "xyzrefreshtoken",
+    "scope": "all",
+    "session_state": "session_state",
+    "token_type": "type",
+    "role":"Clinician"
   },
   "project": [
     {

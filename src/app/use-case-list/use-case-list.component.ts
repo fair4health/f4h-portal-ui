@@ -26,6 +26,9 @@ import { LocalStorageService } from '../core/services/local-storage.service';
 import { UseCase } from '../shared/use-case';
 import {MatTableDataSource} from '@angular/material/table';
 
+// to know user role
+import { AuthService } from '../core/services/auth.service';
+
 @Component({
   selector: 'app-use-case-list',
   templateUrl: './use-case-list.component.html',
@@ -36,6 +39,7 @@ export class UseCaseListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'description', 'project_type', 'created_by', 'created_on', 'select'];
 
   constructor(
+    public auth: AuthService,
     private router: Router,
     private backendService: BackendService,
     private userCommunication: UserCommunicationService,
@@ -58,11 +62,26 @@ export class UseCaseListComponent implements OnInit {
       (usecaselist) => {
         console.log(usecaselist);
         this.dataSource = new MatTableDataSource(usecaselist);
+        // if clinical role show 'prection' use case
+        if (this.auth.isLoggedIn()) {
+          if (this.auth.role === 'Clinician') {
+            this.dataSource.filterPredicate = this.createFilter();
+            this.dataSource.filter = 'prediction';
+          }
+        }
       },
       (err) => {
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get use case list operation failed');
       });
+  }
+
+  // Filter to filter by specifique column
+  createFilter(): (data: any, filter: string) => boolean {
+    const filterFunction = function(data, filter: string): boolean {
+      return data.project_type.toLowerCase().indexOf(filter) !== -1;
+    };
+    return filterFunction;
   }
 
   onCreateNewUseCase(): void {

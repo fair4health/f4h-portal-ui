@@ -46,17 +46,22 @@ export class BackendService {
     // const headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
     const headers = new HttpHeaders({'Content-Type': 'application/json'});
 
-    const data = {
+    const data2 = {
       'username': username,
       'password': password
     };
 
+    // Porduction
+    // return this.httpClient.post(environment.loginOAUth, data2);
     // Demo purposes
-    // if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
-    return this.httpClient.post(environment.loginOAUth, data, {'headers': headers});
-    // } else {
-    // return throwError('{"code": 401, "message": "Not authorized"}');
-    // }
+    if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
+      return this.httpClient.get(environment.loginOAUth + 'login');
+    }else if ('demoClinician' === username && password === atob('ZGVtbzIwMjA=')) {
+      return this.httpClient.get(environment.loginOAUth + 'loginClinician');
+    }
+    else {
+      return throwError('{"code": 401, "message": "Not authorized"}');
+    }
   }
 
   public getUseCaseList(): Observable<any> {
