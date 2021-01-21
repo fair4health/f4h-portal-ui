@@ -19,15 +19,18 @@
   <br>
 
   &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+  <!--  ONLY DEFINE THE PATH MANUALLY
   <mat-radio-group [(ngModel)]="fhirpathInputType">
     <mat-radio-button name="fhirpathInputType" value="1">Manual</mat-radio-button> &nbsp;
-    <mat-radio-button name="fhirpathInputType" value="2" >Select</mat-radio-button>
+   
   </mat-radio-group>
-
+-->
   <mat-form-field *ngIf="fhirpathInputType=='1'" appearance="fill">
     <mat-label>FHIR Path</mat-label>
     <input  matInput [(ngModel)]="data.fhir_path">
   </mat-form-field>
+
+  <!-- THE DEFINITION OF PATH IS MANUALLY SO THIS DROPDOWN IS DELETED
   <mat-form-field *ngIf="fhirpathInputType=='2'" appearance="fill">
     <mat-label>FHIR Path</mat-label>
     <mat-select [(ngModel)]="data.fhir_path"  matNativeControl name="select">
@@ -39,17 +42,9 @@
       <mat-option value="(max)">(sum)</mat-option>
     </mat-select>
   </mat-form-field>
-
+-->
   <br>
-  <mat-form-field appearance="fill">
-    <mat-label>Variable type</mat-label>
-  <!--  <input matInput [(ngModel)]="data.variable_type"> -->
-    <mat-select [(ngModel)]="data.variable_type"  matNativeControl name="select">
-      <mat-option value="dependent">Dependent</mat-option>
-      <mat-option value="independent">Independent</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <br>
+  
   <mat-form-field appearance="fill">
     <mat-label>Data type</mat-label>
     <mat-select [(ngModel)]="data.variable_data_type"  matNativeControl name="select">
@@ -58,6 +53,16 @@
     </mat-select>
   </mat-form-field>
 </div>
+<br>
+
+<mat-form-field appearance="fill" *ngIf="projectType != 'association'">
+  <mat-label>Variable type</mat-label>
+<!--  <input matInput [(ngModel)]="data.variable_type"> -->
+  <mat-select [(ngModel)]="data.variable_type"  matNativeControl name="select">
+    <mat-option value="dependent">Dependent</mat-option>
+    <mat-option value="independent">Independent</mat-option>
+  </mat-select>
+</mat-form-field>
 <br>
 <div mat-dialog-actions>
   <button mat-raised-button color="primary" [mat-dialog-close]="data" cdkFocusInitial>Add</button>
