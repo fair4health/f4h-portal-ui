@@ -25,6 +25,7 @@ export class LocalStorageService {
 
   projectId: string;
   projectName: string;
+  projectType: string;
 
   constructor() { }
 
@@ -36,6 +37,10 @@ export class LocalStorageService {
   setProjectName(projectName): void {
     this.projectName = projectName;
     console.log('A new project name: ' + this.projectName);
+  }
+
+  setProjectType(projectType): void {
+    this.projectType = projectType;
   }
 
   reset(): void {
