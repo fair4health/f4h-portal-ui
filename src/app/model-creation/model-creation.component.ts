@@ -186,7 +186,7 @@ export class ModelCreationComponent implements OnInit {
   }
 
   getStatistics() {
-    console.log(this.newDMModel['boosted_models'])
+    console.log(this.newDMModel['boosted_models']);
     this.newDMModel['boosted_models'].forEach(element => {
       this.statistics = element.calculated_test_statistics;
        console.log(this.statistics);
@@ -197,17 +197,17 @@ export class ModelCreationComponent implements OnInit {
   selectBostedModel(boostedModels) {
     console.log(boostedModels);
     // bustedModel['selection_status'] = 'selected'
-     this.newDMModel['boosted_models'].forEach(element => {
-       if (boostedModels === element) {
-         console.log('son iwales');
-         element['selection_status'] = 'selected'
-       } else {
-        element['selection_status'] = 'discarded'
-       }
-     });
+    this.newDMModel['boosted_models'].forEach(element => {
+      if (boostedModels === element) {
+        console.log('son iwales');
+        element['selection_status'] = 'selected';
+      } else {
+        element['selection_status'] = 'discarded';
+      }
+    });
 
-     this.backendService.updateModel(this.newDMModel['model_id'], this.newDMModel).subscribe(
-        data => {
+    this.backendService.updateModel(this.newDMModel['model_id'], this.newDMModel).subscribe(
+      data => { 
           console.log(data);
           this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Model updated successfully');
           this.router.navigate(['/mdashboard']);
@@ -290,6 +290,7 @@ export class ModelCreationComponent implements OnInit {
       (response) => {
         this.userCommunication.createMessage('snack-bar-success', 'Model "' + response.name + '" created successfully');
         this.newDMModel = response;
+        this.router.navigate['/mdashboard'];
       },
 
       (err) => {
