@@ -64,7 +64,7 @@ export class UseCaseListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(usecaselist);
         // if clinical role show 'prection' use case
         if (this.auth.isLoggedIn()) {
-          if (this.auth.role === 'Clinician') {
+          if (this.auth.role === 'Healthcare professional') {
             this.dataSource.filterPredicate = this.createFilter();
             this.dataSource.filter = 'prediction';
           }
