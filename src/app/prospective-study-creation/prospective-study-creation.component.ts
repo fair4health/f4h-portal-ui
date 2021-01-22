@@ -137,6 +137,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             };
 
             this.variable.name = key;
+            this.variables.submitted_by = '1903';
             this.variable.value = this.formGroup3.get(key).value;
             this.variablesDataSet.forEach(el => {
               if (el.name === key) {
@@ -181,6 +182,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       this.prospectiveStudy.description = this.formGroup1.get('description').value;
       this.prospectiveStudy.created_by = '1903';
       this.prospectiveStudy.predictions = this.predictionList;
+      this.prospectiveStudy.project_id = this.projectId;
 
       this.backendService.onSaveprospectiveStudy(this.prospectiveStudy).subscribe(
         (data) => {

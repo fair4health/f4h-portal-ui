@@ -115,6 +115,7 @@ export class FeatureSetCreationComponent implements OnInit {
         (data) => {
           console.log('New feature set creation answer received! ', data);
           this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
+          this.router.navigate(['/fslist']);
         },
         (err) => {
           this.backendService.handleError('home', err);
