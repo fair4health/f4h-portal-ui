@@ -26,7 +26,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     formGroup3: FormGroup;
 
     modelTableColumns: string[] = ['sel', 'name', 'description', 'algorithm', 'data_source', 'created_by', 'creation_time', 'see_details'];
-    models: DmModel[];
+    models: DmModel[] = [];
 
     projectId = this.localStorage.projectId;
     selectedModel: DmModel;
@@ -67,7 +67,6 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       });
       this.formGroup3 = this.formBuilder.group({
       });
-
       this.getModels();
 
       if (history.state.prescriptionStudy) {
@@ -97,11 +96,21 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     }
 
     getModels(): void {
-        this.backendService.getModels(this.projectId).subscribe(
-            (models) => {
-                this.models = models;
+      this.backendService.getModels(this.projectId).subscribe(
+        (models) => {
+         // this.models = models;
+          const modls = [];
+          models.forEach(element => {
+            if (element['data_mining_state'] === 'final') {
+              console.log(element)
+              modls.push(element);
+
+              console.log(this.models);
             }
-        );
+          });
+          this.models = modls;
+        }
+      );
     }
 
     onSeeModel(model): void {
@@ -138,6 +147,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             };
 
             this.variable.name = key;
+            this.variables.submitted_by = '1903';
             this.variable.value = this.formGroup3.get(key).value;
             this.variablesDataSet.forEach(el => {
               if (el.name === key) {
@@ -182,6 +192,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       this.prospectiveStudy.description = this.formGroup1.get('description').value;
       this.prospectiveStudy.created_by = '1903';
       this.prospectiveStudy.predictions = this.predictionList;
+      this.prospectiveStudy.project_id = this.projectId;
 
       this.backendService.onSaveprospectiveStudy(this.prospectiveStudy).subscribe(
         (data) => {

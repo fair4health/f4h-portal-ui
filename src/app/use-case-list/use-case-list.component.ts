@@ -64,7 +64,7 @@ export class UseCaseListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(usecaselist);
         // if clinical role show 'prection' use case
         if (this.auth.isLoggedIn()) {
-          if (this.auth.role === 'Clinician') {
+          if (this.auth.role === 'Healthcare professional') {
             this.dataSource.filterPredicate = this.createFilter();
             this.dataSource.filter = 'prediction';
           }
@@ -93,11 +93,13 @@ export class UseCaseListComponent implements OnInit {
     if (useCaseSelected.project_type === 'association') {
       this.localStorage.setProjectId(useCaseSelected.project_id);
       this.localStorage.setProjectName(useCaseSelected.name);
+      this.localStorage.setProjectType(useCaseSelected.project_type);
       this.router.navigate(['/ucmenu']);
     } else if (useCaseSelected.project_type === 'prediction') {
       this.localStorage.setProjectId(useCaseSelected.project_id);
       this.localStorage.setProjectName(useCaseSelected.name);
       this.router.navigate(['/ucmenu']);
+      this.localStorage.setProjectType(useCaseSelected.project_type);
     } else {
       console.log('Project type does not match association nor prediction');
       this.userCommunication.createMessage(this.userCommunication.ERROR, 'Project type does not match association nor prediction');

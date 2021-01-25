@@ -91,6 +91,7 @@ export class FeatureSetCreationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       if (result) {
+        console.log('NEW VARIABLE ---> ', result);
         this.newVariable = result;
         delete this.newVariable['newVariable']
         this.dataSource.push(this.newVariable);
@@ -115,6 +116,7 @@ export class FeatureSetCreationComponent implements OnInit {
         (data) => {
           console.log('New feature set creation answer received! ', data);
           this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
+          this.router.navigate(['/fslist']);
         },
         (err) => {
           this.backendService.handleError('home', err);
