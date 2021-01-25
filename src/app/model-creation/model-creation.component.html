@@ -286,8 +286,6 @@
       <form [formGroup]="formGroup7">
         <ng-template matStepLabel>Generate & Completed</ng-template>
 
-        Status model: {{newDMModel['data_mining_state']}} 
-
           <div *ngIf="newDMModel['data_mining_state'] === 'training' || !newDMModel['data_mining_state']" class="not-ready-panel">
           
             <mat-spinner></mat-spinner>
