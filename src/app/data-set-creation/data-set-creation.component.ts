@@ -170,6 +170,11 @@ export class DataSetCreationComponent implements OnInit {
           this.completedData.push(element);
         }
       });
+      data.dataset_sources.forEach(element => {
+        if (element.selection_status === '' || !element.selection_status) {
+          element.selection_status = 'discarded';
+        }
+      });
 
       this.completeddataTable = new MatTableDataSource(this.completedData);
       this.getDataSource(data.dataset_sources);

@@ -136,6 +136,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         };
         this.variables.variables = [];
         this.variables.data_mining_model = this.selectedModel;
+        this.variables['submitted_by'] = '1903';
 
         Object.keys(this.formGroup3.controls).forEach(key => {
 
@@ -265,7 +266,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
             this.variables.identifier = '1';
             this.variables.data_mining_model = this.selectedModel;
-
+            this.variables['submitted_by'] = '1903';
             this.backendService.predict(this.variables).subscribe(
               data => {
                 this.patientsPredictions[i].prediction = data.prediction;
