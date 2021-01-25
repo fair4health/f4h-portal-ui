@@ -171,7 +171,7 @@ export class DataSetCreationComponent implements OnInit {
         }
       });
       data.dataset_sources.forEach(element => {
-        if (element.selection_status === '') {
+        if (element.selection_status === '' || !element.selection_status) {
           element.selection_status = 'discarded';
         }
       });
