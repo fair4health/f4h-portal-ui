@@ -286,13 +286,15 @@
       <form [formGroup]="formGroup7">
         <ng-template matStepLabel>Generate & Completed</ng-template>
 
-          <div *ngIf="newDMModel['data_mining_state'] != 'ready'" class="not-ready-panel">
-            
+        Status model: {{newDMModel['data_mining_state']}} 
+
+          <div *ngIf="newDMModel['data_mining_state'] === 'training' || !newDMModel['data_mining_state']" class="not-ready-panel">
+          
             <mat-spinner></mat-spinner>
             <p>Generating Model...</p>
 
           </div>
-          <div *ngIf="newDMModel['data_mining_state'] === 'ready'" class="boosted_models_panel">
+          <div *ngIf="newDMModel['data_mining_state'] === 'final' || newDMModel['data_mining_state'] === 'ready'" class="boosted_models_panel">
 
             <mat-card class="statistics-cards" *ngFor="let bustedModel of this.newDMModel['boosted_models']">
 
