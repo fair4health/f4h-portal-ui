@@ -7,4 +7,5 @@ export class ProspectiveStudy {
   predictions: any[];
   created_by: string;
   data_mining_model: DmModel;
+  submitted_by: string;
 }
