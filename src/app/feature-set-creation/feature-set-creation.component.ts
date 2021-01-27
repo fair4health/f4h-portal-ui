@@ -91,9 +91,15 @@ export class FeatureSetCreationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       if (result) {
-        console.log('NEW VARIABLE ---> ', result);
+        
         this.newVariable = result;
-        delete this.newVariable['newVariable']
+
+        if (this.localStorage.projectType === 'association'){
+          this.newVariable.variable_type = 'independent';
+        }
+        console.log('--->', this.newVariable);
+        
+        delete this.newVariable['newVariable'];
         this.dataSource.push(this.newVariable);
         this.table.renderRows();
       }

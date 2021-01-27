@@ -75,22 +75,7 @@ export class ModelCreationComponent implements OnInit {
   statistics: any;
   statisticsColumns: string[] = ['statistics', 'results'];
 
-  algorithmsX: any[] = [
-    {value: 'arl_prefix_span', viewValue: 'Prefix Span Algorithm', type: ''},
-    {value: 'arl_fpgrowth', viewValue: 'Frequent Pattern Tree Association Rule Algorithm', type: ''},
-    {value: 'classification_svm', viewValue: 'Support Vector Machine Classification Algorithm', type: 'SVM'},
-    {value: 'classification_logistic_regression', viewValue: 'Logistic Regression Classification Algorithm', type: 'logistic_regression'},
-    {value: 'classification_decision_tree', viewValue: 'Decision Tree Classification Algorithm', type: 'decision_tree'},
-    {value: 'classification_gbt', viewValue: 'Gradient Boosted Tree Classification Algorithm', type: 'GBT'},
-    {value: 'classification_naive_bayes', viewValue: 'Naive Bayes Classification Algorithm', type: ''},
-    {value: 'regression_linear', viewValue: 'Linear Regression Algorithm', type: ''},
-    {value: 'regression_decision_tree', viewValue: 'Decision Tree Regression Algorithm', type: 'decision_tree'},
-    {value: 'regression_random_forest', viewValue: 'Random Forest Regression  Algorithm', type: 'random_forest'},
-    {value: 'regression_gbt', viewValue: 'Gradient Boosted Tree Regression Algorithm', type: 'GBT'}
-  ];
-
   algorithms = [];
-
 
   constructor(
     private backendService: BackendService,
@@ -332,9 +317,8 @@ export class ModelCreationComponent implements OnInit {
             }
           });
         } else if (this.usecaseType === 'association') {
-          
           x[0].forEach(element => {
-            if (element.name.startsWith('arl')) {
+            if (element.name === 'arl_fpgrowth') {
               this.algorithms.push(element);
             }
           });
