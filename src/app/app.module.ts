@@ -92,6 +92,11 @@ import { UseCaseCreationComponent } from './usecase-creation/usecase-creation.co
 import { ProspectiveStudyComponent } from './prospective-study/prospective-study.component';
 import { ProspectiveStudyCreationComponent } from './prospective-study-creation/prospective-study-creation.component';
 
+// User Management
+import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
+import { APP_INITIALIZER } from '@angular/core';
+import { initializer } from './core/services/usermanagement';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -167,8 +172,18 @@ import { ProspectiveStudyCreationComponent } from './prospective-study-creation/
 
     AppRoutingModule,
     HttpClientModule,
+
+    // keycloak
+    KeycloakAngularModule
   ],
-  providers: [],
+  providers: [
+     {
+     provide: APP_INITIALIZER,
+      useFactory: initializer,
+      deps: [ KeycloakService ],
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

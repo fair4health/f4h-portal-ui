@@ -4,15 +4,18 @@
 
 export const environment = {
   production: false,
-//  restApiUrl: 'http://localhost:3000/'
-  restApiUrl: 'https://f4h-portal.ari-health.eu/',
+  restApiUrl: 'http://localhost:3000/',
   restApiPPDDM: 'https://f4h.srdc.com.tr/',
-  // loginOAUth: 'https://testbed.fair4health.eu/oauth/login'
-  // loginOAUth: 'http://localhost:8081/login'
-  // loginOAUth: 'https://testbed.fair4health.eu/oauth/login/',
-  // loginOAUth: 'http://localhost:8081/login/'
-  // loginOAUth: 'http://localhost:3000/'
-  loginOAUth: 'https://f4h-portal.ari-health.eu/'
+  keycloak: {
+    // Url of the Identity Provider
+    issuer: 'https://keycloak.docker.atosresearch.eu/auth',
+    // URL of the SPA to redirect the user to after login
+    redirectUri: 'http://localhost:4200/uclist',
+    // Realm details
+    realm: 'FAIR4Health',
+    clientId: 'fair4health-portal-client',
+    clientSecret: '4b55ca43-ae70-4064-a577-41db6b9e584d'
+  }
 };
 
 /*

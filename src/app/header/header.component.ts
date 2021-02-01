@@ -24,6 +24,7 @@ import { AuthService } from '../core/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 
 import { LogoutDialogComponent } from './logout-dialog/logout-dialog.component';
+import { KeycloakService } from 'keycloak-angular';
 
 
 @Component({
@@ -37,10 +38,19 @@ export class HeaderComponent implements OnInit {
     public auth: AuthService,
     private userCommunication: UserCommunicationService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    protected keycloakAngular: KeycloakService
     ) { }
 
   ngOnInit(): void {
+    try {
+      console.log('update logged user details');
+      this.auth.login(this.keycloakAngular.getKeycloakInstance().tokenParsed['preferred_username'],
+      this.keycloakAngular.getKeycloakInstance().token,
+      this.keycloakAngular.getKeycloakInstance().realmAccess.roles[0]);
+    } catch (e){
+      console.log('Failed to load user details', e);
+    }
   }
 
   onLogin(): void {

@@ -18,6 +18,7 @@
 
 import { Injectable } from '@angular/core';
 import { BackendService } from './backend.service';
+import { KeycloakService } from 'keycloak-angular';
 
 @Injectable({
   providedIn: 'root'
@@ -29,7 +30,8 @@ export class AuthService {
   role: string;
 
   constructor(
-    private backendService: BackendService
+    private backendService: BackendService,
+    private keycloakService: KeycloakService
   ) { }
 
   isLoggedIn(): boolean {
@@ -49,6 +51,6 @@ export class AuthService {
   logout(): void {
     this.username = undefined;
     this.token = undefined;
+    this.keycloakService.logout();
   }
-
 }

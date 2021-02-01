@@ -17,6 +17,7 @@
  */
 
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cover-page',
@@ -25,9 +26,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoverPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
+    console.log('Redirecting to usecase list as default page');
+    this.router.navigate(['/uclist']);
   }
 
 }
