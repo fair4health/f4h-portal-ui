@@ -36,7 +36,8 @@ export class LoginComponent implements OnInit {
     public auth: AuthService,
     private backendService: BackendService,
     private userCommunication: UserCommunicationService
-    ) { }
+    ) {
+    }
 
   ngOnInit(): void {
   }
@@ -51,7 +52,7 @@ export class LoginComponent implements OnInit {
     this.userCommunication.createMessage(this.userCommunication.INFO, 'Access limited');
   }
 
-  onLogin(user: string, pass: string): void {
+  /*onLogin(user: string, pass: string): void {
     console.log('Clicked login submit');
     this.backendService.login(user, pass).subscribe(
       (data) => {
@@ -63,6 +64,6 @@ export class LoginComponent implements OnInit {
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Login failed!');
       });
-  }
+  }*/
 
 }

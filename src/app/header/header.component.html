@@ -5,12 +5,13 @@
   <span class="spacer"></span>
 
   <div class="loginmenu">
-    <span *ngIf="!this.auth.isLoggedIn()">
+    <!-- <span *ngIf="!this.auth.isLoggedIn()">
       <a mat-button [routerLink]="" (click)="onLogin()">Login</a>
-    </span>
-    <span *ngIf="this.auth.isLoggedIn()">
+    </span> -->
+    <span>
       {{this.auth.role}}: {{this.auth.username}}
-      &nbsp;&nbsp;
+    </span>
+    <span>
       <mat-icon aria-hidden="false" aria-label="user">face</mat-icon>
       &nbsp;&nbsp;&nbsp;&nbsp;
       <a mat-button [routerLink]="" (click)="onLogout()">Logout</a>
