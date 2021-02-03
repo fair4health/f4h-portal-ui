@@ -56,18 +56,18 @@ export class DataSetDashboardComponent implements OnInit {
     this.backendService.getDataSetsList(this.localStorage.projectId).subscribe(
       (datasetsList) => {
         datasetsList.forEach(element => {
-          let datasetSourcesList = '';
+          const datasetSourcesList = '';
           element.dataset_sources.forEach(innerElement => {
            // datasetSourcesList = datasetSourcesList + innerElement.data_source.name + ' ';
           });
           element.dataset = datasetSourcesList;
 
-          if (element.execution_state === 'final') {
+          if (element.execution_state === 'final' || element.execution_state === 'ready') {
             this.dataSourceReady.push(element);
           } else {
             this.dataSourceInProgress.push(element);
           }
-          
+
           console.log('Source updated in table sources. ' + this.dataSourceReady.length + ' and ' + this.dataSourceInProgress.length + ' rows');
         });
         if (this.table.first) {
