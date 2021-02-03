@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     try {
       console.log('update logged user details');
-      this.auth.login(this.keycloakAngular.getKeycloakInstance().tokenParsed['preferred_username'],
+      this.auth.login(this.keycloakAngular.getKeycloakInstance().tokenParsed['name'],
       this.keycloakAngular.getKeycloakInstance().token,
       this.keycloakAngular.getKeycloakInstance().realmAccess.roles[0]);
     } catch (e){
