@@ -42,6 +42,28 @@ export class BackendService {
     return this.httpClient.get(environment.restApiUrl + 'sample');
   }
 
+  /* FOR DEMO AND TESTING
+  public login(username: string, password: string): Observable<any> {
+    // const headers = new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'});
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    const data2 = {
+      'username': username,
+      'password': password
+    };
+
+    // Porduction
+    // return this.httpClient.post(environment.loginOAUth, data2);
+    // Demo purposes
+    if ('demo' === username && password === atob('ZGVtbzIwMjA=')) {
+      return this.httpClient.get(environment.loginOAUth + 'login');
+    }else if ('demoHealthcare' === username && password === atob('ZGVtbzIwMjA=')) {
+      return this.httpClient.get(environment.loginOAUth + 'loginHealthcare');
+    }
+    else {
+      return throwError('{"code": 401, "message": "Not authorized"}');
+    }
+  }*/
   public getUseCaseList(): Observable<any> {
     return this.httpClient.get(environment.restApiPPDDM + 'manager/project', this.httpOptions);
     // return this.httpClient.get(environment.restApiUrl + 'manager/project');
