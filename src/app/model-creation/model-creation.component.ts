@@ -263,7 +263,7 @@ export class ModelCreationComponent implements OnInit {
     this.newDMModel.dataset = this.formGroup2.get('dataset').value;
     this.newDMModel.algorithms = [];
     this.newDMModel.algorithms = this.algorithmsList;
-    this.newDMModel.created_by = '1903';
+    this.newDMModel.created_by = this.localStorage.userId;
     this.newDMModel.project_id = this.localStorage.projectId;
     this.newDMModel.training_size = this.formGroup6.get('training_size').value / 100;
     this.newDMModel.test_size = this.formGroup6.get('test_size').value / 100;

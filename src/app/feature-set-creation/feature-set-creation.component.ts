@@ -117,7 +117,7 @@ export class FeatureSetCreationComponent implements OnInit {
     if (history.state.selectedFeatureSet) {
       console.log('Update existent feature set.');
     } else {
-      newFeatureSet['created_by'] = '1903';
+      newFeatureSet['created_by'] = this.localStorage.userId;
       this.backendService.saveFeatureSet(newFeatureSet).subscribe(
         (data) => {
           console.log('New feature set creation answer received! ', data);
