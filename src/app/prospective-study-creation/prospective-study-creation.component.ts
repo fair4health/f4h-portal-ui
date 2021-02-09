@@ -141,7 +141,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         };
         this.variables.variables = [];
         this.variables.data_mining_model = this.selectedModel;
-        this.variables.submitted_by = '1903'; // change on actual user later.
+        this.variables.submitted_by = this.localStorage.userId;
 
         Object.keys(this.formGroup3.controls).forEach(key => {
 
@@ -152,7 +152,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             };
 
             this.variable.name = key;
-            this.variables.submitted_by = '1903';
+            this.variables.submitted_by = this.localStorage.userId;
             this.variable.value = this.formGroup3.get(key).value;
             this.variablesDataSet.forEach(el => {
               if (el.name === key) {
@@ -195,7 +195,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       this.prospectiveStudy.data_mining_model = this.selectedModel;
       this.prospectiveStudy.name = this.formGroup1.get('name').value;
       this.prospectiveStudy.description = this.formGroup1.get('description').value;
-      this.prospectiveStudy.created_by = '1903';
+      this.prospectiveStudy.created_by = this.localStorage.userId;
       this.prospectiveStudy.predictions = this.predictionList;
       this.prospectiveStudy.project_id = this.projectId;
 
@@ -271,7 +271,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
             this.variables.identifier = '1';
             this.variables.data_mining_model = this.selectedModel;
-            this.variables.submitted_by = '1903'; // change on actual user later.
+            this.variables.submitted_by = this.localStorage.userId;
             this.backendService.predict(this.variables).subscribe(
               data => {
                 this.patientsPredictions[i].prediction = data.prediction;

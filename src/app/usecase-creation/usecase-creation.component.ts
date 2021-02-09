@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendService } from '../core/services/backend.service';
+import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 import { UseCase } from '../shared/use-case';
 
@@ -15,7 +16,8 @@ export class UseCaseCreationComponent implements OnInit {
   constructor(private router: Router,
               private formBuilder: FormBuilder,
               private service: BackendService,
-              private userCommunication: UserCommunicationService
+              private userCommunication: UserCommunicationService,
+              private localStorage: LocalStorageService
               ) { }
 
   formGroup1: FormGroup;
@@ -43,7 +45,7 @@ export class UseCaseCreationComponent implements OnInit {
       newUseCase[key] = this.useCaseForm.get(key).value;
     });
 
-    newUseCase.created_by = '1903';
+    newUseCase.created_by = this.localStorage.userId;
 
     this.service.saveUseCase(newUseCase).subscribe(
       (useCase) => {

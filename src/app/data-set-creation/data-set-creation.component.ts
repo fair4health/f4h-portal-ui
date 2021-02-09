@@ -219,7 +219,7 @@ export class DataSetCreationComponent implements OnInit {
       this.newDataSet[key] = this.formGroup1.get(key).value;
     });
     // this is a mock of created_by of data set, it will be removed.
-    this.newDataSet['created_by'] = '1903';
+    this.newDataSet['created_by'] = this.localStorage.userId;
     this.backendService.saveDataSet(this.newDataSet.project_id, this.newDataSet).subscribe(data => {
       this.getDataSource(data.dataset_sources);
       this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')

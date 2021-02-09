@@ -25,6 +25,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { LogoutDialogComponent } from './logout-dialog/logout-dialog.component';
 import { KeycloakService } from 'keycloak-angular';
+import { LocalStorageService } from '../core/services/local-storage.service';
 
 
 @Component({
@@ -39,12 +40,14 @@ export class HeaderComponent implements OnInit {
     private userCommunication: UserCommunicationService,
     private router: Router,
     public dialog: MatDialog,
-    protected keycloakAngular: KeycloakService
+    protected keycloakAngular: KeycloakService,
+    private localStorage: LocalStorageService
     ) { }
 
   ngOnInit(): void {
     try {
       console.log('update logged user details');
+      this.localStorage.setUserId(this.keycloakAngular.getKeycloakInstance().tokenParsed['sub']);
       this.auth.login(this.keycloakAngular.getKeycloakInstance().tokenParsed['name'],
       this.keycloakAngular.getKeycloakInstance().token,
       this.keycloakAngular.getKeycloakInstance().realmAccess.roles[0]);
