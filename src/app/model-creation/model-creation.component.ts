@@ -26,6 +26,7 @@ import { UserCommunicationService } from '../core/services/user-communication.se
 import { DmModel } from '../shared/dm-model';
 import { Algorithm } from '../shared/algorithm';
 import { Router } from '@angular/router';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-model-creation',
@@ -44,8 +45,8 @@ export class ModelCreationComponent implements OnInit {
   newDMModel: DmModel;
   selectedDatasetRow;
 
-  datasetSelectionDisplayedColumns: string[] = ['select', 'name', 'description', 'data_sources', 'created_by', 'creation_time', 'details'];
-  datasetSelectionDataSource;
+  datasetSelectionDisplayedColumns: string[] = ['select', 'name', 'description', 'data_sources', 'status', 'created_by'];
+  datasetSelectionDataSource = new MatTableDataSource();
 
   categorialVariablesColumns: string[] = ['name', 'fhir_path', 'fhir_query', 'variable_type'];
   categorigalVariablesDataSource;
@@ -68,6 +69,7 @@ export class ModelCreationComponent implements OnInit {
   selectedAlgorithm = new Algorithm();
   usecaseType: string;
   useCaseName: string;
+  selectedDataSet: any;
 
   algorithmParameterForm: any = [];
   algorithmsList: any = [];
@@ -136,13 +138,22 @@ export class ModelCreationComponent implements OnInit {
 
     this.getUseCaseType(this.localStorage.projectId);
     this.getAlgoritms();
-   
   }
 
   getDataSets(): void {
+
+    const dataSets = [];
     this.backendService.getDataSetsList(this.localStorage.projectId).subscribe(
       (datasets) => {
-        this.datasetSelectionDataSource = datasets;
+
+        datasets.forEach(element => {
+          console.log('EXECUTION STATE: ', element.execution_state);
+          if (element.execution_state === 'final') {
+            dataSets.push(element);
+          }
+        });
+
+        this.datasetSelectionDataSource = new MatTableDataSource(dataSets);
 
       },
       (err) => {
@@ -155,7 +166,8 @@ export class ModelCreationComponent implements OnInit {
 
     this.backendService.getModel(history.state.selectedModel.model_id).subscribe(
       data => {
-        console.log('EXISTING MODEL -->', data)
+        console.log('EXISTING MODEL -->', data);
+        this.selectedDataSet = data.dataset;
         this.newDMModel = data;
         this.formGroup1.get('name').setValue(this.newDMModel.name);
         this.formGroup1.get('description').setValue(this.newDMModel.description);
