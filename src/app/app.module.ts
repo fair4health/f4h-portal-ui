@@ -96,6 +96,7 @@ import { ProspectiveStudyCreationComponent } from './prospective-study-creation/
 import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
 import { APP_INITIALIZER } from '@angular/core';
 import { initializer } from './core/services/usermanagement';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -119,6 +120,7 @@ import { initializer } from './core/services/usermanagement';
     UseCaseCreationComponent,
     ProspectiveStudyComponent,
     ProspectiveStudyCreationComponent,
+    FooterComponent,
   ],
   imports: [
     CoreModule,
