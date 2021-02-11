@@ -11,8 +11,8 @@
   <button mat-raised-button [routerLink]="['/dscreation']">Create new data set</button>
 
 
-  <h3>Ready</h3>
-  <table mat-table *ngIf="dataSourceReady.length" [dataSource]="dataSourceReady" class="mat-elevation-z8">
+  <h3>Final</h3>
+  <table mat-table *ngIf="dataSourceFinal.length" [dataSource]="dataSourceFinal" class="mat-elevation-z8">
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Name </th>
@@ -51,7 +51,7 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <p *ngIf="!dataSourceReady.length">0 models to show</p>
+  <p *ngIf="!dataSourceFinal.length">0 models to show</p>
 
   <h3>In progress</h3>
   <table mat-table *ngIf="dataSourceInProgress.length" [dataSource]="dataSourceInProgress" class="mat-elevation-z8" #tableInProgress>

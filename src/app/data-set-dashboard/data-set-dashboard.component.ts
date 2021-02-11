@@ -36,7 +36,7 @@ export class DataSetDashboardComponent implements OnInit {
   @ViewChildren(MatTable) table !: QueryList<MatTable<string>>;
 
   displayedColumns: string[] = ['name', 'description', 'dataset_sources', 'execution_state', 'created_by', 'created_on', 'details'];
-  dataSourceReady = [];
+  dataSourceFinal = [];
   dataSourceInProgress = [];
   usacasename: string;
 
@@ -62,13 +62,13 @@ export class DataSetDashboardComponent implements OnInit {
           });
           element.dataset = datasetSourcesList;
 
-          if (element.execution_state === 'final' || element.execution_state === 'ready') {
-            this.dataSourceReady.push(element);
+          if (element.execution_state === 'final') {
+            this.dataSourceFinal.push(element);
           } else {
             this.dataSourceInProgress.push(element);
           }
 
-          console.log('Source updated in table sources. ' + this.dataSourceReady.length + ' and ' + this.dataSourceInProgress.length + ' rows');
+          console.log('Source updated in table sources. ' + this.dataSourceFinal.length + ' and ' + this.dataSourceInProgress.length + ' rows');
         });
         if (this.table.first) {
           this.table.first.renderRows();
