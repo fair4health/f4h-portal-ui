@@ -97,6 +97,7 @@ import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';
 import { APP_INITIALIZER } from '@angular/core';
 import { initializer } from './core/services/usermanagement';
 import { FooterComponent } from './footer/footer.component';
+import { DialogConfirmationComponent } from './dialog-confirmation/dialog-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { FooterComponent } from './footer/footer.component';
     ProspectiveStudyComponent,
     ProspectiveStudyCreationComponent,
     FooterComponent,
+    DialogConfirmationComponent,
   ],
   imports: [
     CoreModule,

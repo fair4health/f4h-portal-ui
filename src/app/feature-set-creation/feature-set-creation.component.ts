@@ -29,6 +29,7 @@ import { LocalStorageService } from '../core/services/local-storage.service';
 import { Variable } from '../shared/variable';
 import { FeatureSet } from '../shared/feature-set';
 import { NewVariableDialogComponent } from './new-variable-dialog/new-variable-dialog.component';
+import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-feature-set-creation',
@@ -131,8 +132,31 @@ export class FeatureSetCreationComponent implements OnInit {
       }
   }
 
-  onCancel(): void {
-    console.log('Cancel feature set creation');
+  onCancel(status): void {
+
+    if (status === 'no_saved') {
+      const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+        width: '500px',
+        data: {
+                title: 'Are you sure?',
+                message: 'The Feature set is not saved, are you sure you want to close?',
+                cancelButton: 'Keep here',
+                acceptButton: 'Close form'
+              }
+      });
+      dialogConf.afterClosed().subscribe(result => {
+        if (result) {
+          this.confirmCancel();
+        } else {
+          console.log('canceled close');
+        }
+      });
+    } else {
+      this.confirmCancel();
+    }
+  }
+
+  confirmCancel(): void {
     this.router.navigate(['/fslist']);
   }
 
