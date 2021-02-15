@@ -98,6 +98,7 @@ import { APP_INITIALIZER } from '@angular/core';
 import { initializer } from './core/services/usermanagement';
 import { FooterComponent } from './footer/footer.component';
 import { DialogConfirmationComponent } from './dialog-confirmation/dialog-confirmation.component';
+import { FsDetailsDialogComponent } from './data-set-creation/fs-details-dialog/fs-details-dialog.component';
 
 @NgModule({
   declarations: [
@@ -123,6 +124,7 @@ import { DialogConfirmationComponent } from './dialog-confirmation/dialog-confir
     ProspectiveStudyCreationComponent,
     FooterComponent,
     DialogConfirmationComponent,
+    FsDetailsDialogComponent,
   ],
   imports: [
     CoreModule,
