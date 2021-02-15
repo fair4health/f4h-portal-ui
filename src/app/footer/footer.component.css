@@ -1,4 +1,12 @@
 .footer {
-  text-align: center; 
-  padding-left: auto;
+
+  font-size: small;
+  color: #9a9797;
+  position: relative;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+ 
+
 }
