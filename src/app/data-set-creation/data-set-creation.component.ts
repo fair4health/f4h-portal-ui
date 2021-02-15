@@ -26,6 +26,8 @@ import { Dataset } from '../shared/dataset';
 import { ElegibilityCriteria } from '../shared/elegibility-criteria';
 import { of } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatDialog } from '@angular/material/dialog';
+import { FsDetailsDialogComponent } from './fs-details-dialog/fs-details-dialog.component';
 
 
 @Component({
@@ -71,7 +73,8 @@ export class DataSetCreationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private backendService: BackendService,
     private localStorage: LocalStorageService,
-    private userCommunication: UserCommunicationService
+    private userCommunication: UserCommunicationService,
+    public dialog: MatDialog
     ) {}
 
   ngOnInit(): void {
@@ -136,9 +139,15 @@ export class DataSetCreationComponent implements OnInit {
       });
   }
 
-  onSelectFeatureSetDetails(element): void {
-    console.log('Selected view details of featureset: ' + JSON.stringify(element));
-    this.userCommunication.createMessage(this.userCommunication.INFO, 'Details dialog not implemented yet!');
+  onSelectFeatureSetDetails(featureSet): void {
+    const dialogRef = this.dialog.open(FsDetailsDialogComponent, {
+      width: '80%',
+      data: featureSet
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
   }
 
   onRadioFeatureSetSelected(): void {

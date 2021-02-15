@@ -1,0 +1,51 @@
+<table>
+  <tr>
+    <td><b>Name:</b></td>
+    <td>{{data.name}}</td> 
+  </tr>
+  <tr>
+    <td><b>Description:</b> </td>
+    <td>{{data.description}}</td>
+  </tr>
+  <tr>
+    <td><b>Created By:</b></td>
+    <td>{{data.created_by}}</td>
+  </tr>
+</table>
+
+<br>
+
+<table mat-table [dataSource]="variables" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef> Name </th>
+    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="fhir_path">
+    <th mat-header-cell *matHeaderCellDef> Fhir Path </th>
+    <td mat-cell *matCellDef="let element"> {{element.fhir_path}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="fhir_query">
+    <th mat-header-cell *matHeaderCellDef> Fhir Query </th>
+    <td mat-cell *matCellDef="let element"> {{element.fhir_query}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="variable_data_type">
+    <th mat-header-cell *matHeaderCellDef> Variable Data Type </th>
+    <td mat-cell *matCellDef="let element"> {{element.variable_data_type}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="variable_type">
+    <th mat-header-cell *matHeaderCellDef> Variable Type </th>
+    <td mat-cell *matCellDef="let element"> {{element.variable_type}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="variablesColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: variablesColumns;"></tr>
+</table>
+
+<mat-dialog-actions align="end">
+  <button color="warn" mat-raised-button [mat-dialog-close]="true" cdkFocusInitial>Close</button>
+</mat-dialog-actions>
