@@ -123,7 +123,6 @@ export class DataSetCreationComponent implements OnInit {
     this.backendService.getFeaturesetsList(this.newDataSet.project_id).subscribe(
       (featurelist) => {
         this.featureSetsDataSource = featurelist;
-
         if (history.state.selectedDataSet) {
           this.featureSetsDataSource.forEach(element => {
             // tslint:disable-next-line: no-string-literal
