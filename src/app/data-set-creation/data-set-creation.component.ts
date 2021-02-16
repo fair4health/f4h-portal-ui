@@ -50,6 +50,7 @@ export class DataSetCreationComponent implements OnInit {
   newDataSet: Dataset;
   newElegibilityCriteria: ElegibilityCriteria;
   elegibilityCriteriaList: ElegibilityCriteria[];
+  passTo5Step = false;
 
   // Get feature list
   featureSetsDataSource;
@@ -127,10 +128,7 @@ export class DataSetCreationComponent implements OnInit {
         this.featureSetsDataSource = featurelist;
         if (history.state.selectedDataSet) {
           this.featureSetsDataSource.forEach(element => {
-            // tslint:disable-next-line: no-string-literal
-        /*    if (element.featureset_id === this.newDataSet.featureset['featureset_id']) {
-              this.selectedFeatureSetRow = element;
-            }*/
+
           });
         }
       },
@@ -188,9 +186,14 @@ export class DataSetCreationComponent implements OnInit {
 
       // if the execution state is ready, go to the 4th step "Results & Statistics"
       if (data.execution_state === 'ready') {
-        console.log("es ready")
         this.stepper.selectedIndex = 3;
       }
+
+      data.dataset_sources.forEach(element => {
+        if (element.selection_status === 'selected') {
+          this.passTo5Step = true;
+        }
+      });
       this.completeddataTable = new MatTableDataSource(this.completedData);
       this.getDataSource(data.dataset_sources);
     });
@@ -258,11 +261,13 @@ export class DataSetCreationComponent implements OnInit {
   }
 
   selectAgent(checked, element): void {
+
     this.newDataSet.dataset_sources.forEach(elem => {
       if (element.agent.agent_id === elem.agent.agent_id) {
         if (checked) {
           elem.selection_status = 'selected';
           this.completedData.push(elem);
+          this.passTo5Step = true;
           this.table.renderRows();
         } else if (!checked) {
           elem.selection_status = 'discarded';
@@ -273,6 +278,12 @@ export class DataSetCreationComponent implements OnInit {
       }
     });
     this.completeddataTable = new MatTableDataSource(this.completedData);
+    this.passTo5Step = false;
+    this.newDataSet.dataset_sources.forEach(element => {
+      if (element.selection_status === 'selected') {
+        this.passTo5Step = true;
+      }
+    });
   }
 
 }
