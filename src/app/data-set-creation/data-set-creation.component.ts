@@ -28,6 +28,7 @@ import { of } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { FsDetailsDialogComponent } from './fs-details-dialog/fs-details-dialog.component';
+import { MatStepper } from '@angular/material/stepper';
 
 
 @Component({
@@ -68,7 +69,8 @@ export class DataSetCreationComponent implements OnInit {
   pattern = '^\/[?a-zA-Z0-9]+?[a-zA-Z0-9._%+-:=]{1,100}$';
 
   usecasename: string;
-
+  @ViewChild('stepper') stepper: MatStepper;
+  
   constructor(
     private formBuilder: FormBuilder,
     private backendService: BackendService,
@@ -184,6 +186,11 @@ export class DataSetCreationComponent implements OnInit {
         }
       });
 
+      // if the execution state is ready, go to the 4th step "Results & Statistics"
+      if (data.execution_state === 'ready') {
+        console.log("es ready")
+        this.stepper.selectedIndex = 3;
+      }
       this.completeddataTable = new MatTableDataSource(this.completedData);
       this.getDataSource(data.dataset_sources);
     });
