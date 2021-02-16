@@ -31,7 +31,12 @@
 
     <ng-container matColumnDef="execution_state">
       <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let element"> {{element.execution_state}} </td>
+      <td mat-cell *matCellDef="let element"> 
+        <p *ngIf="element['execution_state'] === 'executing' ">Generating dataset…</p>
+        <p *ngIf="element['execution_state'] === 'ready' ">Waiting for user to select agents…</p>
+        <p *ngIf="element['execution_state'] === 'final' ">Dataset is ready</p>
+        <p *ngIf="element['execution_state'] === 'error' ">An error occurred</p>  
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="created_by">
@@ -75,7 +80,12 @@
 
     <ng-container matColumnDef="execution_state">
       <th mat-header-cell *matHeaderCellDef> Status </th>
-      <td mat-cell *matCellDef="let element"> {{element.execution_state}} </td>
+      <td mat-cell *matCellDef="let element">
+        <p *ngIf="element['execution_state'] === 'executing' ">Generating dataset…</p>
+        <p *ngIf="element['execution_state'] === 'ready' ">Waiting for user to select agents…</p>
+        <p *ngIf="element['execution_state'] === 'final' ">Dataset is ready</p>
+        <p *ngIf="element['execution_state'] === 'error' ">An error occurred</p>
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="created_by">
