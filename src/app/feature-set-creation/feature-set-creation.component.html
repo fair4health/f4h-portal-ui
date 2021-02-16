@@ -11,17 +11,17 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Feature set name</mat-label>
-    <input matInput ngDefaultControl [(ngModel)]='name' [disabled]="isDisabled">
+    <input matInput ngDefaultControl [(ngModel)]='name'>
   </mat-form-field>
   <br>
   <mat-form-field appearance="fill">
     <mat-label>Description</mat-label>
-    <input matInput ngDefaultControl [(ngModel)]='description' [disabled]="isDisabled">
+    <input matInput ngDefaultControl [(ngModel)]='description'>
   </mat-form-field>
 
   <br>
 
-  <button mat-raised-button (click)='onNewVariable()' [disabled]="isDisabled">Add new variable</button>
+  <button mat-raised-button (click)='onNewVariable()'>Add new variable</button>
 
   <br>
   <br>
@@ -76,7 +76,7 @@
   <br>
   <br>
 
-  <button mat-raised-button color="primary" (click)="onSave()" [disabled]="isDisabled">Save</button> &nbsp;&nbsp; 
+  <button mat-raised-button color="primary" (click)="onSave()">Save</button> &nbsp;&nbsp; 
   <button *ngIf="! isDisabled" mat-raised-button color="warn" (click)="onCancel('no_saved')">Cancel</button>
   <button *ngIf="isDisabled" mat-raised-button color="warn" (click)="onCancel('saved')">Close</button>
 

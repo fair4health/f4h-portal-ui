@@ -92,14 +92,12 @@ export class FeatureSetCreationComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       if (result) {
-        
         this.newVariable = result;
 
         if (this.localStorage.projectType === 'association'){
           this.newVariable.variable_type = 'independent';
         }
-        console.log('--->', this.newVariable);
-        
+
         delete this.newVariable['newVariable'];
         this.dataSource.push(this.newVariable);
         this.table.renderRows();
@@ -117,6 +115,7 @@ export class FeatureSetCreationComponent implements OnInit {
     console.log('Feature set to save: ', newFeatureSet);
     if (history.state.selectedFeatureSet) {
       console.log('Update existent feature set.');
+      this.onUpdate(newFeatureSet);
     } else {
       newFeatureSet['created_by'] = this.localStorage.userId;
       this.backendService.saveFeatureSet(newFeatureSet).subscribe(
@@ -167,6 +166,19 @@ export class FeatureSetCreationComponent implements OnInit {
         }
       });
     this.table.renderRows();
+  }
+
+  onUpdate(featureSet): void {
+    console.log('update feature set: ', featureSet);
+    this.backendService.updateFeatureSet(featureSet).subscribe(
+      (data) => {
+        console.log('data =>', data);
+      },
+
+      (err) => {
+
+      }
+    );
   }
 
 }
