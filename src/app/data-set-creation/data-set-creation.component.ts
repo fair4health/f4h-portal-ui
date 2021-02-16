@@ -126,9 +126,9 @@ export class DataSetCreationComponent implements OnInit {
         if (history.state.selectedDataSet) {
           this.featureSetsDataSource.forEach(element => {
             // tslint:disable-next-line: no-string-literal
-            if (element.featureset_id === this.newDataSet.featureset['featureset_id']) {
+        /*    if (element.featureset_id === this.newDataSet.featureset['featureset_id']) {
               this.selectedFeatureSetRow = element;
-            }
+            }*/
           });
         }
       },
