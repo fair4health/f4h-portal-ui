@@ -29,6 +29,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { FsDetailsDialogComponent } from './fs-details-dialog/fs-details-dialog.component';
 import { MatStepper } from '@angular/material/stepper';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -62,7 +63,7 @@ export class DataSetCreationComponent implements OnInit {
   completedData: string[] = [];
   completeddataTable = new MatTableDataSource(this.completedData);
 
-  selectedFeatureSetRow;
+  selectedFeatureSetRow: any;
 
   componentDirection: string;
 
@@ -77,7 +78,8 @@ export class DataSetCreationComponent implements OnInit {
     private backendService: BackendService,
     private localStorage: LocalStorageService,
     private userCommunication: UserCommunicationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
     ) {}
 
   ngOnInit(): void {
@@ -240,23 +242,30 @@ export class DataSetCreationComponent implements OnInit {
     this.newDataSet['created_by'] = this.localStorage.userId;
     this.backendService.saveDataSet(this.newDataSet.project_id, this.newDataSet).subscribe(data => {
       this.getDataSource(data.dataset_sources);
-      this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
+      this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" has been saved.')
+      this.router.navigate(['/dsdashboard']);
     });
   }
 
 
   updateDataSet(): void {
+
+    // data from the form to the data Set object.
     Object.keys(this.formGroup1.controls).forEach(key => {
       this.newDataSet[key] = this.formGroup1.get(key).value;
     });
+
     console.log('updated data set: ', this.newDataSet);
+
+    // check if some agent have not execution_tatus and assignee that with 'discarded' value
     this.newDataSet.dataset_sources.forEach(element => {
       if (!element.execution_status) {
           element.execution_status = 'discarded';
       }
     });
     this.backendService.updateDataSet(this.newDataSet.project_id, this.newDataSet).subscribe( data => {
-      this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data + '" created successfully')
+      this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" has been updated.')
+      this.router.navigate(['/dsdashboard']);
     });
   }
 
