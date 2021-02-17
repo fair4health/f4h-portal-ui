@@ -141,3 +141,7 @@ table {
 .boosted_models_panel {
   display: flex;
 }
+
+::ng-deep .mat-horizontal-stepper-header{
+  pointer-events: none !important;
+}
