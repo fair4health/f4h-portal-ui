@@ -128,6 +128,7 @@ export class ModelCreationComponent implements OnInit {
     if (history.state.selectedModel) {
       this.onSeeModel();
       this.formGroup1.disable();
+      this.formGroup1.markAllAsTouched();
       this.formGroup5.disable();
       this.isDisabled = true;
       this.componentDirection = 'Model edition';
