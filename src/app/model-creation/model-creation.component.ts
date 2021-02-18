@@ -16,7 +16,7 @@
  * information in the project root.
  */
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageService } from '../core/services/local-storage.service';
 
@@ -27,6 +27,7 @@ import { DmModel } from '../shared/dm-model';
 import { Algorithm } from '../shared/algorithm';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-model-creation',
@@ -78,7 +79,7 @@ export class ModelCreationComponent implements OnInit {
   statisticsColumns: string[] = ['statistics', 'results'];
 
   algorithms = [];
-
+  @ViewChild('stepper') stepper: MatStepper;
   constructor(
     private backendService: BackendService,
     private localStorage: LocalStorageService,
@@ -124,13 +125,15 @@ export class ModelCreationComponent implements OnInit {
       test_size: ['', Validators.required],
       validation_size: ['', Validators.required]
     });
- 
+
     if (history.state.selectedModel) {
+
       this.onSeeModel();
       this.formGroup1.disable();
       this.formGroup5.disable();
       this.isDisabled = true;
       this.componentDirection = 'Model edition';
+
     } else {
       this.isDisabled = false;
       this.componentDirection = 'Model creation';
@@ -147,7 +150,6 @@ export class ModelCreationComponent implements OnInit {
       (datasets) => {
 
         datasets.forEach(element => {
-          console.log('EXECUTION STATE: ', element.execution_state);
           if (element.execution_state === 'final') {
             dataSets.push(element);
           }
@@ -177,6 +179,8 @@ export class ModelCreationComponent implements OnInit {
         if (this.newDMModel['data_mining_state'] === 'ready') {
           this.getStatistics();
         }
+
+        this.stepper.selectedIndex = 6;
       },
       (err) => {
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get Model list operation failed');
