@@ -22,9 +22,7 @@ export class NewVariableDialogComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('pattern', this.pattern);
-    
     this.projectType = this.localStorage.projectType;
-    console.log(this.projectType)
   }
 
   onNoClick(): void {

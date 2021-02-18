@@ -48,10 +48,11 @@ export class UserCommunicationService {
       } else {
         snackBarConfig = {panelClass: ['snack-bar-info']};
       }
-      snackBarConfig.duration = 2000;
+      snackBarConfig.duration = 6000;
 
       // The message lasts 2 seconds
       msg = msg;
-      this.snackBar.open(msg, type, snackBarConfig);
+      let action = 'close';
+      this.snackBar.open(msg, 'close', snackBarConfig);
     }
 }

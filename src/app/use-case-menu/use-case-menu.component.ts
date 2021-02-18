@@ -52,7 +52,11 @@ export class UseCaseMenuComponent implements OnInit {
     // this.useCaseSelectedId = this.route.snapshot.paramMap.get('useCaseSelectedId');
     this.useCaseSelectedId = this.localStorage.projectId;
     console.log('Load use case: ' + this.useCaseSelectedId);
-    this.getUseCase(this.useCaseSelectedId);
+    if (!this.useCaseSelectedId) {
+      this.userCommunication.createMessage(this.userCommunication.ERROR, 'Use Case not selected, come back and select one.')
+    }else {
+      this.getUseCase(this.useCaseSelectedId);
+    }
 
     if (this.auth.isLoggedIn()) {
       this.role = this.auth.role;

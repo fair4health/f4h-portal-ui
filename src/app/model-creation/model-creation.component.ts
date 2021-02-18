@@ -165,7 +165,7 @@ export class ModelCreationComponent implements OnInit {
   onSeeModel(): void {
 
     this.backendService.getModel(history.state.selectedModel.model_id).subscribe(
-      data => {
+      (data) => {
         console.log('EXISTING MODEL -->', data);
         this.selectedDataSet = data.dataset;
         this.newDMModel = data;
@@ -177,26 +177,27 @@ export class ModelCreationComponent implements OnInit {
         if (this.newDMModel['data_mining_state'] === 'ready') {
           this.getStatistics();
         }
+      },
+      (err) => {
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get Model list operation failed');
       }
     );
 
   }
 
-  getStatistics() {
+  getStatistics(): void {
     console.log(this.newDMModel['boosted_models']);
     this.newDMModel['boosted_models'].forEach(element => {
       this.statistics = element.calculated_test_statistics;
-       console.log(this.statistics);
-      //this.statisticsColumns = element
+      console.log(this.statistics);
     });
   }
 
-  selectBostedModel(boostedModels) {
+  selectBostedModel(boostedModels): void {
     console.log(boostedModels);
     // bustedModel['selection_status'] = 'selected'
     this.newDMModel['boosted_models'].forEach(element => {
       if (boostedModels === element) {
-        console.log('son iwales');
         element['selection_status'] = 'selected';
       } else {
         element['selection_status'] = 'discarded';
@@ -204,12 +205,15 @@ export class ModelCreationComponent implements OnInit {
     });
 
     this.backendService.updateModel(this.newDMModel['model_id'], this.newDMModel).subscribe(
-      data => { 
+      (data) => {
           console.log(data);
           this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Model updated successfully');
           this.router.navigate(['/mdashboard']);
-       }
-     );
+       },
+      (err) => {
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error updating model.');
+      }
+    );
   }
 
   getCategorialVariables(): void {
@@ -264,7 +268,11 @@ export class ModelCreationComponent implements OnInit {
     this.backendService.getUseCase(id).subscribe(
       (usecase) => {
         this.usecaseType = usecase.project_type;
-      });
+      },
+      (err) => {
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error getting Use case.');
+      }
+    );
   }
 
   onSave(): void {
@@ -319,7 +327,7 @@ export class ModelCreationComponent implements OnInit {
 
   getAlgoritms(): void {
     this.backendService.getAlgorithms().subscribe(
-      data => {
+      (data) => {
         const x = [];
         x.push(data);
         if (this.usecaseType === 'prediction') {
@@ -335,8 +343,11 @@ export class ModelCreationComponent implements OnInit {
             }
           });
         }
+      },
+      (err) => {
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error getting algorithms');
       }
-    )
+    );
   }
 
 }

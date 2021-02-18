@@ -89,21 +89,25 @@ export class FeatureSetCreationComponent implements OnInit {
       data: {newVariable: this.newVariable }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      if (result) {
-        
-        this.newVariable = result;
+    dialogRef.afterClosed().subscribe(
+      (result) => {
 
-        if (this.localStorage.projectType === 'association'){
-          this.newVariable.variable_type = 'independent';
+        if (result) {
+          this.newVariable = result;
+
+          if (this.localStorage.projectType === 'association'){
+            this.newVariable.variable_type = 'independent';
+          }
+          delete this.newVariable['newVariable'];
+          this.dataSource.push(this.newVariable);
+          this.table.renderRows();
         }
-        console.log('--->', this.newVariable);
-        
-        delete this.newVariable['newVariable'];
-        this.dataSource.push(this.newVariable);
-        this.table.renderRows();
-      }
+        this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Variable added');
+    },
+
+    (err) => {
+      console.log(err);
+      this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error adding variable');
     });
   }
 
@@ -127,6 +131,7 @@ export class FeatureSetCreationComponent implements OnInit {
         },
         (err) => {
           this.backendService.handleError('home', err);
+          console.log("error", err);
           this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed!');
         });
       }
@@ -164,6 +169,8 @@ export class FeatureSetCreationComponent implements OnInit {
     this.dataSource.forEach((item, index) => {
         if (item === variable) {
           this.dataSource.splice(index, 1);
+          this.userCommunication.createMessage(this.userCommunication.INFO, 'Variable deleted');
+
         }
       });
     this.table.renderRows();
