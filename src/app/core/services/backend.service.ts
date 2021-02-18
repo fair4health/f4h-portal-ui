@@ -85,6 +85,10 @@ export class BackendService {
     return this.httpClient.post(environment.restApiUrl + 'manager/featureset', featureSet);
   }
 
+  public updateFeatureSet(featureSet, id): Observable<any> {
+    return this.httpClient.put(environment.restApiPPDDM + 'manager/featureset/' + id, featureSet);
+  }
+
   // get model list from the mockup api
   public getModelsList(): Observable<any> {
     return this.httpClient.get(environment.restApiUrl + 'manager/dm-model/');

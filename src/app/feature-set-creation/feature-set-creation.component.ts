@@ -44,6 +44,8 @@ export class FeatureSetCreationComponent implements OnInit {
   componentTitle: string;
   componentDirection: string;
   isDisabled: boolean;
+  featureSet: FeatureSet;
+  featureSetId: string;
 
   @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['name', 'description', 'variable_type', 'variable_data_type', 'fhir_query', 'fhir_path', 'delete'];
@@ -64,6 +66,8 @@ export class FeatureSetCreationComponent implements OnInit {
 
     if (history.state.selectedFeatureSet) {
       this.fillFields();
+      this.featureSetId = history.state.selectedFeatureSet.featureset_id;
+      this.featureSet = history.state.selectedFeatureSet;
       this.isDisabled = true;
       this.componentTitle = 'Edit feature set';
       this.componentDirection = 'Feature set edition';
@@ -121,6 +125,9 @@ export class FeatureSetCreationComponent implements OnInit {
     console.log('Feature set to save: ', newFeatureSet);
     if (history.state.selectedFeatureSet) {
       console.log('Update existent feature set.');
+      newFeatureSet['featureset_id'] = this.featureSetId;
+      newFeatureSet['created_by'] = this.featureSet['featureset_id'];
+      this.onUpdate(newFeatureSet);
     } else {
       newFeatureSet['created_by'] = this.localStorage.userId;
       this.backendService.saveFeatureSet(newFeatureSet).subscribe(
@@ -174,6 +181,21 @@ export class FeatureSetCreationComponent implements OnInit {
         }
       });
     this.table.renderRows();
+  }
+
+  onUpdate(featureSet): void {
+    console.log('update feature set: ', featureSet);
+    this.backendService.updateFeatureSet(featureSet, this.featureSetId).subscribe(
+      (data) => {
+        console.log('data =>', data);
+        this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Feature set ' + data.name + ' was updated successfully.');
+        this.router.navigate(['/fslist']);
+      },
+
+      (err) => {
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error updating Feature Set.');
+      }
+    );
   }
 
 }

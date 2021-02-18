@@ -29,10 +29,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     formGroup1: FormGroup;
     formGroup2: FormGroup;
     formGroup3: FormGroup;
-
     modelTableColumns: string[] = ['sel', 'name', 'description', 'algorithm', 'data_source', 'created_by', 'creation_time', 'see_details'];
     models: DmModel[] = [];
-
     projectId = this.localStorage.projectId;
     selectedModel: DmModel;
     predicrionResult: string;
@@ -42,24 +40,22 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     variable: any;
     patientsPredictions: any[];
     patientsPredictionsColumns: string[] = [];
-
     errorUploadingList: boolean;
-
     predictionList: any[] = [];
     predictionColumnsList: string[] = [];
     variableResultList: any[] = [];
-
     selectedPrescriptionStudy: any;
     useCaseName: any;
-
-
     prospectiveStudy: ProspectiveStudy;
 
     ngOnInit(): void {
 
       this.backendService.getUseCase(this.projectId).subscribe(
-        data => {
+        (data) => {
           this.useCaseName = data.name;
+        },
+        (err) => {
+          this.userCommunication.createMessage(this.userCommunication.ERROR, 'Use case is not selected.');
         }
       );
       this.prospectiveStudy = new ProspectiveStudy();
@@ -114,31 +110,33 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             }
           });
           this.models = modls;
+        },
+        (err) => {
+          this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get Models list operation failed.')
         }
       );
     }
 
     onSeeModel(model): void {
-        console.log('selected model: ', model);
+      console.log('selected model: ', model);
     }
 
     onSelectModel(model): void {
         this.selectedModel = model.value;
         this.selectedModel.dataset.featureset.variables.forEach(element => {
-            if (element.variable_type === 'independent') {
-                this.variablesDataSet.push(element);
-
-                this.formGroup3.addControl(element.name, new FormControl(''));
-                this.predictionColumnsList.push(element.name);
-            }
-        });
-
+          if (element.variable_type === 'independent') {
+            this.variablesDataSet.push(element);
+            this.formGroup3.addControl(element.name, new FormControl(''));
+            this.predictionColumnsList.push(element.name);
+          }
+        }
+      );
     }
 
     onPredict(): void {
         this.variables = {
-
         };
+
         this.variables.variables = [];
         this.variables.data_mining_model = this.selectedModel;
         this.variables.submitted_by = this.localStorage.userId;
@@ -169,7 +167,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.variables.identifier = '1';
         });
 
-        this.backendService.predict(this.variables).subscribe(data => {
+        this.backendService.predict(this.variables).subscribe(
+          (data) => {
             this.predicrionResult = data.prediction;
             if (data.prediction === 1) {
               this.predcolor = '#3fc100';
@@ -187,7 +186,11 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.variableResultList.push(data);
             this.predictionList.push(data);
 
-        });
+        },
+        (err) => {
+          this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction.');
+        }
+        );
     }
 
     onSave(): void {
@@ -203,6 +206,9 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         (data) => {
           this.router.navigate(['/psdashboard']);
           this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Prospective study ' + data.name + ' created correctlly');
+        },
+        (err) => {
+          this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error saving prediction.');
         }
       );
     }
@@ -283,6 +289,9 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 this.predictionList.push(data);
 
                 this.variableResultList.push(element);
+              },
+              (err) => {
+                this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction');
               }
             );
 
