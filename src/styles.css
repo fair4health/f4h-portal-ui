@@ -1904,16 +1904,23 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12); }
 
 .snack-bar-info {
-  color: lightgray;
+  color: black;
+  background: #33b5e5;
+  width: 20em !important;
 }
 
 .snack-bar-error {
-  color: red;
+  color: white;
+  background: #ff4444;
+  width: 60%;
 }
 
 .snack-bar-success {
-  color: green;
+  color: black;
+  background: #00C851;
+  width: 60%;
 }
+
 
 .mat-raised-button, .mat-stroked-button, .mat-flat-button {
   padding: 0 1.15em;

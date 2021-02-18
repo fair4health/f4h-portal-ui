@@ -41,7 +41,12 @@
               <th mat-header-cell *matHeaderCellDef>
               </th>
               <td mat-cell *matCellDef="let row">
-                <mat-radio-button [value]="row" [disabled]="isDisabled"></mat-radio-button>
+                <div *ngIf="!selectedFeatureSetRow">
+                  <mat-radio-button  [value]="row" [disabled]="isDisabled"></mat-radio-button>
+                </div>
+                <div *ngIf="selectedFeatureSetRow">
+                  <mat-radio-button  [value]="row" [disabled]="isDisabled" [checked]="selectedFeatureSetRow.featureset_id == row.featureset_id"></mat-radio-button>
+                </div>
               </td>
             </ng-container>
 
@@ -174,7 +179,8 @@
 
         <div>
           <button mat-button matStepperPrevious color="primary" >Back</button>
-          <button mat-button matStepperNext color="primary" >Next</button>
+          <button mat-button matStepperNext color="primary" [disabled]="!passTo5Step">Next</button>
+       
         </div>
       </form>
     </mat-step>

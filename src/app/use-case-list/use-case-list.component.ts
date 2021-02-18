@@ -71,6 +71,7 @@ export class UseCaseListComponent implements OnInit {
         }
       },
       (err) => {
+        console.log('error: ',err)
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get use case list operation failed');
       });

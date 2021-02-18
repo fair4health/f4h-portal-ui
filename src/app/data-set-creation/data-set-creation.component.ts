@@ -28,6 +28,8 @@ import { of } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { FsDetailsDialogComponent } from './fs-details-dialog/fs-details-dialog.component';
+import { MatStepper } from '@angular/material/stepper';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -49,6 +51,7 @@ export class DataSetCreationComponent implements OnInit {
   newDataSet: Dataset;
   newElegibilityCriteria: ElegibilityCriteria;
   elegibilityCriteriaList: ElegibilityCriteria[];
+  passTo5Step = false;
 
   // Get feature list
   featureSetsDataSource;
@@ -60,7 +63,7 @@ export class DataSetCreationComponent implements OnInit {
   completedData: string[] = [];
   completeddataTable = new MatTableDataSource(this.completedData);
 
-  selectedFeatureSetRow;
+  selectedFeatureSetRow: any;
 
   componentDirection: string;
 
@@ -68,13 +71,15 @@ export class DataSetCreationComponent implements OnInit {
   pattern = '^\/[?a-zA-Z0-9]+?[a-zA-Z0-9._%+-:=]{1,100}$';
 
   usecasename: string;
-
+  @ViewChild('stepper') stepper: MatStepper;
+  
   constructor(
     private formBuilder: FormBuilder,
     private backendService: BackendService,
     private localStorage: LocalStorageService,
     private userCommunication: UserCommunicationService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
     ) {}
 
   ngOnInit(): void {
@@ -125,10 +130,7 @@ export class DataSetCreationComponent implements OnInit {
         this.featureSetsDataSource = featurelist;
         if (history.state.selectedDataSet) {
           this.featureSetsDataSource.forEach(element => {
-            // tslint:disable-next-line: no-string-literal
-            if (element.featureset_id === this.newDataSet.featureset['featureset_id']) {
-              this.selectedFeatureSetRow = element;
-            }
+
           });
         }
       },
@@ -184,6 +186,16 @@ export class DataSetCreationComponent implements OnInit {
         }
       });
 
+      // if the execution state is ready, go to the 4th step "Results & Statistics"
+      if (data.execution_state === 'ready') {
+        this.stepper.selectedIndex = 3;
+      }
+
+      data.dataset_sources.forEach(element => {
+        if (element.selection_status === 'selected') {
+          this.passTo5Step = true;
+        }
+      });
       this.completeddataTable = new MatTableDataSource(this.completedData);
       this.getDataSource(data.dataset_sources);
     });
@@ -228,34 +240,52 @@ export class DataSetCreationComponent implements OnInit {
     });
     // this is a mock of created_by of data set, it will be removed.
     this.newDataSet['created_by'] = this.localStorage.userId;
-    this.backendService.saveDataSet(this.newDataSet.project_id, this.newDataSet).subscribe(data => {
-      this.getDataSource(data.dataset_sources);
-      this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
-    });
+    this.backendService.saveDataSet(this.newDataSet.project_id, this.newDataSet).subscribe(
+      (data) => {
+        this.getDataSource(data.dataset_sources);
+        this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" has been saved.')
+        this.router.navigate(['/dsdashboard']);
+      },
+      (err) => {
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Failed to create Data set.');
+      });
   }
 
 
   updateDataSet(): void {
+
+    // data from the form to the data Set object.
     Object.keys(this.formGroup1.controls).forEach(key => {
       this.newDataSet[key] = this.formGroup1.get(key).value;
     });
+
     console.log('updated data set: ', this.newDataSet);
+
+    // check if some agent have not execution_tatus and assignee that with 'discarded' value
     this.newDataSet.dataset_sources.forEach(element => {
       if (!element.execution_status) {
           element.execution_status = 'discarded';
       }
     });
-    this.backendService.updateDataSet(this.newDataSet.project_id, this.newDataSet).subscribe( data => {
-      this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data + '" created successfully')
-    });
+    this.backendService.updateDataSet(this.newDataSet.project_id, this.newDataSet).subscribe( 
+      (data) => {
+        this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" has been updated.');
+        this.router.navigate(['/dsdashboard']);
+    },
+      (err) => {
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Failed to update Data set.');
+      }
+    );
   }
 
   selectAgent(checked, element): void {
+
     this.newDataSet.dataset_sources.forEach(elem => {
       if (element.agent.agent_id === elem.agent.agent_id) {
         if (checked) {
           elem.selection_status = 'selected';
           this.completedData.push(elem);
+          this.passTo5Step = true;
           this.table.renderRows();
         } else if (!checked) {
           elem.selection_status = 'discarded';
@@ -266,6 +296,12 @@ export class DataSetCreationComponent implements OnInit {
       }
     });
     this.completeddataTable = new MatTableDataSource(this.completedData);
+    this.passTo5Step = false;
+    this.newDataSet.dataset_sources.forEach(element => {
+      if (element.selection_status === 'selected') {
+        this.passTo5Step = true;
+      }
+    });
   }
 
 }

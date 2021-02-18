@@ -47,8 +47,12 @@ export class ModelDashboardComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.useCaseName = this.localStorage.projectName;
-    this.getModelsList();
+    if (!this.localStorage.projectId) {
+      this.userCommunication.createMessage(this.userCommunication.ERROR, 'Use case is not selected, come back and select one.');
+    } else {
+      this.useCaseName = this.localStorage.projectName;
+      this.getModelsList();
+    }
   }
 
   getModelsList(): void {

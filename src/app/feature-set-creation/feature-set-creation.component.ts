@@ -44,6 +44,8 @@ export class FeatureSetCreationComponent implements OnInit {
   componentTitle: string;
   componentDirection: string;
   isDisabled: boolean;
+  featureSet: FeatureSet;
+  featureSetId: string;
 
   @ViewChild(MatTable) table: MatTable<any>;
   displayedColumns: string[] = ['name', 'description', 'variable_type', 'variable_data_type', 'fhir_query', 'fhir_path', 'delete'];
@@ -64,6 +66,8 @@ export class FeatureSetCreationComponent implements OnInit {
 
     if (history.state.selectedFeatureSet) {
       this.fillFields();
+      this.featureSetId = history.state.selectedFeatureSet.featureset_id;
+      this.featureSet = history.state.selectedFeatureSet;
       this.isDisabled = true;
       this.componentTitle = 'Edit feature set';
       this.componentDirection = 'Feature set edition';
@@ -89,19 +93,25 @@ export class FeatureSetCreationComponent implements OnInit {
       data: {newVariable: this.newVariable }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-      if (result) {
-        this.newVariable = result;
+    dialogRef.afterClosed().subscribe(
+      (result) => {
 
-        if (this.localStorage.projectType === 'association'){
-          this.newVariable.variable_type = 'independent';
+        if (result) {
+          this.newVariable = result;
+
+          if (this.localStorage.projectType === 'association'){
+            this.newVariable.variable_type = 'independent';
+          }
+          delete this.newVariable['newVariable'];
+          this.dataSource.push(this.newVariable);
+          this.table.renderRows();
         }
+        this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Variable added');
+    },
 
-        delete this.newVariable['newVariable'];
-        this.dataSource.push(this.newVariable);
-        this.table.renderRows();
-      }
+    (err) => {
+      console.log(err);
+      this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error adding variable');
     });
   }
 
@@ -115,6 +125,8 @@ export class FeatureSetCreationComponent implements OnInit {
     console.log('Feature set to save: ', newFeatureSet);
     if (history.state.selectedFeatureSet) {
       console.log('Update existent feature set.');
+      newFeatureSet['featureset_id'] = this.featureSetId;
+      newFeatureSet['created_by'] = this.featureSet['featureset_id'];
       this.onUpdate(newFeatureSet);
     } else {
       newFeatureSet['created_by'] = this.localStorage.userId;
@@ -126,6 +138,7 @@ export class FeatureSetCreationComponent implements OnInit {
         },
         (err) => {
           this.backendService.handleError('home', err);
+          console.log("error", err);
           this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed!');
         });
       }
@@ -163,6 +176,8 @@ export class FeatureSetCreationComponent implements OnInit {
     this.dataSource.forEach((item, index) => {
         if (item === variable) {
           this.dataSource.splice(index, 1);
+          this.userCommunication.createMessage(this.userCommunication.INFO, 'Variable deleted');
+
         }
       });
     this.table.renderRows();
@@ -170,13 +185,15 @@ export class FeatureSetCreationComponent implements OnInit {
 
   onUpdate(featureSet): void {
     console.log('update feature set: ', featureSet);
-    this.backendService.updateFeatureSet(featureSet).subscribe(
+    this.backendService.updateFeatureSet(featureSet, this.featureSetId).subscribe(
       (data) => {
         console.log('data =>', data);
+        this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Feature set ' + data.name + ' was updated successfully.');
+        this.router.navigate(['/fslist']);
       },
 
       (err) => {
-
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error updating Feature Set.');
       }
     );
   }
