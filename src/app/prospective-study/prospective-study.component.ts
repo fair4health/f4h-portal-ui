@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
+import { UserCommunicationService } from '../core/services/user-communication.service';
 
 @Component({
   selector: 'app-prospective-study',
@@ -10,14 +11,16 @@ import { LocalStorageService } from '../core/services/local-storage.service';
 })
 export class ProspectiveStudyComponent implements OnInit {
 
-  psColumns: string[] = ['name', 'description', 'data_mining_model', 'data_source', 'predictions', 'created_by', 'created_on', 'see_details'];
+  psColumns: string[] = [ 'name', 'description', 'data_mining_model', 'data_source',
+                          'predictions', 'created_by', 'created_on', 'see_details'];
   dataSource = [];
   useCaseName: string;
 
   constructor(
     private localStorage: LocalStorageService,
     private backendService: BackendService,
-    private router: Router
+    private router: Router,
+    public userCommunication: UserCommunicationService
   ) { }
 
   ngOnInit(): void {
@@ -31,11 +34,14 @@ export class ProspectiveStudyComponent implements OnInit {
       (data) => {
         console.log(data);
         this.dataSource = data;
+      },
+      (err) => {
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get Prospective Studies list operation failed');
       }
     );
   }
 
-  showDetails(row) {
+  showDetails(row): void {
     const prescriptionStudy = row;
     this.router.navigate(['/pscreation'], {state: {prescriptionStudy}});
   }

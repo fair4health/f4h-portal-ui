@@ -240,11 +240,15 @@ export class DataSetCreationComponent implements OnInit {
     });
     // this is a mock of created_by of data set, it will be removed.
     this.newDataSet['created_by'] = this.localStorage.userId;
-    this.backendService.saveDataSet(this.newDataSet.project_id, this.newDataSet).subscribe(data => {
-      this.getDataSource(data.dataset_sources);
-      this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" has been saved.')
-      this.router.navigate(['/dsdashboard']);
-    });
+    this.backendService.saveDataSet(this.newDataSet.project_id, this.newDataSet).subscribe(
+      (data) => {
+        this.getDataSource(data.dataset_sources);
+        this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" has been saved.')
+        this.router.navigate(['/dsdashboard']);
+      },
+      (err) => {
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Failed to create Data set.');
+      });
   }
 
 
@@ -263,10 +267,15 @@ export class DataSetCreationComponent implements OnInit {
           element.execution_status = 'discarded';
       }
     });
-    this.backendService.updateDataSet(this.newDataSet.project_id, this.newDataSet).subscribe( data => {
-      this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" has been updated.')
-      this.router.navigate(['/dsdashboard']);
-    });
+    this.backendService.updateDataSet(this.newDataSet.project_id, this.newDataSet).subscribe( 
+      (data) => {
+        this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" has been updated.');
+        this.router.navigate(['/dsdashboard']);
+    },
+      (err) => {
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Failed to update Data set.');
+      }
+    );
   }
 
   selectAgent(checked, element): void {

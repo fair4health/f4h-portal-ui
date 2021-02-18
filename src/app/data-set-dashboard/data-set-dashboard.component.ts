@@ -50,6 +50,9 @@ export class DataSetDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.usacasename = this.localStorage.projectName;
     this.getDataSetsList();
+    if (!this.localStorage.projectId) {
+      this.userCommunication.createMessage(this.userCommunication.ERROR, 'Use case is not selected, come back and select one.');
+    }
   }
 
   getDataSetsList(): void {
@@ -76,12 +79,12 @@ export class DataSetDashboardComponent implements OnInit {
         if (this.table.last) {
           this.table.last.renderRows();
         }
-
-        
       },
       (err) => {
         this.backendService.handleError('home', err);
-         });
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error getting Data Sets');
+
+      });
   }
 
   onSelectDataSet(selectedDataSet): void {
