@@ -173,6 +173,8 @@ export class ModelCreationComponent implements OnInit {
         this.newDMModel = data;
         this.formGroup1.get('name').setValue(this.newDMModel.name);
         this.formGroup1.get('description').setValue(this.newDMModel.description);
+        this.formGroup6.get('training_size').setValue(this.newDMModel.training_size * 100);
+        this.formGroup6.get('test_size').setValue(this.newDMModel.test_size * 100);
         this.algorithmsList = data.algorithms;
         this.getCategorialVariables();
         this.getMissingData();
