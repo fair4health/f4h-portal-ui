@@ -10,7 +10,8 @@ export const environment = {
     // Url of the Identity Provider
     issuer: 'https://keycloak.docker.atosresearch.eu/auth',
     // URL of the SPA to redirect the user to after login
-    redirectUri: 'http://localhost:4200/uclist',
+    // redirectUri: 'http://localhost:4200/uclist',
+    redirectUri: 'https://portal.fair4health.eu/uclist',
     // Realm details
     realm: 'FAIR4Health',
     clientId: 'fair4health-portal-client',
