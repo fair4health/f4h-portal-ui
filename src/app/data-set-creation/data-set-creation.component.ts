@@ -62,17 +62,14 @@ export class DataSetCreationComponent implements OnInit {
 
   completedData: string[] = [];
   completeddataTable = new MatTableDataSource(this.completedData);
-
   selectedFeatureSetRow: any;
-
   componentDirection: string;
-
   isDisabled: boolean;
   pattern = '^\/[?a-zA-Z0-9]+?[a-zA-Z0-9._%+-:=]{1,100}$';
 
   usecasename: string;
   @ViewChild('stepper') stepper: MatStepper;
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private backendService: BackendService,
@@ -117,9 +114,18 @@ export class DataSetCreationComponent implements OnInit {
       this.formGroup1.disable();
       this.formGroup3.disable();
       this.onSeeDataSet();
+      setInterval(() => {
+        this.refreshDataSet();
+      }, 30000);
     } else {
       this.isDisabled = false;
       this.componentDirection = 'Data set creation';
+    }
+  }
+
+  refreshDataSet(): void {
+    if (this.newDataSet.execution_state === 'executing') {
+      this.onSeeDataSet();
     }
   }
 
@@ -187,9 +193,8 @@ export class DataSetCreationComponent implements OnInit {
       });
 
       // if the execution state is ready, go to the 4th step "Results & Statistics"
-      if (data.execution_state === 'ready') {
-        this.stepper.selectedIndex = 3;
-      }
+
+      this.stepper.selectedIndex = 3;
 
       data.dataset_sources.forEach(element => {
         if (element.selection_status === 'selected') {

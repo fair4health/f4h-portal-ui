@@ -30,7 +30,7 @@ export class ProspectiveStudyComponent implements OnInit {
   }
 
   getProspectiveStudies(): void {
-    this.backendService.getProspectiveStudies().subscribe(
+    this.backendService.getProspectiveStudies(this.localStorage.projectId).subscribe(
       (data) => {
         console.log(data);
         this.dataSource = data;
