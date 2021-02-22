@@ -186,6 +186,12 @@
                   <div>
                     <h1>Prediction</h1>
                     <h3>for {{useCaseName}}</h3>
+                    
+                    <div [hidden]="!predictingFlag" class="load-spiner">
+                      <mat-spinner></mat-spinner>
+                      <h3 style="color: #6db044;">Predicting...</h3>
+                    </div>
+
                     <div *ngIf="predicrionResult == '0'" >
                       <p class="prediction-result" [ngStyle]="{'color': predcolor}">False</p>
                     </div>
@@ -215,8 +221,13 @@
                                     id="txtFileUpload" (change)="uploadpatientFile($event)" accept=".csv" />
   
                           </div>
+
+                          <div [hidden]="!predictingFlag">
+                            <mat-spinner></mat-spinner>
+                            <h3 style="color: #6db044;">Predicting...</h3>
+                          </div>
                           
-                          <div *ngIf="patientsPredictions">
+                          <div [hidden]="predictingFlag" *ngIf="patientsPredictions">
                             <table mat-table class="mat-elevation-z8" [dataSource]="patientsPredictions">
                               <ng-container [matColumnDef]="column" *ngFor="let column of patientsPredictionsColumns[0]">
                                 <th mat-header-cell *matHeaderCellDef class="table-head-variable"> {{column}} </th>
