@@ -173,14 +173,28 @@ export class FeatureSetCreationComponent implements OnInit {
   }
 
   onDelete(variable): void {
-    this.dataSource.forEach((item, index) => {
-        if (item === variable) {
-          this.dataSource.splice(index, 1);
-          this.userCommunication.createMessage(this.userCommunication.INFO, 'Variable deleted');
 
-        }
-      });
-    this.table.renderRows();
+    const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+      width: '500px',
+      data: {
+              title: 'Are you sure you want to delete?',
+              message: 'The variable will be deleted permanently.',
+              cancelButton: 'Cancel',
+              acceptButton: 'Delete'
+            }
+    });
+
+    dialogConf.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataSource.forEach((item, index) => {
+          if (item === variable) {
+            this.dataSource.splice(index, 1);
+            this.userCommunication.createMessage(this.userCommunication.INFO, 'Variable deleted');
+          }
+        });
+        this.table.renderRows();
+      }
+    });
   }
 
   onUpdate(featureSet): void {
