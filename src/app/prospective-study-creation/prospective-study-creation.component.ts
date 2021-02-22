@@ -47,6 +47,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     selectedPrescriptionStudy: any;
     useCaseName: any;
     prospectiveStudy: ProspectiveStudy;
+    predictingFlag = false;
 
     ngOnInit(): void {
 
@@ -134,6 +135,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     }
 
     onPredict(): void {
+
+        this.predictingFlag = true;
         this.variables = {
         };
 
@@ -167,6 +170,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.variables.identifier = '1';
         });
 
+        console.log('prediction: ', this.variables)
         this.backendService.predict(this.variables).subscribe(
           (data) => {
             this.predicrionResult = data.prediction;
@@ -186,11 +190,18 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.variableResultList.push(data);
             this.predictionList.push(data);
 
+            
+            this.predictingFlag = false;
+            
+
         },
         (err) => {
+          console.log('ERROR: ', err);
           this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction.');
         }
         );
+        console.log(this.predicrionResult);
+      
     }
 
     onSave(): void {
@@ -215,6 +226,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
     uploadpatientFile(event): void {
 
+      this.predictingFlag = true;
       const files = event.srcElement.files;
       const input = event.target;
       const reader = new FileReader();
@@ -289,6 +301,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 this.predictionList.push(data);
 
                 this.variableResultList.push(element);
+                this.predictingFlag = false;
               },
               (err) => {
                 this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction');

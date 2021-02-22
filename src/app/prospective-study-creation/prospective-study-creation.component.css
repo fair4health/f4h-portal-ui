@@ -85,3 +85,14 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
   border-bottom-width: 1px;
   border-bottom-style: solid;
 }
+
+.mat-progress-spinner.mat-progress-spinner-indeterminate-animation {
+  margin: 0 auto;
+  margin-top: 3em;
+  text-align: center;
+}
+
+::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #6db044 !important;
+  position: absolute;
+}
