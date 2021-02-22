@@ -189,7 +189,7 @@
                     
                     <div [hidden]="!predictingFlag" class="load-spiner">
                       <mat-spinner></mat-spinner>
-                      <h3 style="color: #6db044;">Predicting...</h3>
+                      <h3 style="color: #6db044;">Please wait while the prediction is processed...</h3>
                     </div>
 
                     <div *ngIf="predicrionResult == '0'" >
@@ -224,7 +224,7 @@
 
                           <div [hidden]="!predictingFlag">
                             <mat-spinner></mat-spinner>
-                            <h3 style="color: #6db044;">Predicting...</h3>
+                            <h3 style="color: #6db044;">Please wait while the prediction is processed...</h3>
                           </div>
                           
                           <div [hidden]="predictingFlag" *ngIf="patientsPredictions">
