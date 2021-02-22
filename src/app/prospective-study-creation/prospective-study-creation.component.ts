@@ -189,19 +189,17 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
             this.variableResultList.push(data);
             this.predictionList.push(data);
-
-            
             this.predictingFlag = false;
-            
 
         },
         (err) => {
+          this.predictingFlag = false;
           console.log('ERROR: ', err);
           this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction.');
         }
         );
         console.log(this.predicrionResult);
-      
+
     }
 
     onSave(): void {
@@ -304,6 +302,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 this.predictingFlag = false;
               },
               (err) => {
+                this.predictingFlag = false;
                 this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction');
               }
             );
