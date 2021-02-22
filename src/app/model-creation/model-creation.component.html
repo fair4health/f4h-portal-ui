@@ -178,7 +178,7 @@
                 <mat-label>Algorithm</mat-label>
                 <mat-select name="algorithmName" (selectionChange)="onChangeAlgorithm($event.value)" [disabled]="isDisabled">
                   <mat-option *ngFor="let algorithm of algorithms" [value]="algorithm">
-                    {{algorithm.name}}
+                    {{algorithm.display}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
