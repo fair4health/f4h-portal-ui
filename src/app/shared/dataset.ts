@@ -29,4 +29,5 @@ export class Dataset {
   created_on: string;
   dataset_id: string;
   dataset_sources: any;
+  execution_state: string;
 }

@@ -161,8 +161,8 @@ export class BackendService {
     return this.httpClient.post(environment.restApiPPDDM + 'manager/predict', prediction, this.httpOptions);
   }
 
-  getProspectiveStudies(): Observable<any> {
-    return this.httpClient.get(environment.restApiPPDDM + 'manager/prospective', this.httpOptions);
+  getProspectiveStudies(id): Observable<any> {
+    return this.httpClient.get(environment.restApiPPDDM + 'manager/prospective?project_id=' + id, this.httpOptions);
   }
 
   onSaveprospectiveStudy(pospectiveStudy): Observable<any> {
