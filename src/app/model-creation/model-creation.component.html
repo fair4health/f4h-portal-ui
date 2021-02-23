@@ -230,7 +230,6 @@
               <div class="col-1">
 
                 <label class="label-param">Trainig size</label> 
-                <label class="label-param">Validation size</label>
                 <label class="label-param">Test size</label>
               </div>
               <div class="col-2">
@@ -241,7 +240,8 @@
                   max="100"
                   class="slider-btn"
                   formControlName="training_size"
-                  name="test_size">
+                  name="test_size"
+                  (input)="changeTraining($event)">
                 </mat-slider>
 
                 <mat-slider
@@ -250,24 +250,14 @@
                   min="1"
                   max="100"
                   class="slider-btn"
-                  formControlName="validation_size">
-                </mat-slider> 
-
-                <mat-slider
-                  thumbLabel
-                  tickInterval="10"
-                  min="1"
-                  max="100"
-                  class="slider-btn"
-                  formControlName="test_size">
+                  formControlName="test_size"
+                  disabled="true">
                 </mat-slider> 
 
 
               </div>
               <div class="col-3">
                 <label > {{formGroup6.controls.training_size.value / 100}} </label>
-                <br>
-                <label > {{formGroup6.controls.validation_size.value / 100}}</label>
                 <br>
                 <label > {{formGroup6.controls.test_size.value / 100}}</label>
                 <br>
