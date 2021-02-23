@@ -122,8 +122,8 @@ export class ModelCreationComponent implements OnInit {
     });
     this.formGroup6 = this.formBuilder.group({
       training_size: ['', Validators.required],
-      test_size: ['', Validators.required],
-      validation_size: ['', Validators.required]
+      test_size: [''],
+      validation_size: ['']
     });
 
     if (history.state.selectedModel) {
@@ -222,6 +222,12 @@ export class ModelCreationComponent implements OnInit {
     );
   }
 
+  changeTraining(event): void {
+    let testValue: number;
+    testValue = 100 - event.value;
+    this.formGroup6.controls.test_size.setValue(testValue);
+  }
+
   getCategorialVariables(): void {
     this.categorigalVariablesDataSource = [];
 
@@ -293,7 +299,7 @@ export class ModelCreationComponent implements OnInit {
     this.newDMModel.project_id = this.localStorage.projectId;
     this.newDMModel.training_size = this.formGroup6.get('training_size').value / 100;
     this.newDMModel.test_size = this.formGroup6.get('test_size').value / 100;
-    this.newDMModel.validation_size = this.formGroup6.get('validation_size').value / 100;
+    this.newDMModel.validation_size = 1;
 
     console.log('new model: ', this.newDMModel);
 
