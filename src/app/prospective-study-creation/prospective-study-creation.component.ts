@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
@@ -44,6 +45,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     predictionList: any[] = [];
     predictionColumnsList: string[] = [];
     variableResultList: any[] = [];
+    variableResultListTable = new MatTableDataSource(this.variableResultList);
     selectedPrescriptionStudy: any;
     useCaseName: any;
     prospectiveStudy: ProspectiveStudy;
@@ -77,18 +79,30 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     }
 
     onSelectStudy(): void{
-      this.selectedPrescriptionStudy = history.state.prescriptionStudy;
-      this.formGroup1.get('name').setValue(this.selectedPrescriptionStudy.name);
-      this.formGroup1.get('description').setValue(this.selectedPrescriptionStudy.description);
-      this.selectedModel = this.selectedPrescriptionStudy.data_mining_model;
-      this.selectedModel.dataset.featureset.variables.forEach(element => {
-        if (element.variable_type === 'independent') {
-            this.variablesDataSet.push(element);
+      this.backendService.getProspectiveStudy(history.state.prescriptionStudy['prospective_study_id']).subscribe(
+        data => {
+          this.selectedPrescriptionStudy = data;
+          this.predictionList =  this.selectedPrescriptionStudy.predictions;
+          this.formGroup1.get('name').setValue(this.selectedPrescriptionStudy.name);
+          this.formGroup1.get('description').setValue(this.selectedPrescriptionStudy.description);
+          this.selectedModel = this.selectedPrescriptionStudy.data_mining_model;
 
-            this.formGroup3.addControl(element.name, new FormControl(''));
-            this.predictionColumnsList.push(element.name);
+          this.selectedModel.dataset.featureset.variables.forEach(element => {
+            if (element.variable_type === 'independent') {
+                this.variablesDataSet.push(element);
+
+                this.formGroup3.addControl(element.name, new FormControl(''));
+                this.predictionColumnsList.push(element.name);
+            }
+          });
+
+          this.predictionColumnsList.push('prediction');
+          this.variableResultList = this.selectedPrescriptionStudy.predictions;
+          this.variableResultListTable = new MatTableDataSource(this.variableResultList);
+          this.formGroup1.disable();
+          this.formGroup2.disable();
         }
-      });
+      );
       this.predictionColumnsList.push('prediction');
       this.variableResultList = this.selectedPrescriptionStudy.predictions;
       // To allow to change name and description comment this line
@@ -106,10 +120,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
           const modls = [];
           models.forEach(element => {
             if (element['data_mining_state'] === 'final') {
-              console.log(element)
               modls.push(element);
-
-              console.log(this.models);
             }
           });
           this.models = modls;
@@ -121,7 +132,6 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     }
 
     onSeeModel(model): void {
-      console.log('selected model: ', model);
     }
 
     onSelectModel(model): void {
@@ -172,7 +182,6 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.variables.identifier = '1';
         });
 
-        console.log('prediction: ', this.variables)
         this.backendService.predict(this.variables).subscribe(
           (data) => {
             this.predicrionResult = data.prediction;
@@ -189,8 +198,9 @@ export class ProspectiveStudyCreationComponent implements OnInit {
               this.formGroup3.get(key).setValue(String(this.formGroup3.get(key).value));
           });
 
-            this.variableResultList.push(data);
+          //  this.variableResultList.push(data);
             this.predictionList.push(data);
+            this.variableResultListTable = new MatTableDataSource(this.predictionList);
             this.predictingFlag = false;
 
         },
@@ -200,28 +210,41 @@ export class ProspectiveStudyCreationComponent implements OnInit {
           this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction.');
         }
         );
-        console.log(this.predicrionResult);
 
     }
 
     onSave(): void {
 
-      this.prospectiveStudy.data_mining_model = this.selectedModel;
-      this.prospectiveStudy.name = this.formGroup1.get('name').value;
-      this.prospectiveStudy.description = this.formGroup1.get('description').value;
-      this.prospectiveStudy.created_by = this.localStorage.userId;
       this.prospectiveStudy.predictions = this.predictionList;
-      this.prospectiveStudy.project_id = this.projectId;
+      if (this.selectedPrescriptionStudy) {
+        this.backendService.updateProspectiveStudy(this.selectedPrescriptionStudy, this.selectedPrescriptionStudy.prospective_study_id).subscribe(
+          (data) => {
+            this.router.navigate(['/psdashboard']);
+            this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Prospective study ' + data.name + ' updated correctlly');
+          },
+          (err) => {
+            console.log(err);
+            this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error saving prediction.');
+          }
+        );
+      } else {
 
-      this.backendService.onSaveprospectiveStudy(this.prospectiveStudy).subscribe(
-        (data) => {
-          this.router.navigate(['/psdashboard']);
-          this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Prospective study ' + data.name + ' created correctlly');
-        },
-        (err) => {
-          this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error saving prediction.');
-        }
-      );
+        this.prospectiveStudy.data_mining_model = this.selectedModel;
+        this.prospectiveStudy.name = this.formGroup1.get('name').value;
+        this.prospectiveStudy.description = this.formGroup1.get('description').value;
+        this.prospectiveStudy.created_by = this.localStorage.userId;
+
+        this.prospectiveStudy.project_id = this.projectId;
+        this.backendService.onSaveprospectiveStudy(this.prospectiveStudy).subscribe(
+          (data) => {
+            this.router.navigate(['/psdashboard']);
+            this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Prospective study ' + data.name + ' created correctlly');
+          },
+          (err) => {
+            this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error saving prediction.');
+          }
+        );
+      }
     }
 
     uploadpatientFile(event): void {
@@ -292,6 +315,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.variables.submitted_by = this.localStorage.userId;
             this.backendService.predict(this.variables).subscribe(
               data => {
+                console.log('data: ', data)
                 this.patientsPredictions[i].prediction = data.prediction;
                 if (data.prediction === 1) {
                   this.predcolor = '#3fc100';
@@ -299,8 +323,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                   this.predcolor = '#f83d17';
                 }
                 this.predictionList.push(data);
-
-                this.variableResultList.push(element);
+              //  this.variableResultList.push(element);
+                this.variableResultListTable = new MatTableDataSource(this.predictionList);
                 this.predictingFlag = false;
               },
               (err) => {
