@@ -165,8 +165,16 @@ export class BackendService {
     return this.httpClient.get(environment.restApiPPDDM + 'manager/prospective?project_id=' + id, this.httpOptions);
   }
 
+  getProspectiveStudy(id): Observable<any> {
+    return this.httpClient.get(environment.restApiPPDDM + 'manager/prospective/' + id, this.httpOptions);
+  }
+
   onSaveprospectiveStudy(pospectiveStudy): Observable<any> {
     return this.httpClient.post(environment.restApiPPDDM + 'manager/prospective', pospectiveStudy, this.httpOptions);
+  }
+
+  updateProspectiveStudy(pospectiveStudy, id): Observable<any> {
+    return this.httpClient.put(environment.restApiPPDDM + 'manager/prospective/' + id, pospectiveStudy, this.httpOptions);
   }
 
   getAlgorithms() {
