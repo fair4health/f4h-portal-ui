@@ -30,6 +30,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FsDetailsDialogComponent } from './fs-details-dialog/fs-details-dialog.component';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
+import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 
 
 @Component({
@@ -232,11 +233,31 @@ export class DataSetCreationComponent implements OnInit {
   }
 
   onSaveDataSet(): void {
-    if (history.state.selectedDataSet) {
-      this.updateDataSet();
-    } else {
-      this.saveNewDataSet();
-    }
+
+    const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+      width: '500px',
+      data: {
+              title: 'Save',
+              message: 'Are your shore you want to save data set?',
+              cancelButton: 'No, I want To cancel the changes',
+              acceptButton: 'Yes, I want to save details'
+            }
+    });
+
+    dialogConf.afterClosed().subscribe(result => {
+      if (result) {
+        if (history.state.selectedDataSet) {
+          this.updateDataSet();
+        } else {
+          this.saveNewDataSet();
+        }
+      } else {
+        console.log('cancel save, go home');
+        this.router.navigate(['/dsdashboard']);
+        this.userCommunication.createMessage(this.userCommunication.INFO, 'Data don\'t saved.');
+      }
+    });
+
   }
 
   saveNewDataSet(): void {
