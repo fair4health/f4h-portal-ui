@@ -91,10 +91,12 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       });
       this.predictionColumnsList.push('prediction');
       this.variableResultList = this.selectedPrescriptionStudy.predictions;
-
+      // To allow to change name and description comment this line
       this.formGroup1.disable();
+      // To allow to change model selection comment this line
       this.formGroup2.disable();
-      this.formGroup3.disable();
+      // To allow to add predictions comment this line
+      // this.formGroup3.disable();
     }
 
     getModels(): void {
