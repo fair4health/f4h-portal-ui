@@ -48,7 +48,7 @@ export class FeatureSetCreationComponent implements OnInit {
   featureSetId: string;
 
   @ViewChild(MatTable) table: MatTable<any>;
-  displayedColumns: string[] = ['name', 'description', 'variable_type', 'variable_data_type', 'fhir_query', 'fhir_path', 'delete'];
+  displayedColumns: string[] = ['name', 'variable_type', 'variable_data_type', 'fhir_query', 'fhir_path', 'delete'];
   dataSource = [];
   usacasename: string;
 
