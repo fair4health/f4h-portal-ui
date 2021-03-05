@@ -1,0 +1,17 @@
+[
+  {"name": "Age", "fieldType": "disabled", "dataType": "numeric", "fhirQuery": "/Patient", "fhirPath": "value:Patient.birthDate.getPeriod($this, now(), 'years')"},
+  {"name": "Gender", "fieldType": "disabled", "dataType": "categorical", "fhirQuery": "/Patient", "fhirPath": "value:Patient.gender"},
+  {"name": "Smoking status", "fieldType": "disabled", "dataType": "numeric", "fhirQuery": "/Observation?code=72166-2&value-concept=449868002", "fhirPath": "value:exists"},
+  {"name": "Institutionalized", "fieldType": "disabled", "dataType": "numeric", "fhirQuery": "/Observation?code=160734000&value-concept=TRUE", "fhirPath": "value:exists"},
+
+  {"name": "Nationality", "fieldType": "disabled", "dataType": "categorical", "fhirQuery": "/Patient", "fhirPath": "value:Patient.address.country"},
+  {"name": "Mortality at 6 months", "fieldType": "disabled", "dataType": "numeric", "fhirQuery": "/Observation?code=419099009&value-concept=TRUE", "fhirPath": "value:exists"},
+  {"name": "Length of hospital stay before discharge", "fieldType": "disabled", "dataType": "numeric", "fhirQuery": "/Encounter?_has:Condition:encounter:code=J44,J44.0,J44.1,J44.9&_sort=-date", "fhirPath": "aggr:groupBy(Encounter.subject.reference,first().period.getPeriod(start, end, 'days'))"},
+  {"name": "Total number of hospitalizations in the last 12 months", "fieldType": "disabled", "dataType": "numeric", "fhirQuery": "/Encounter?date=ge2020&_has:Condition:encounter:code=J44,J44.0,J44.1,J44.9", "fhirPath": "aggr:groupBy(Encounter.subject.reference,count())"},
+  {"name": "Condition", "fieldType": "text", "dataType": "numeric", "fhirQuery": "/Condition?code:sw={string_value}", "fhirPath": "value:exists"},
+  {"name": "Medication", "fieldType": "text", "dataType": "numeric", "fhirQuery": "/MedicationStatement?code={string_value}", "fhirPath": "value:exists"},
+  {"name": "Observation", "fieldType": "text", "dataType": "numeric", "fhirQuery": "/Observation?code={string_value}", "fhirPath": "value:Observation.valueQuantity.value"},
+  {"name": "Readmitted in X days", "fieldType": "number", "dataType": "numeric", "fhirQuery": "/Encounter?_has:Condition:encounter:code=J44,J44.0,J44.1,J44.9&_sort=-date", "fhirPath": "aggr:exists:groupBy(Encounter.subject.reference,getPeriod(skip(1).first().period.end, first().period.start, 'days')).where(agg > 0 and agg < {integer_value + 1}).bucket"}
+
+
+]

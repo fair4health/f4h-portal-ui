@@ -54,7 +54,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatFormFieldControl, MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -91,6 +91,7 @@ import { NewVariableDialogComponent } from './feature-set-creation/new-variable-
 import { UseCaseCreationComponent } from './usecase-creation/usecase-creation.component';
 import { ProspectiveStudyComponent } from './prospective-study/prospective-study.component';
 import { ProspectiveStudyCreationComponent } from './prospective-study-creation/prospective-study-creation.component';
+
 
 // User Management
 import { KeycloakService, KeycloakAngularModule } from 'keycloak-angular';

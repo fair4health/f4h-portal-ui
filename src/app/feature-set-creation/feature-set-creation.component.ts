@@ -98,7 +98,7 @@ export class FeatureSetCreationComponent implements OnInit {
 
         if (result) {
           this.newVariable = result;
-
+          console.log('RESULTS: ', result)
           if (this.localStorage.projectType === 'association'){
             this.newVariable.variable_type = 'independent';
           }
