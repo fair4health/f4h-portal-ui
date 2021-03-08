@@ -77,6 +77,11 @@ export class BackendService {
     return this.httpClient.post(environment.restApiPPDDM + 'manager/project', useCase, this.httpOptions);
   }
 
+  deleteUseCase(id): Observable<any> {
+    console.log(environment.restApiPPDDM + 'manager/project/' + id + '?_all');
+    return this.httpClient.delete(environment.restApiPPDDM + 'manager/project/' + id + '?_all')
+  }
+
   public getFeaturesetsList(id): Observable<any> {
     return this.httpClient.get(environment.restApiPPDDM + 'manager/featureset?project_id=' + id, this.httpOptions);
   }

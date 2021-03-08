@@ -18,16 +18,16 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
 import { BackendService } from '../core/services/backend.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
-
 import { UseCase } from '../shared/use-case';
 import {MatTableDataSource} from '@angular/material/table';
+import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 
 // to know user role
 import { AuthService } from '../core/services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-use-case-list',
@@ -36,14 +36,15 @@ import { AuthService } from '../core/services/auth.service';
 })
 export class UseCaseListComponent implements OnInit {
   dataSource;
-  displayedColumns: string[] = ['name', 'description', 'project_type', 'created_by', 'created_on', 'select'];
+  displayedColumns: string[] = ['name', 'description', 'project_type', 'created_by', 'created_on', 'delete', 'select'];
 
   constructor(
     public auth: AuthService,
     private router: Router,
     private backendService: BackendService,
     private userCommunication: UserCommunicationService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    public dialog: MatDialog
     ) { }
 
     ngOnInit(): void {
@@ -71,7 +72,7 @@ export class UseCaseListComponent implements OnInit {
         }
       },
       (err) => {
-        console.log('error: ',err)
+        console.log('error: ', err);
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get use case list operation failed');
       });
@@ -106,6 +107,35 @@ export class UseCaseListComponent implements OnInit {
       this.userCommunication.createMessage(this.userCommunication.ERROR, 'Project type does not match association nor prediction');
     }
   }
+
+  onDelete(element): void {
+
+    const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+      width: '600px',
+      data: {
+              title: 'Delete',
+              message:  'If you delete this use case all FeatureSet, Data mining Model' +
+                        'and Prospective Studies assoiated will be removed as well. This' +
+                        'information can not be recovered',
+              cancelButton: 'No, Cancel it',
+              acceptButton: 'Yes, remove this use case and its information'
+            }
+    });
+
+    dialogConf.afterClosed().subscribe(result => {
+      if (result) {
+        this.backendService.deleteUseCase(element.project_id).subscribe(
+          (data) => {
+            this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Use case deleted correctly.');
+            this.router.navigate(['/uclist']);
+          },
+          (err) => {
+            console.log(err);
+            this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error deleting use case.');
+          }
+        );
+      }
+    });
+  }
+
 }
-
-
