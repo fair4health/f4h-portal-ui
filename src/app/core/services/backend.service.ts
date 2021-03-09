@@ -182,6 +182,10 @@ export class BackendService {
     return this.httpClient.put(environment.restApiPPDDM + 'manager/prospective/' + id, pospectiveStudy, this.httpOptions);
   }
 
+  deleteProspectiveStudy(id): Observable<any> {
+    return this.httpClient.delete(environment.restApiPPDDM + 'manager/prospective/' + id);
+  }
+
   getAlgorithms() {
     return this.httpClient.get(environment.restApiPPDDM + 'manager/algorithm', this.httpOptions);
   }

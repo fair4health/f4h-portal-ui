@@ -51,14 +51,25 @@
             <td mat-cell *matCellDef="let element"> {{element.created_on}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="see_details">
+ 
 
-          <mat-header-cell *matHeaderCellDef>See details</mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            <button mat-button (click)="showDetails(row)">
+        <ng-container matColumnDef="delete">
+          <th mat-header-cell *matHeaderCellDef scope="col"> </th>
+          <td mat-cell *matCellDef="let element">
+            <button mat-icon-button aria-label="Delete" (click)="onDelete(element)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+    
+
+        <ng-container matColumnDef="see_details">
+          <th mat-header-cell *matHeaderCellDef scope="col">See details</th>
+          <td *matCellDef="let element">
+            <button mat-icon-button (click)="showDetails(element)">
               <mat-icon aria-hidden="false" style="cursor: pointer">visibility</mat-icon>
             </button>
-          </mat-cell>
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="psColumns"></tr>

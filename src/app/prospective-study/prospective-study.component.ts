@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
+import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-prospective-study',
@@ -12,7 +14,7 @@ import { UserCommunicationService } from '../core/services/user-communication.se
 export class ProspectiveStudyComponent implements OnInit {
 
   psColumns: string[] = [ 'name', 'description', 'data_mining_model', 'data_source',
-                          'predictions', 'created_by', 'created_on', 'see_details'];
+                          'predictions', 'created_by', 'created_on', 'delete', 'see_details'];
   dataSource = [];
   useCaseName: string;
 
@@ -20,7 +22,8 @@ export class ProspectiveStudyComponent implements OnInit {
     private localStorage: LocalStorageService,
     private backendService: BackendService,
     private router: Router,
-    public userCommunication: UserCommunicationService
+    public userCommunication: UserCommunicationService,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -30,6 +33,7 @@ export class ProspectiveStudyComponent implements OnInit {
   }
 
   getProspectiveStudies(): void {
+    this.dataSource = [];
     this.backendService.getProspectiveStudies(this.localStorage.projectId).subscribe(
       (data) => {
         console.log(data);
@@ -44,6 +48,35 @@ export class ProspectiveStudyComponent implements OnInit {
   showDetails(row): void {
     const prescriptionStudy = row;
     this.router.navigate(['/pscreation'], {state: {prescriptionStudy}});
+  }
+
+  onDelete(element): void {
+    console.log('element to delete: ', element);
+
+    const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+      width: '600px',
+      data: {
+              title: 'Delete',
+              message:  'Are your sure you want to delete ' + element.name + ' prospective study?',
+              cancelButton: 'No, Cancel it',
+              acceptButton: 'Yes, remove it permanently'
+            }
+    });
+
+    dialogConf.afterClosed().subscribe(result => {
+      if (result) {
+        this.backendService.deleteProspectiveStudy(element.prospective_study_id).subscribe(
+          (data) => {
+            this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Use case deleted correctly.');
+            this.getProspectiveStudies();
+          },
+          (err) => {
+            console.log(err);
+            this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error deleting use case.');
+          }
+        );
+      }
+    });
   }
 
 }
