@@ -1,3 +1,4 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -25,7 +26,7 @@ export class UseCaseCreationComponent implements OnInit {
   useCaseForm = new FormGroup({
     name: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
-    project_type: new FormControl('', Validators.required)
+    project_type: new FormControl('prediction', Validators.required)
   });
 
   ngOnInit(): void {
