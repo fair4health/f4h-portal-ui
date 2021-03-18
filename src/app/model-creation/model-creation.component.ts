@@ -121,8 +121,8 @@ export class ModelCreationComponent implements OnInit {
       formGroup7: ['', Validators.required]
     });
     this.formGroup6 = this.formBuilder.group({
-      training_size: ['', Validators.required],
-      test_size: [''],
+      training_size: [80, Validators.required],
+      test_size: [20],
       validation_size: ['']
     });
 
