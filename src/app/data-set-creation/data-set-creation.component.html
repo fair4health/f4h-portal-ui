@@ -100,10 +100,10 @@
 
     <mat-step [stepControl]="formGroup3">
       <form [formGroup]="formGroup3">
-        <ng-template matStepLabel>Elegibility criteria</ng-template>
+        <ng-template matStepLabel>Eligibility criteria</ng-template>
 
         <mat-list>
-          <div mat-subheader>New elegibility criteria</div>
+          <div mat-subheader>New eligibility criteria</div>
           <div class="form-fields-group">
             <mat-form-field appearance="fill">
               <mat-label>Search query</mat-label>
@@ -123,7 +123,7 @@
           <mat-divider></mat-divider>
           <br>
 
-          <div *ngIf="elegibilityCriteriaList.length" mat-subheader>Elegibility criteria:</div>
+          <div *ngIf="elegibilityCriteriaList.length" mat-subheader>Eligibility criteria:</div>
           <mat-list-item *ngFor="let elegibilityCriteria of elegibilityCriteriaList">
             <mat-icon mat-list-icon>ballot</mat-icon>
             <div mat-line>FHIR QUERY: {{elegibilityCriteria.fhir_query}}</div>
