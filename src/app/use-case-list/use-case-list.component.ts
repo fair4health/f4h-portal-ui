@@ -58,7 +58,8 @@ export class UseCaseListComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-   getUseCaseList(): void {
+  getUseCaseList(): void {
+    this.dataSource = [];
     this.backendService.getUseCaseList().subscribe(
       (usecaselist) => {
         console.log(usecaselist);
@@ -127,7 +128,7 @@ export class UseCaseListComponent implements OnInit {
         this.backendService.deleteUseCase(element.project_id).subscribe(
           (data) => {
             this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Use case deleted correctly.');
-            this.router.navigate(['/uclist']);
+            this.getUseCaseList();
           },
           (err) => {
             console.log(err);
