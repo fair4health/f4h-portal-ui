@@ -105,8 +105,11 @@ export class FeatureSetCreationComponent implements OnInit {
           delete this.newVariable['newVariable'];
           this.dataSource.push(this.newVariable);
           this.table.renderRows();
+          this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Variable added');
+        } else {
+          this.userCommunication.createMessage(this.userCommunication.INFO, 'Canceled by user');
         }
-        this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Variable added');
+        
     },
 
     (err) => {
