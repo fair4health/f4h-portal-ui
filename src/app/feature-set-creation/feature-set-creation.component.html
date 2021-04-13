@@ -73,6 +73,6 @@
 
   <button mat-raised-button color="primary" (click)="onSave()">Save</button> &nbsp;&nbsp; 
   <button *ngIf="! isDisabled" mat-raised-button color="warn" (click)="onCancel('no_saved')">Cancel</button>
-  <button *ngIf="isDisabled" mat-raised-button color="warn" (click)="onCancel('saved')">Close</button>
+  <button *ngIf="isDisabled" mat-raised-button color="warn" (click)="onCancel('saved')">Back</button>
 
 </div>

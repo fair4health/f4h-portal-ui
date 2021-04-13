@@ -55,6 +55,7 @@ export class ModelCreationComponent implements OnInit {
   missingDataColumns: string[] = ['name', 'variable_type', 'operation', 'value'];
   missingDataDataSource;
   operations: any[] = [
+    {value: 'not_specified', viewValue: ''},
     {value: 'set_minimum', viewValue: 'Set minimum'},
     {value: 'set_maximum', viewValue: 'Set maximun'},
     {value: 'set_average', viewValue: 'Set average'},
