@@ -70,11 +70,11 @@ export class FeatureSetCreationComponent implements OnInit {
       this.featureSet = history.state.selectedFeatureSet;
       this.isDisabled = true;
       this.componentTitle = 'Edit feature set';
-      this.componentDirection = 'Feature set edition';
+      this.componentDirection = 'Feature Set Edition';
     } else {
       this.isDisabled = false;
       this.componentTitle = 'Create a new feature set';
-      this.componentDirection = 'Feature set creation';
+      this.componentDirection = 'Feature Set Creation';
     }
 
   }

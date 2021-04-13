@@ -110,7 +110,7 @@ export class DataSetCreationComponent implements OnInit {
     this.getFeatureList();
 
     if (history.state.selectedDataSet) {
-      this.componentDirection = 'Data set edition';
+      this.componentDirection = 'Data Set Cohort';
       this.isDisabled = true;
       this.formGroup1.disable();
       this.formGroup3.disable();
@@ -120,7 +120,7 @@ export class DataSetCreationComponent implements OnInit {
       }, 30000);
     } else {
       this.isDisabled = false;
-      this.componentDirection = 'Data set creation';
+      this.componentDirection = 'Data Set Creation';
     }
   }
 

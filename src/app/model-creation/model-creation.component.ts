@@ -132,11 +132,11 @@ export class ModelCreationComponent implements OnInit {
       this.formGroup1.disable();
       this.formGroup5.disable();
       this.isDisabled = true;
-      this.componentDirection = 'Model edition';
+      this.componentDirection = 'Model Edition';
 
     } else {
       this.isDisabled = false;
-      this.componentDirection = 'Model creation';
+      this.componentDirection = 'Model Creation';
     }
 
     this.getUseCaseType(this.localStorage.projectId);
