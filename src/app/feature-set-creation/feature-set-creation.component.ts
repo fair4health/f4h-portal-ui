@@ -109,7 +109,6 @@ export class FeatureSetCreationComponent implements OnInit {
         } else {
           this.userCommunication.createMessage(this.userCommunication.INFO, 'Canceled by user');
         }
-        
     },
 
     (err) => {
