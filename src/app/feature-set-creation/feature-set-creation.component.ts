@@ -153,9 +153,9 @@ export class FeatureSetCreationComponent implements OnInit {
         width: '500px',
         data: {
                 title: 'Are you sure?',
-                message: 'The Feature set is not saved, are you sure you want to close?',
-                cancelButton: 'Keep here',
-                acceptButton: 'Close form'
+                message: 'There are unsaved changes, if you close the procees the changes will be lost. Are you sure you want to exit?',
+                cancelButton: 'No, cancel it.',
+                acceptButton: 'Yes, exit and not save the changes.'
               }
       });
       dialogConf.afterClosed().subscribe(result => {
@@ -214,4 +214,23 @@ export class FeatureSetCreationComponent implements OnInit {
     );
   }
 
+  onNavigate(url) {
+    const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+      width: '500px',
+      data: {
+              title: 'Are you sure?',
+              message: 'There are unsaved changes, if you close the procees the changes will be lost. Are you sure you want to exit?',
+              cancelButton: 'No, cancel it.',
+              acceptButton: 'Yes, exit and not save the changes.'
+            }
+    });
+
+    dialogConf.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate([url]);
+      } else {
+        console.log('canceled close');
+      }
+    });
+  }
 }
