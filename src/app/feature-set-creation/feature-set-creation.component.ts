@@ -149,6 +149,7 @@ export class FeatureSetCreationComponent implements OnInit {
             this.backendService.handleError('home', err);
             console.log('error', err);
             this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed: ' + err.error );
+
           });
       } else {
         const dialogConf = this.dialog.open(DialogConfirmationComponent, {
