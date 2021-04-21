@@ -73,6 +73,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       });
       this.getModels();
 
+      console.log('state history: ', history.state.prescriptionStudy)
       if (history.state.prescriptionStudy) {
         this.onSelectStudy();
       }
@@ -81,8 +82,10 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     onSelectStudy(): void{
       this.backendService.getProspectiveStudy(history.state.prescriptionStudy['prospective_study_id']).subscribe(
         data => {
+          console.log('ps desde el servidor: ', data)
           this.selectedPrescriptionStudy = data;
           this.predictionList =  this.selectedPrescriptionStudy.predictions;
+          console.log('name defcsfd: ', this.selectedPrescriptionStudy.name)
           this.formGroup1.get('name').setValue(this.selectedPrescriptionStudy.name);
           this.formGroup1.get('description').setValue(this.selectedPrescriptionStudy.description);
           this.selectedModel = this.selectedPrescriptionStudy.data_mining_model;
@@ -103,8 +106,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
           this.formGroup2.disable();
         }
       );
-      this.predictionColumnsList.push('prediction');
-      this.variableResultList = this.selectedPrescriptionStudy.predictions;
+     // this.predictionColumnsList.push('prediction');
+     // this.variableResultList = this.selectedPrescriptionStudy.predictions;
       // To allow to change name and description comment this line
       this.formGroup1.disable();
       // To allow to change model selection comment this line
