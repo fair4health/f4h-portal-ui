@@ -51,6 +51,7 @@ export class FeatureSetCreationComponent implements OnInit {
   displayedColumns: string[] = ['name', 'variable_type', 'variable_data_type', 'fhir_query', 'fhir_path', 'delete'];
   dataSource = [];
   usacasename: string;
+  projectFeatureSets = [];
 
   constructor(
     private router: Router,
@@ -63,7 +64,7 @@ export class FeatureSetCreationComponent implements OnInit {
   ngOnInit(): void {
 
     this.usacasename = this.localStorage.projectName;
-
+    this.projectFeatureSets = history.state.featureSets;
     if (history.state.selectedFeatureSet) {
       this.fillFields();
       this.featureSetId = history.state.selectedFeatureSet.featureset_id;
@@ -132,17 +133,35 @@ export class FeatureSetCreationComponent implements OnInit {
       this.onUpdate(newFeatureSet);
     } else {
       newFeatureSet['created_by'] = this.localStorage.userId;
-      this.backendService.saveFeatureSet(newFeatureSet).subscribe(
-        (data) => {
-          console.log('New feature set creation answer received! ', data);
-          this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
-          this.router.navigate(['/fslist']);
-        },
-        (err) => {
-          this.backendService.handleError('home', err);
-          console.log("error", err);
-          this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed!');
+
+      // check if the feature set name if not duplicated.
+
+      const duplicatedName = this.projectFeatureSets.find(projectFeatureSets => projectFeatureSets['name'] === newFeatureSet.name); 
+
+      if (!duplicatedName) {
+        this.backendService.saveFeatureSet(newFeatureSet).subscribe(
+          (data) => {
+            console.log('New feature set creation answer received! ', data);
+            this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
+            this.router.navigate(['/fslist']);
+          },
+          (err) => {
+            this.backendService.handleError('home', err);
+            console.log('error', err);
+            this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed!');
+          });
+      } else {
+        const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+          width: '500px',
+          data: {
+                  title: 'Error',
+                  message: 'You can not save it because there is another feature set with the same name. \
+                            Please change featureset name bofore saving',
+                  acceptButton: 'Close'
+                }
         });
+      }
+
       }
   }
 

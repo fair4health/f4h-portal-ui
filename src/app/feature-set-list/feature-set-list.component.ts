@@ -66,4 +66,9 @@ export class FeatureSetListComponent implements OnInit {
       this.router.navigate(['/fsdetails'], {state: {selectedFeatureSet}});
     }
 
+    createNewFeatureSet() {
+      let featureSets = this.dataSource
+      this.router.navigate(['/fscreation'], {state: {featureSets}});
+    }
+
 }
