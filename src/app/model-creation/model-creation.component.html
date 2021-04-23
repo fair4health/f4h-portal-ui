@@ -135,6 +135,7 @@
           <ng-container matColumnDef="operation">
             <th mat-header-cell *matHeaderCellDef class="operation-column"> Operation </th>
             <td mat-cell *matCellDef="let element"> 
+
               <mat-select [value]="element.missing_data_operation" name="operations" [disabled]="isDisabled" class="select-operation" (selectionChange)="saveOperations($event.value, element)">
                 <mat-option *ngFor="let op of operations" [value]="op.value" >
                   {{op.viewValue}}
@@ -150,7 +151,7 @@
                       [value]="element.missing_data_specific_value" 
                       class="operation-input"
                       #operator_value
-                      (change)="specificValueChange(operator_value, element)"
+                      (change)="specificValueChange($event.target.value, element)"
                       [disabled]="isDisabled">
             </td>
           </ng-container>

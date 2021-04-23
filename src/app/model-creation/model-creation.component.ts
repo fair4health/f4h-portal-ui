@@ -53,7 +53,8 @@ export class ModelCreationComponent implements OnInit {
   categorigalVariablesDataSource;
 
   missingDataColumns: string[] = ['name', 'variable_type', 'operation', 'value'];
-  missingDataDataSource;
+  missingDataDataSource; // for the table
+  missingVariables: any[] = []; // save missing variables in the model body
   operations: any[] = [
     {value: 'not_specified', viewValue: ''},
     {value: 'set_minimum', viewValue: 'Set minimum'},
@@ -114,7 +115,8 @@ export class ModelCreationComponent implements OnInit {
       formGroup3: ['', Validators.required]
     });
     this.formGroup4 = this.formBuilder.group({
-      missing_data_operation: ['']
+      missing_data_operation: [''],
+
     });
     this.formGroup5 = this.formBuilder.group({
     });
@@ -174,11 +176,14 @@ export class ModelCreationComponent implements OnInit {
         this.newDMModel = data;
         this.formGroup1.get('name').setValue(this.newDMModel.name);
         this.formGroup1.get('description').setValue(this.newDMModel.description);
+        
         this.formGroup6.get('training_size').setValue(this.newDMModel.training_size * 100);
         this.formGroup6.get('test_size').setValue(this.newDMModel.test_size * 100);
         this.algorithmsList = data.algorithms;
         this.getCategorialVariables();
         this.getMissingData();
+
+        console.log()
         if (this.newDMModel['data_mining_state'] === 'ready') {
           this.getStatistics();
         }
@@ -241,24 +246,69 @@ export class ModelCreationComponent implements OnInit {
 
   getMissingData(): void {
     this.missingDataDataSource = [];
-    this.newDMModel.dataset.featureset.variables.forEach(element => {
-      this.missingDataDataSource.push(element);
+    this.newDMModel.variable_configurations.forEach(element => {
+      console.log('missing data: ', element);
+      this.missingDataDataSource.push({
+        name: element.variable.name,
+        variable_data_type: element.variable.variable_data_type,
+        missing_data_operation: element.missing_data_operation,
+        missing_data_specific_value: element.missing_data_specific_value
+      });
     });
+
+    console.log('pija: ', this.missingDataDataSource)
   }
 
   saveOperations(operator, element): void {
 
+    console.log('operator', operator);
+    console.log('element', element);
+    console.log('le cac de pierre: ', this.missingVariables)
+    // console.log('Caca de perro: ', this.missingDataDataSource.find(mds => this.missingDataDataSource === element));
+    this.missingVariables.forEach(elem => {
+      if (elem.variable === element) {
+        console.log('selected variable: ', elem);
+        elem.missing_data_operation = operator
+      }
+
+    });
     element.missing_data_operation = operator;
+
+    
 
     if (operator === 'set_specific') {
       element.missing_data_specific_value = '0';
     } else {
       delete element.missing_data_specific_value;
     }
+
+    console.log('missing variable after operator: ', this.missingVariables)
   }
 
   specificValueChange(opValue, element): void {
     element.missing_data_specific_value = opValue.value;
+
+    console.log('opValue: ', opValue);
+    console.log('element: ', element);
+
+    this.missingVariables.forEach(elem => {
+      if (elem.variable === element) {
+        console.log('selected variable: ', elem);
+        elem.missing_data_specific_value = opValue
+      }
+    });
+
+    this.missingDataDataSource.forEach(elem => {
+      if (elem.name === element.name) {
+        console.log('selected variable: ', elem);
+        elem.missing_data_specific_value = opValue
+      }
+    });
+
+    console.log('missing variables after: ',this.missingVariables);
+    console.log('missing variables data source after: ',this.missingDataDataSource);
+
+    
   }
 
   selectDataSet(dataSet): void {
@@ -268,7 +318,15 @@ export class ModelCreationComponent implements OnInit {
 
     dataSet.featureset.variables.forEach(element => {
       this.missingDataDataSource.push(element);
+      this.missingVariables.push({
+        variable: element, //revistar si esta bien
+        encoding_type: '',
+        missing_data_operation: '',
+        missing_data_specific_value: ''
+      });
     });
+
+    console.log('missing variables: ', this.missingDataDataSource);
 
     dataSet.featureset.variables.forEach(element => {
       if (element.variable_data_type === 'categorical') {
@@ -301,6 +359,7 @@ export class ModelCreationComponent implements OnInit {
     this.newDMModel.training_size = this.formGroup6.get('training_size').value / 100;
     this.newDMModel.test_size = this.formGroup6.get('test_size').value / 100;
     this.newDMModel.validation_size = 1;
+    this.newDMModel.variable_configurations = this.missingVariables;
 
     console.log('new model: ', this.newDMModel);
 
@@ -315,7 +374,7 @@ export class ModelCreationComponent implements OnInit {
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'New model creation failed!');
       }
-    );
+    ); 
   }
 
   onChangeAlgorithm(algorithm): void {
@@ -341,6 +400,7 @@ export class ModelCreationComponent implements OnInit {
   getAlgoritms(): void {
     this.backendService.getAlgorithms().subscribe(
       (data) => {
+        console.log('algorithms:',data)
         const x = [];
         x.push(data);
         if (this.usecaseType === 'prediction') {
