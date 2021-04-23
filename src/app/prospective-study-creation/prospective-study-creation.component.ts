@@ -166,7 +166,14 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
             this.variable.name = key;
             this.variables.submitted_by = this.localStorage.userId;
-            this.variable.value = this.formGroup3.get(key).value;
+            let variableValue: string
+            variableValue = this.formGroup3.get(key).value
+
+            if(typeof variableValue === 'string') {
+              variableValue =  variableValue.toLowerCase();
+            }
+
+            this.variable.value = variableValue;
             this.variablesDataSet.forEach(el => {
               if (el.name === key) {
 
@@ -294,7 +301,12 @@ export class ProspectiveStudyCreationComponent implements OnInit {
               };
 
               variable.name = key;
-              variable.value = this.patientsPredictions[i][key];
+
+              let variableValue = this.patientsPredictions[i][key];
+              if(typeof variableValue === 'string') {
+                variableValue =  variableValue.toLowerCase();
+              }
+              variable.value = variableValue;
 
               this.variablesDataSet.forEach(el => {
                 if (el.name === key) {
@@ -313,7 +325,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.variables.identifier = '1';
             this.variables.data_mining_model = this.selectedModel;
             this.variables.submitted_by = this.localStorage.userId;
-            this.backendService.predict(this.variables).subscribe(
+        /*    this.backendService.predict(this.variables).subscribe(
               data => {
                 console.log('data: ', data)
                 this.patientsPredictions[i].prediction = data.prediction;
@@ -331,7 +343,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 this.predictingFlag = false;
                 this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction');
               }
-            );
+            );*/
 
           }
 
