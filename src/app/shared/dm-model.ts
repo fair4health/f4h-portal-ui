@@ -25,7 +25,7 @@ export class DmModel {
   dataset: Dataset;
   name: string;
   description: string;
-  variable_configurations: VariableConfiguration[];
+  variable_configurations: any[];
    algorithms: Algorithm[];
   // algorithms: string;
   training_size: number;

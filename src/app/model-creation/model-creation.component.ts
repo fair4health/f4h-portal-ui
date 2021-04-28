@@ -176,18 +176,21 @@ export class ModelCreationComponent implements OnInit {
         this.newDMModel = data;
         this.formGroup1.get('name').setValue(this.newDMModel.name);
         this.formGroup1.get('description').setValue(this.newDMModel.description);
-        
         this.formGroup6.get('training_size').setValue(this.newDMModel.training_size * 100);
         this.formGroup6.get('test_size').setValue(this.newDMModel.test_size * 100);
         this.algorithmsList = data.algorithms;
         this.getCategorialVariables();
-        this.getMissingData();
 
-        console.log()
-        if (this.newDMModel['data_mining_state'] === 'ready') {
-          this.getStatistics();
+        if (this.newDMModel.variable_configurations) {
+          this.getMissingData(); // variable_configurations
+        } else {
+          this.getNumericVariables();
         }
 
+        if (this.newDMModel['data_mining_state'] === 'ready' || this.newDMModel['data_mining_state'] === 'final') {
+          this.getStatistics();
+        }
+        console.log('step: ', this.stepper.selectedIndex);
         this.stepper.selectedIndex = 6;
       },
       (err) => {
@@ -234,6 +237,18 @@ export class ModelCreationComponent implements OnInit {
     this.formGroup6.controls.test_size.setValue(testValue);
   }
 
+  getNumericVariables(): void {
+    this.missingDataDataSource = [];
+    this.newDMModel.dataset.featureset.variables.forEach(element => {
+      if (element.variable_data_type === 'numeric') {
+        this.missingDataDataSource.push({
+          name: element.name,
+          variable_data_type: element.variable_data_type
+        });
+      }
+    });
+  }
+
   getCategorialVariables(): void {
     this.categorigalVariablesDataSource = [];
 
@@ -247,7 +262,7 @@ export class ModelCreationComponent implements OnInit {
   getMissingData(): void {
     this.missingDataDataSource = [];
     this.newDMModel.variable_configurations.forEach(element => {
-      console.log('missing data: ', element);
+
       this.missingDataDataSource.push({
         name: element.variable.name,
         variable_data_type: element.variable.variable_data_type,
@@ -255,8 +270,6 @@ export class ModelCreationComponent implements OnInit {
         missing_data_specific_value: element.missing_data_specific_value
       });
     });
-
-    console.log('pija: ', this.missingDataDataSource)
   }
 
   saveOperations(operator, element): void {
