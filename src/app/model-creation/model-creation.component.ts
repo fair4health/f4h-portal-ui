@@ -103,6 +103,23 @@ export class ModelCreationComponent implements OnInit {
     this.newDMModel = new DmModel();
     this.getDataSets();
 
+    // this.getUseCaseType(this.localStorage.projectId); eliminar este metodo
+    this.usecaseType = this.localStorage.projectType;
+
+    if (this.usecaseType === 'prediction') {
+      this.formGroup6 = this.formBuilder.group({
+        training_size: [80, Validators.required],
+        test_size: [20],
+        validation_size: ['']
+      });
+
+      this.formGroup4 = this.formBuilder.group({
+        missing_data_operation: [''],
+
+      });
+
+    }
+
     this.formGroup1 = this.formBuilder.group({
       // formGroup1: ['', Validators.required]
       name: ['',  Validators.required],
@@ -111,22 +128,20 @@ export class ModelCreationComponent implements OnInit {
     this.formGroup2 = this.formBuilder.group({
       dataset: ['', Validators.required]
     });
-    this.formGroup3 = this.formBuilder.group({
+
+    /* this.formGroup3 = this.formBuilder.group({
       formGroup3: ['', Validators.required]
     });
+
     this.formGroup4 = this.formBuilder.group({
       missing_data_operation: [''],
 
-    });
+    });*/
+
     this.formGroup5 = this.formBuilder.group({
     });
     this.formGroup7 = this.formBuilder.group({
       formGroup7: ['', Validators.required]
-    });
-    this.formGroup6 = this.formBuilder.group({
-      training_size: [80, Validators.required],
-      test_size: [20],
-      validation_size: ['']
     });
 
     if (history.state.selectedModel) {
@@ -142,7 +157,6 @@ export class ModelCreationComponent implements OnInit {
       this.componentDirection = 'Model Creation';
     }
 
-    this.getUseCaseType(this.localStorage.projectId);
     this.getAlgoritms();
   }
 
@@ -157,9 +171,7 @@ export class ModelCreationComponent implements OnInit {
             dataSets.push(element);
           }
         });
-
         this.datasetSelectionDataSource = new MatTableDataSource(dataSets);
-
       },
       (err) => {
         this.backendService.handleError('home', err);
@@ -176,9 +188,17 @@ export class ModelCreationComponent implements OnInit {
         this.newDMModel = data;
         this.formGroup1.get('name').setValue(this.newDMModel.name);
         this.formGroup1.get('description').setValue(this.newDMModel.description);
-        this.formGroup6.get('training_size').setValue(this.newDMModel.training_size * 100);
-        this.formGroup6.get('test_size').setValue(this.newDMModel.test_size * 100);
+
         this.algorithmsList = data.algorithms;
+
+        if (this.usecaseType === 'prediction') {
+          this.stepper.selectedIndex = 5;
+          this.formGroup6.get('training_size').setValue(this.newDMModel.training_size * 100);
+          this.formGroup6.get('test_size').setValue(this.newDMModel.test_size * 100);
+
+        } else {
+          this.stepper.selectedIndex = 3;
+        }
         this.getCategorialVariables();
 
         if (this.newDMModel.variable_configurations) {
@@ -190,8 +210,6 @@ export class ModelCreationComponent implements OnInit {
         if (this.newDMModel['data_mining_state'] === 'ready' || this.newDMModel['data_mining_state'] === 'final') {
           this.getStatistics();
         }
-        console.log('step: ', this.stepper.selectedIndex);
-        this.stepper.selectedIndex = 6;
       },
       (err) => {
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get Model list operation failed');
@@ -274,20 +292,14 @@ export class ModelCreationComponent implements OnInit {
 
   saveOperations(operator, element): void {
 
-    console.log('operator', operator);
-    console.log('element', element);
-    console.log('le cac de pierre: ', this.missingVariables)
-    // console.log('Caca de perro: ', this.missingDataDataSource.find(mds => this.missingDataDataSource === element));
     this.missingVariables.forEach(elem => {
       if (elem.variable === element) {
         console.log('selected variable: ', elem);
-        elem.missing_data_operation = operator
+        elem.missing_data_operation = operator;
       }
 
     });
     element.missing_data_operation = operator;
-
-    
 
     if (operator === 'set_specific') {
       element.missing_data_specific_value = '0';
@@ -295,7 +307,7 @@ export class ModelCreationComponent implements OnInit {
       delete element.missing_data_specific_value;
     }
 
-    console.log('missing variable after operator: ', this.missingVariables)
+    console.log('missing variable after operator: ', this.missingVariables);
   }
 
   specificValueChange(opValue, element): void {
@@ -307,21 +319,15 @@ export class ModelCreationComponent implements OnInit {
     this.missingVariables.forEach(elem => {
       if (elem.variable === element) {
         console.log('selected variable: ', elem);
-        elem.missing_data_specific_value = opValue
+        elem.missing_data_specific_value = opValue;
       }
     });
 
     this.missingDataDataSource.forEach(elem => {
       if (elem.name === element.name) {
-        console.log('selected variable: ', elem);
-        elem.missing_data_specific_value = opValue
+        elem.missing_data_specific_value = opValue;
       }
     });
-
-    console.log('missing variables after: ',this.missingVariables);
-    console.log('missing variables data source after: ',this.missingDataDataSource);
-
-    
   }
 
   selectDataSet(dataSet): void {
@@ -332,7 +338,7 @@ export class ModelCreationComponent implements OnInit {
     dataSet.featureset.variables.forEach(element => {
       this.missingDataDataSource.push(element);
       this.missingVariables.push({
-        variable: element, //revistar si esta bien
+        variable: element,
         encoding_type: '',
         missing_data_operation: '',
         missing_data_specific_value: ''
@@ -364,15 +370,18 @@ export class ModelCreationComponent implements OnInit {
     Object.keys(this.formGroup1.controls).forEach(key => {
       this.newDMModel[key] = this.formGroup1.get(key).value;
     });
+
+    if (this.usecaseType === 'prediction') {
+      this.newDMModel.training_size = this.formGroup6.get('training_size').value / 100;
+      this.newDMModel.test_size = this.formGroup6.get('test_size').value / 100;
+      this.newDMModel.validation_size = 1;
+      this.newDMModel.variable_configurations = this.missingVariables;
+    }
     this.newDMModel.dataset = this.formGroup2.get('dataset').value;
     this.newDMModel.algorithms = [];
     this.newDMModel.algorithms = this.algorithmsList;
     this.newDMModel.created_by = this.localStorage.userId;
     this.newDMModel.project_id = this.localStorage.projectId;
-    this.newDMModel.training_size = this.formGroup6.get('training_size').value / 100;
-    this.newDMModel.test_size = this.formGroup6.get('test_size').value / 100;
-    this.newDMModel.validation_size = 1;
-    this.newDMModel.variable_configurations = this.missingVariables;
 
     console.log('new model: ', this.newDMModel);
 
@@ -413,7 +422,7 @@ export class ModelCreationComponent implements OnInit {
   getAlgoritms(): void {
     this.backendService.getAlgorithms().subscribe(
       (data) => {
-        console.log('algorithms:',data)
+        console.log('algorithms:', data);
         const x = [];
         x.push(data);
         if (this.usecaseType === 'prediction') {

@@ -79,7 +79,7 @@
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="formGroup3">
+   <!-- <mat-step [stepControl]="formGroup3">
      
       <form [formGroup]="formGroup3">
         <ng-template matStepLabel>Categorical variables</ng-template>
@@ -116,7 +116,8 @@
         </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="formGroup4">
+  -->
+    <mat-step [stepControl]="formGroup4" *ngIf="usecaseType === 'prediction'">
       <form [formGroup]="formGroup4">
         <ng-template matStepLabel>Missing Data</ng-template>
 
@@ -214,13 +215,17 @@
             </div>
           </div>
           
-        <div>
+        <div *ngIf="usecaseType === 'prediction'">
           <button mat-button matStepperPrevious>Back</button>
           <button mat-button matStepperNext [disabled]="algorithmsList.length == 0 && !newDMModel['model_id']">Next</button>
         </div>
+        <div *ngIf="usecaseType === 'association'">  
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext (click)="onSave()" [disabled]="!formGroup5.valid && !newDMModel['model_id']">Save and Next</button>
+        </div>
       </form>
     </mat-step>
-    <mat-step [stepControl]="formGroup6">
+    <mat-step [stepControl]="formGroup6" *ngIf="usecaseType === 'prediction'">
       <form [formGroup]="formGroup6">
         <ng-template matStepLabel>Parameters</ng-template>
         <div class="params-container">
