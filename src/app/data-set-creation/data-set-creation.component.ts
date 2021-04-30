@@ -238,7 +238,7 @@ export class DataSetCreationComponent implements OnInit {
       width: '500px',
       data: {
               title: 'Save',
-              message: 'Are your sure you want to save data set?',
+              message: 'Are your sure you want to save?',
               cancelButton: 'No, I want To cancel the changes',
               acceptButton: 'Yes, I want to save details'
             }
