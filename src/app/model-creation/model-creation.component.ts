@@ -78,7 +78,7 @@ export class ModelCreationComponent implements OnInit {
   algorithmsList: any = [];
 
   statistics: any;
-  statisticsColumns: string[] = ['statistics', 'results'];
+  statisticsColumns: string[];
 
   algorithms = [];
   @ViewChild('stepper') stepper: MatStepper;
@@ -115,9 +115,12 @@ export class ModelCreationComponent implements OnInit {
 
       this.formGroup4 = this.formBuilder.group({
         missing_data_operation: [''],
-
       });
 
+      this.statisticsColumns = ['statistics', 'results'];
+
+    } else if (this.usecaseType === 'association') {
+      this.statisticsColumns = ['antecedent', 'confidence', 'consequent', 'lift'];
     }
 
     this.formGroup1 = this.formBuilder.group({
@@ -191,13 +194,28 @@ export class ModelCreationComponent implements OnInit {
 
         this.algorithmsList = data.algorithms;
 
+        // check if use case type is prediction
         if (this.usecaseType === 'prediction') {
+
+          // go to 6 step
           this.stepper.selectedIndex = 5;
+          // fill training Statistics values
           this.formGroup6.get('training_size').setValue(this.newDMModel.training_size * 100);
           this.formGroup6.get('test_size').setValue(this.newDMModel.test_size * 100);
 
-        } else {
+          // check if the state is ready or final
+          if (this.newDMModel['data_mining_state'] === 'ready' || this.newDMModel['data_mining_state'] === 'final') {
+            this.getPredictionStatistics();
+          }
+
+        } else if (this.usecaseType === 'association') {
+          // go to step 4
           this.stepper.selectedIndex = 3;
+
+          // check if the state is ready or final get the combined_association_rules
+          if (this.newDMModel['data_mining_state'] === 'ready' || this.newDMModel['data_mining_state'] === 'final') {
+            this.getAssociationStatistics();
+          }
         }
         this.getCategorialVariables();
 
@@ -207,9 +225,7 @@ export class ModelCreationComponent implements OnInit {
           this.getNumericVariables();
         }
 
-        if (this.newDMModel['data_mining_state'] === 'ready' || this.newDMModel['data_mining_state'] === 'final') {
-          this.getStatistics();
-        }
+        
       },
       (err) => {
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get Model list operation failed');
@@ -218,16 +234,19 @@ export class ModelCreationComponent implements OnInit {
 
   }
 
-  getStatistics(): void {
-    console.log(this.newDMModel['boosted_models']);
+  getPredictionStatistics(): void {
     this.newDMModel['boosted_models'].forEach(element => {
       this.statistics = element.calculated_test_statistics;
-      console.log(this.statistics);
+    });
+  }
+
+  getAssociationStatistics() {
+    this.newDMModel['boosted_models'].forEach(element => {
+      this.statistics = element.combined_association_rules;
     });
   }
 
   selectBostedModel(boostedModels): void {
-    console.log(boostedModels);
     // bustedModel['selection_status'] = 'selected'
     this.newDMModel['boosted_models'].forEach(element => {
       if (boostedModels === element) {
@@ -239,7 +258,6 @@ export class ModelCreationComponent implements OnInit {
 
     this.backendService.updateModel(this.newDMModel['model_id'], this.newDMModel).subscribe(
       (data) => {
-          console.log(data);
           this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Model updated successfully');
           this.router.navigate(['/mdashboard']);
        },
@@ -294,7 +312,6 @@ export class ModelCreationComponent implements OnInit {
 
     this.missingVariables.forEach(elem => {
       if (elem.variable === element) {
-        console.log('selected variable: ', elem);
         elem.missing_data_operation = operator;
       }
 
@@ -307,18 +324,12 @@ export class ModelCreationComponent implements OnInit {
       delete element.missing_data_specific_value;
     }
 
-    console.log('missing variable after operator: ', this.missingVariables);
   }
 
   specificValueChange(opValue, element): void {
     element.missing_data_specific_value = opValue.value;
-
-    console.log('opValue: ', opValue);
-    console.log('element: ', element);
-
     this.missingVariables.forEach(elem => {
       if (elem.variable === element) {
-        console.log('selected variable: ', elem);
         elem.missing_data_specific_value = opValue;
       }
     });
@@ -344,8 +355,6 @@ export class ModelCreationComponent implements OnInit {
         missing_data_specific_value: ''
       });
     });
-
-    console.log('missing variables: ', this.missingDataDataSource);
 
     dataSet.featureset.variables.forEach(element => {
       if (element.variable_data_type === 'categorical') {
@@ -396,7 +405,7 @@ export class ModelCreationComponent implements OnInit {
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'New model creation failed!');
       }
-    ); 
+    );
   }
 
   onChangeAlgorithm(algorithm): void {
@@ -422,7 +431,6 @@ export class ModelCreationComponent implements OnInit {
   getAlgoritms(): void {
     this.backendService.getAlgorithms().subscribe(
       (data) => {
-        console.log('algorithms:', data);
         const x = [];
         x.push(data);
         if (this.usecaseType === 'prediction') {
