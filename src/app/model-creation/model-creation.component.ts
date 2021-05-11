@@ -238,11 +238,22 @@ export class ModelCreationComponent implements OnInit {
     this.newDMModel['boosted_models'].forEach(element => {
       this.statistics = element.calculated_test_statistics;
     });
+    console.log('---->', this.statistics)
   }
 
-  getAssociationStatistics() {
+  getAssociationStatistics () {
     this.newDMModel['boosted_models'].forEach(element => {
       this.statistics = element.combined_association_rules;
+    });
+    // this.statistics = x.sortBy(statistics, 'lift');
+    this.statistics.sort(function (a, b) {
+      if (a.lift > b.lift) {
+        return -1;
+      }
+      if (a.lift < b.lift) {
+        return 1;
+      }
+      return 0;
     });
   }
 
