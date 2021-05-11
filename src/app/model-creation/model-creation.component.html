@@ -331,7 +331,7 @@
               <!-- ASSOCIATION BOOSETD MODEL TABLE-->
               <table mat-table [dataSource]="statistics" class="mat-elevation-z8" *ngIf="usecaseType === 'association'">
                 <ng-container matColumnDef="antecedent">
-                  <th mat-header-cell *matHeaderCellDef> Statistics </th>
+                  <th mat-header-cell *matHeaderCellDef>Antecedent</th>
                   <td mat-cell *matCellDef="let element">
                     <p *ngFor="let ant of element.antecedent">
                       {{ant}}
@@ -339,15 +339,15 @@
                   </td>
                 </ng-container>
                 <ng-container matColumnDef="confidence">
-                  <th mat-header-cell *matHeaderCellDef> Training results </th>
+                  <th mat-header-cell *matHeaderCellDef>Confidence</th>
                   <td mat-cell *matCellDef="let element"> {{element.confidence | number : '1.2-3'}} </td>
                 </ng-container>
                 <ng-container matColumnDef="consequent">
-                  <th mat-header-cell *matHeaderCellDef> Training results </th>
+                  <th mat-header-cell *matHeaderCellDef>Consequent</th>
                   <td mat-cell *matCellDef="let element"> {{element.consequent}} </td>
                 </ng-container>
                 <ng-container matColumnDef="lift">
-                  <th mat-header-cell *matHeaderCellDef> Training results </th>
+                  <th mat-header-cell *matHeaderCellDef>Lift</th>
                   <td mat-cell *matCellDef="let element"> {{element.lift | number : '1.2-3'}} </td>
                 </ng-container>
   
