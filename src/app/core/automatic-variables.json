@@ -11,7 +11,7 @@
   {"name": "Number of prescribed drugs",    "fieldType":"disabled", "dataType":"numeric",   "fhirQuery":"/MedicationStatement", "fhirPath": "aggr:groupBy(MedicationStatement.context.reference,count())"},
   {"name": "Condition", "fieldType": "text", "dataType": "numeric", "fhirQuery": "/Condition?code:sw={string_value}", "fhirPath": "value:exists"},
   {"name": "Medication", "fieldType": "text", "dataType": "numeric", "fhirQuery": "/MedicationStatement?code={string_value}", "fhirPath": "value:exists"},
-  {"name": "Observation", "fieldType": "text", "dataType": "numeric", "fhirQuery": "/Observation?code={string_value}", "fhirPath": "value:Observation.valueQuantity.value"},
+  {"name": "Observation", "fieldType": "text", "dataType": "numeric", "fhirQuery": "/Observation?code={string_value}", "fhirPath": "value:exists"},
   {"name":"Lab Result at admission", "fieldType":   "text", "dataType":"numeric", "fhirQuery":  "/Observation?code={string_value}&_sort=date", "fhirPath": "value:Observation.valueQuantity.value"},
   {"name":"Lab Result at discharge", "fieldType":   "text", "dataType":"numeric", "fhirQuery":  "/Observation?code={string_value}&_sort=-date", "fhirPath": "value:Observation.valueQuantity.value"},
   {"name":"Readmitted in X days", "fieldType":  "number",   "dataType":"numeric", "fhirQuery":  "/Encounter", "fhirPath": "value:readmission:{integer_value}"},
