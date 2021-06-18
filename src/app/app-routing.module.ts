@@ -36,26 +36,32 @@ import { ModelCreationComponent } from './model-creation/model-creation.componen
 import { UseCaseCreationComponent } from './usecase-creation/usecase-creation.component';
 import { ProspectiveStudyComponent } from './prospective-study/prospective-study.component';
 import { ProspectiveStudyCreationComponent } from './prospective-study-creation/prospective-study-creation.component';
+import { AuthGuard } from './core/services/keyloack-auth-guard';
 
 const routes: Routes = [
+  {
+    path: 'pages',
+    loadChildren: '@app/home/home.module#MainModule',
+    canActivate: [AuthGuard]
+  },
   { path: '', component: CoverPageComponent},
   { path: 'login', component: LoginComponent},
-  { path: 'uclist', component: UseCaseListComponent},
-  { path: 'ucmenu', component: UseCaseMenuComponent},
-  { path: 'uccreation', component: UseCaseCreationComponent},
-  { path: 'fscreation', component: FeatureSetCreationComponent},
-  { path: 'fslist', component: FeatureSetListComponent},
-  { path: 'fsdetails', component: FeatureSetCreationComponent},
-  { path: 'dscreation', component: DataSetCreationComponent},
-  { path: 'dsdashboard', component: DataSetDashboardComponent},
-  { path: 'dsdetails', component: DataSetCreationComponent},
-  { path: 'mdashboard', component: ModelDashboardComponent},
-  { path: 'mcreation', component: ModelCreationComponent},
-  { path: 'psdashboard', component: ProspectiveStudyComponent},
-  { path: 'pscreation', component: ProspectiveStudyCreationComponent},
+  { path: 'uclist', component: UseCaseListComponent, canActivate: [AuthGuard]},
+  { path: 'ucmenu', component: UseCaseMenuComponent, canActivate: [AuthGuard]},
+  { path: 'uccreation', component: UseCaseCreationComponent, canActivate: [AuthGuard]},
+  { path: 'fscreation', component: FeatureSetCreationComponent, canActivate: [AuthGuard]},
+  { path: 'fslist', component: FeatureSetListComponent, canActivate: [AuthGuard]},
+  { path: 'fsdetails', component: FeatureSetCreationComponent, canActivate: [AuthGuard]},
+  { path: 'dscreation', component: DataSetCreationComponent, canActivate: [AuthGuard]},
+  { path: 'dsdashboard', component: DataSetDashboardComponent, canActivate: [AuthGuard]},
+  { path: 'dsdetails', component: DataSetCreationComponent, canActivate: [AuthGuard]},
+  { path: 'mdashboard', component: ModelDashboardComponent, canActivate: [AuthGuard]},
+  { path: 'mcreation', component: ModelCreationComponent, canActivate: [AuthGuard]},
+  { path: 'psdashboard', component: ProspectiveStudyComponent, canActivate: [AuthGuard]},
+  { path: 'pscreation', component: ProspectiveStudyCreationComponent, canActivate: [AuthGuard]},
 
-  { path: 'usecase', component: UsecaseComponent },
-  { path: 'newusecase', component: NewusecaseComponent },
+  { path: 'usecase', component: UsecaseComponent, canActivate: [AuthGuard] },
+  { path: 'newusecase', component: NewusecaseComponent, canActivate: [AuthGuard] },
 
   { path: '**', component: NotFoundComponent }
 ];

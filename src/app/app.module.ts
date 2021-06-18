@@ -100,6 +100,8 @@ import { initializer } from './core/services/usermanagement';
 import { FooterComponent } from './footer/footer.component';
 import { DialogConfirmationComponent } from './dialog-confirmation/dialog-confirmation.component';
 import { FsDetailsDialogComponent } from './data-set-creation/fs-details-dialog/fs-details-dialog.component';
+import { CustomKeycloakService } from './core/services/custom-keycloak.service';
+import { AuthGuard } from './core/services/keyloack-auth-guard';
 
 @NgModule({
   declarations: [
@@ -188,8 +190,9 @@ import { FsDetailsDialogComponent } from './data-set-creation/fs-details-dialog/
      provide: APP_INITIALIZER,
       useFactory: initializer,
       deps: [ KeycloakService ],
-      multi: true
-    }
+      multi: true,
+      useClass: CustomKeycloakService
+    },
   ],
   bootstrap: [AppComponent]
 })
