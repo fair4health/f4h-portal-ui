@@ -18,6 +18,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-cover-page',
@@ -28,11 +29,14 @@ export class CoverPageComponent implements OnInit {
 
   constructor(
     private router: Router,
+    public auth: AuthService
   ) { }
 
   ngOnInit(): void {
-    console.log('Redirecting to usecase list as default page');
-    this.router.navigate(['/uclist']);
+    console.log('Redirecting to usecase list as default page', this.auth.isLoggedIn());
+    if (this.auth.isLoggedIn()){
+      this.router.navigate(['/uclist']);
+    }
   }
 
 }

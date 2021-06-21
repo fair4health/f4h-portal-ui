@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit {
 
   onLogin(): void {
     console.log('Login clicked');
-    this.router.navigate(['/login']);
+    this.router.navigate(['/uclist']);
   }
 
   onLogout(): void {

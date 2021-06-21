@@ -13,10 +13,12 @@ export function initializer(keycloak: KeycloakService): () => Promise<any> {
                 },
               loadUserProfileAtStartUp: false,
               initOptions: {
-                onLoad: 'login-required',
+               // onLoad: 'login-required',
                 checkLoginIframe: false
               },
-              bearerExcludedUrls: []
+              enableBearerInterceptor: true,
+              bearerPrefix: 'Bearer',
+              bearerExcludedUrls: ['/']
             });
             resolve();
           } catch (error) {
