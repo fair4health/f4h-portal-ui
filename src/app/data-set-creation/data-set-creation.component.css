@@ -18,3 +18,25 @@ table {
 .mat-input-element:disabled {
   color: black;
 }
+
+.agent-error {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  color: rgba(206, 1, 1, 0.877);
+}
+
+.agent-error .agent-error-message {
+  visibility: hidden;
+  width: 30em;
+  background-color: #f8beb9;
+  text-align: center;
+  border-radius: 2px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+}
+/*
+.agent-error:hover .agent-error-message {
+  visibility: visible;
+}*/

@@ -68,6 +68,8 @@ export class DataSetCreationComponent implements OnInit {
   isDisabled: boolean;
   pattern = '^\/[?a-zA-Z0-9]+?[a-zA-Z0-9._%+-:=]{1,100}$';
 
+  displayErrorAgent: string;
+
   usecasename: string;
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -328,6 +330,14 @@ export class DataSetCreationComponent implements OnInit {
         this.passTo5Step = true;
       }
     });
+  }
+
+  displayAgentError(agentId) {
+    document.getElementById(agentId).style['visibility'] = 'visible';
+  }
+
+  hideAgentError(agentId){
+    document.getElementById(agentId).style['visibility'] = 'hidden';
   }
 
 }

@@ -152,6 +152,16 @@
                 <div *ngIf="element.execution_state === 'executing'">
                   <p style="color: orange;">Querying...</p>
                 </div>
+                <div *ngIf="element.execution_state === 'error'">
+                  <p class="agent-error" 
+                    (mouseover)="displayAgentError(element.agent_id)"
+                    (mouseout)="hideAgentError(element.agent_id)">
+                    Error
+                    <span class="agent-error-message" [id]="element.agent_id">
+                      {{element.error_message}}
+                    </span>
+                  </p>
+                </div>
               </div>
               <div *ngIf="column === 'agent'">
                 <p> {{element[column].name}} </p>
