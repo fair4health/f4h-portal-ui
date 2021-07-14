@@ -2,6 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../core/services/auth.service';
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
@@ -18,7 +19,8 @@ export class UseCaseCreationComponent implements OnInit {
               private formBuilder: FormBuilder,
               private service: BackendService,
               private userCommunication: UserCommunicationService,
-              private localStorage: LocalStorageService
+              private localStorage: LocalStorageService,
+              private auth: AuthService
               ) { }
 
   formGroup1: FormGroup;
@@ -30,6 +32,10 @@ export class UseCaseCreationComponent implements OnInit {
   });
 
   ngOnInit(): void {
+
+    if (this.auth.role === 'Healthcare professional') {
+      this.router.navigate(['/uclist']);
+    }
     this.formGroup1 = this.formBuilder.group({
       formGroup1: ['', Validators.required]
     });
