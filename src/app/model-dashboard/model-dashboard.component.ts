@@ -68,7 +68,10 @@ export class ModelDashboardComponent implements OnInit {
 
           let datasetSourcesList = '';
           element.dataset.dataset_sources.forEach(innerElement => {
-            datasetSourcesList = datasetSourcesList + innerElement.agent.name + ' ';
+            if (innerElement.selection_status === 'selected') {
+              datasetSourcesList = datasetSourcesList + '\u2022 ' + innerElement.agent.name + '\n';
+            }
+           
           });
           element.dataset = datasetSourcesList;
 
@@ -78,6 +81,7 @@ export class ModelDashboardComponent implements OnInit {
             this.dataSourceInProgress.push(element);
           }
         });
+        
         if (this.table.first) {
           this.table.first.renderRows();
         }
