@@ -132,7 +132,7 @@ export class UseCaseListComponent implements OnInit {
           },
           (err) => {
             console.log(err);
-            this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error deleting use case.');
+            this.userCommunication.createMessage(this.userCommunication.ERROR, err.error);
           }
         );
       }
