@@ -17,6 +17,7 @@
  */
 
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -25,6 +26,7 @@ import { Router } from '@angular/router';
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
+import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-data-set-dashboard',
@@ -44,7 +46,8 @@ export class DataSetDashboardComponent implements OnInit {
     private backendService: BackendService,
     private localStorage: LocalStorageService,
     private userCommunication: UserCommunicationService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
     ) { }
 
   ngOnInit(): void {
@@ -56,6 +59,7 @@ export class DataSetDashboardComponent implements OnInit {
   }
 
   getDataSetsList(): void {
+    
     this.backendService.getDataSetsList(this.localStorage.projectId).subscribe(
       (datasetsList) => {
         datasetsList.forEach(element => {
@@ -91,5 +95,37 @@ export class DataSetDashboardComponent implements OnInit {
     // TO DO Feature set details dialog
     // this.userCommunication.createMessage(this.userCommunication.INFO, 'Not ready yet');
     this.router.navigate(['/dsdetails'], {state: {selectedDataSet}});
+  }
+
+  onDelete(element) {
+    console.log('element to delete: ',element);
+
+    const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+      width: '600px',
+      data: {
+              title: 'Delete',
+              message:  'Are you sure you want to delete this data set?' +
+                        'This information can not be recovered.',
+              cancelButton: 'No, Cancel it',
+              acceptButton: 'Yes, remove'
+            }
+    });
+
+    dialogConf.afterClosed().subscribe(result => {
+      if (result) {
+        this.backendService.deleteDataSet(element.dataset_id).subscribe(
+          (data) => {
+            console.log('data', data);
+            this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Use case deleted correctly.');
+            this.getDataSetsList();
+          },
+          (err) => {
+            console.log(err);
+            this.userCommunication.createMessage(this.userCommunication.ERROR, err.error);
+            this.getDataSetsList();
+          }
+        );
+      }
+    });
   }
 }

@@ -17,6 +17,7 @@
  */
 
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
@@ -24,6 +25,7 @@ import { Router } from '@angular/router';
 import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
+import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-model-dashboard',
@@ -43,7 +45,8 @@ export class ModelDashboardComponent implements OnInit {
     private backendService: BackendService,
     private userCommunication: UserCommunicationService,
     private router: Router,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    public dialog: MatDialog
     ) { }
 
   ngOnInit(): void {
@@ -56,6 +59,9 @@ export class ModelDashboardComponent implements OnInit {
   }
 
   getModelsList(): void {
+
+    this.dataSourceInProgress = [];
+    this.dataSourceReady = [];
 
     this.backendService.getModels(this.localStorage.projectId).subscribe(
       (modelslist) => {
@@ -100,4 +106,41 @@ export class ModelDashboardComponent implements OnInit {
     // TO DO Feature set details dialog
     this.router.navigate(['/mcreation'], {state: {selectedModel}});
   }
+
+  /**
+   * 
+   * @param element model to delete
+   */
+   onDelete(element): void {
+    console.log('element to delete: ', element);
+
+    const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+      width: '600px',
+      data: {
+              title: 'Delete',
+              message:  'Are you sure you want to delete this Model? \n' +
+                        'This information can not be recovered.',
+              cancelButton: 'No, Cancel it',
+              acceptButton: 'Yes, remove'
+            }
+    });
+
+    dialogConf.afterClosed().subscribe(result => {
+      if (result) {
+        this.backendService.deleteModel(element.model_id).subscribe(
+          (data) => {
+            console.log('data', data);
+            this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Model set deleted correctly.');
+            this.getModelsList();
+          },
+          (err) => {
+            console.log(err);
+            this.userCommunication.createMessage(this.userCommunication.ERROR, err.error);
+            this.getModelsList();
+          }
+        );
+      }
+    });
+  }
+
 }

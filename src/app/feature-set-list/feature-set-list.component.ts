@@ -22,6 +22,8 @@ import { BackendService } from '../core/services/backend.service';
 import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 
 
 @Component({
@@ -40,6 +42,7 @@ export class FeatureSetListComponent implements OnInit {
     private userCommunication: UserCommunicationService,
     private localStorage: LocalStorageService,
     private router: Router,
+    public dialog: MatDialog
     ) { }
 
     ngOnInit(): void {
@@ -48,6 +51,7 @@ export class FeatureSetListComponent implements OnInit {
     }
 
     getFeatureSetList(): void {
+      this.dataSource = [];
       this.backendService.getFeaturesetsList(this.localStorage.projectId).subscribe(
         (featuresetslist) => {
           this.dataSource = featuresetslist;
@@ -66,9 +70,39 @@ export class FeatureSetListComponent implements OnInit {
       this.router.navigate(['/fsdetails'], {state: {selectedFeatureSet}});
     }
 
-    createNewFeatureSet() {
-      let featureSets = this.dataSource
+    createNewFeatureSet(): void {
+      const featureSets = this.dataSource;
       this.router.navigate(['/fscreation'], {state: {featureSets}});
+    }
+
+    onDelete(element): void{
+      const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+        width: '600px',
+        data: {
+                title: 'Delete',
+                message:  'Are you sure you want to delete this feature set?' +
+                          'This information can not be recovered.',
+                cancelButton: 'No, Cancel it',
+                acceptButton: 'Yes, remove'
+              }
+      });
+
+      dialogConf.afterClosed().subscribe(result => {
+        if (result) {
+          this.backendService.deleteFeatureSet(element.featureset_id).subscribe(
+            (data) => {
+              console.log('data', data);
+              this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Feature set deleted correctly.');
+              this.getFeatureSetList();
+            },
+            (err) => {
+              console.log(err);
+              this.userCommunication.createMessage(this.userCommunication.ERROR, err.error);
+              this.getFeatureSetList();
+            }
+          );
+        }
+      });
     }
 
 }
