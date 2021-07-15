@@ -94,6 +94,10 @@ export class BackendService {
     return this.httpClient.put(environment.restApiPPDDM + 'manager/featureset/' + id, featureSet);
   }
 
+  public deleteFeatureSet(id): Observable<any> {
+    return this.httpClient.delete(environment.restApiPPDDM + 'manager/featureset/' + id, this.httpOptions);
+  }
+
   // get model list from the mockup api
   public getModelsList(): Observable<any> {
     return this.httpClient.get(environment.restApiUrl + 'manager/dm-model/');
@@ -117,12 +121,20 @@ export class BackendService {
     return this.httpClient.put(environment.restApiPPDDM + 'manager/dm-model/' + id, model, this.httpOptions);
   }
 
+  deleteModel(id): Observable<any> {
+    return this.httpClient.delete(environment.restApiPPDDM + 'manager/dm-model/' + id, this.httpOptions);
+  }
+
   public getDataSetsList(id): Observable<any> {
     return this.httpClient.get(environment.restApiPPDDM + 'manager/dataset?project_id=' + id , this.httpOptions);
   }
 
   public getDataSet(datasetId): Observable<any> {
     return this.httpClient.get(environment.restApiPPDDM + 'manager/dataset/' + datasetId , this.httpOptions);
+  }
+
+  deleteDataSet(id): Observable<any> {
+    return this.httpClient.delete(environment.restApiPPDDM + 'manager/dataset/' + id, this.httpOptions);
   }
 
   // deprecated
@@ -183,7 +195,7 @@ export class BackendService {
   }
 
   deleteProspectiveStudy(id): Observable<any> {
-    return this.httpClient.delete(environment.restApiPPDDM + 'manager/prospective/' + id);
+    return this.httpClient.delete(environment.restApiPPDDM + 'manager/prospective/' + id, this.httpOptions);
   }
 
   getAlgorithms() {

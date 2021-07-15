@@ -28,6 +28,8 @@ import { Algorithm } from '../shared/algorithm';
 import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatStepper } from '@angular/material/stepper';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-model-creation',
@@ -87,7 +89,7 @@ export class ModelCreationComponent implements OnInit {
     private localStorage: LocalStorageService,
     private userCommunication: UserCommunicationService,
     private formBuilder: FormBuilder,
-    private router: Router,
+    private router: Router
     ) {}
 
 
@@ -463,5 +465,7 @@ export class ModelCreationComponent implements OnInit {
       }
     );
   }
+
+  
 
 }
