@@ -5,3 +5,7 @@
 .mat-elevation-z8 {
   width: 100%;
 }
+
+.dataset-cell {
+  white-space: pre-line;
+}
