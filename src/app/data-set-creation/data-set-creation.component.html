@@ -141,51 +141,55 @@
     <mat-step [stepControl]="formGroup4">
       <form [formGroup]="formGroup4">
         <ng-template matStepLabel>Results & statistics</ng-template>
-        <table mat-table async class="mat-elevation-z8" [dataSource]="resultsAndStaticsDataSource">
-          <ng-container [matColumnDef]="column" *ngFor="let column of resultsAndStaticsColumns">
-            <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-            <td mat-cell *matCellDef="let element" >
-              <div *ngIf="column === ' '">
-                <div *ngIf="element.execution_state === 'final'">
-                  <mat-checkbox [checked]="element.selection_status === 'selected'" class="example-margin" [value]="element" (change)="selectAgent($event.checked, element)"></mat-checkbox>
+
+        <div class="results-statics">
+          <table mat-table async class="mat-elevation-z8" [dataSource]="resultsAndStaticsDataSource">
+            <ng-container [matColumnDef]="column" *ngFor="let column of resultsAndStaticsColumns">
+              <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+              <td mat-cell *matCellDef="let element" >
+                <div *ngIf="column === ' '">
+                  <div *ngIf="element.execution_state === 'final'">
+                    <mat-checkbox [checked]="element.selection_status === 'selected'" class="example-margin" [value]="element" (change)="selectAgent($event.checked, element)"></mat-checkbox>
+                  </div>
+                  <div *ngIf="element.execution_state === 'executing'">
+                    <p style="color: orange;">Querying...</p>
+                  </div>
+                  <div *ngIf="element.execution_state === 'error'">
+                    <p class="agent-error" 
+                      (mouseover)="displayAgentError(element.agent_id)"
+                      (mouseout)="hideAgentError(element.agent_id)">
+                      Error
+                      <span class="agent-error-message" [id]="element.agent_id">
+                        {{element.error_message}}
+                      </span>
+                    </p>
+                  </div>
                 </div>
-                <div *ngIf="element.execution_state === 'executing'">
-                  <p style="color: orange;">Querying...</p>
+                <div *ngIf="column === 'agent'">
+                  <p> {{element[column].name}} </p>
                 </div>
-                <div *ngIf="element.execution_state === 'error'">
-                  <p class="agent-error" 
-                    (mouseover)="displayAgentError(element.agent_id)"
-                    (mouseout)="hideAgentError(element.agent_id)">
-                    Error
-                    <span class="agent-error-message" [id]="element.agent_id">
-                      {{element.error_message}}
-                    </span>
-                  </p>
+                <div *ngIf="column === '# of records'">
+                  <p *ngIf="element.agent_data_statistics"> {{ element.agent_data_statistics.number_of_records}} </p>
                 </div>
-              </div>
-              <div *ngIf="column === 'agent'">
-                <p> {{element[column].name}} </p>
-              </div>
-              <div *ngIf="column === '# of records'">
-                <p *ngIf="element.agent_data_statistics"> {{ element.agent_data_statistics.number_of_records}} </p>
-              </div>
-              <div *ngIf="element.agent_data_statistics">
-                <div *ngIf="column != 'agent' && column != ' '">
-                  <div  *ngFor="let stats of element.agent_data_statistics.variable_statistics">
-                    <div *ngIf="stats.variable.name === column">
-                      <p> <b> Min: </b> {{ stats.min_value}} </p>
-                      <p> <b> Max: </b> {{ stats.max_value}} </p>
-                      <p> <b> Null: </b> {{ stats.null_percentage}} </p>
+                <div *ngIf="element.agent_data_statistics">
+                  <div *ngIf="column != 'agent' && column != ' '">
+                    <div  *ngFor="let stats of element.agent_data_statistics.variable_statistics">
+                      <div *ngIf="stats.variable.name === column">
+                        <p> <b> Min: </b> {{ stats.min_value}} </p>
+                        <p> <b> Max: </b> {{ stats.max_value}} </p>
+                        <p> <b> Null: </b> {{ stats.null_percentage}} </p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-             
-            </td>
-          </ng-container>
-          <tr mat-header-row *matHeaderRowDef="resultsAndStaticsColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: resultsAndStaticsColumns;"></tr>
-        </table> 
+               
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="resultsAndStaticsColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: resultsAndStaticsColumns;"></tr>
+          </table> 
+        </div>
+        
 
         <div>
           <button mat-button matStepperPrevious color="primary" >Back</button>

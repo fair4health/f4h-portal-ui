@@ -40,3 +40,13 @@ table {
 .agent-error:hover .agent-error-message {
   visibility: visible;
 }*/
+
+.results-statics {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  padding: 1em;
+}
