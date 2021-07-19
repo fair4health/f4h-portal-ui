@@ -20,13 +20,38 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
 
+export interface ResearchElement {
+  number: number;
+  description: string;
+  sites: number;
+  patients: number;
+  algorithm: string;
+}
+
+const ELEMENT_DATA: ResearchElement[] = [
+  { number: 1,
+    description: 'Identification of multimorbidity patterns and polypharmacy correlation on the risk of mortality in elderly, and demonstrate the reproducibility of research',
+    sites: 3,
+    patients: 13.485,
+    algorithm: 'Support Vector Machine (SVM), Logistic Regression, Decision Trees, Random Forest, Gradient Boosted Trees'
+  },
+  { number: 2,
+    description: 'Develop and pilot an early prediction service for 30-days readmission risk in COPD (Chronic Obstructive Pulmonary Disease) patients',
+    sites: 4,
+    patients: 13.485,
+    algorithm: 'FP Growth'
+  },
+];
+
 @Component({
   selector: 'app-cover-page',
   templateUrl: './cover-page.component.html',
   styleUrls: ['./cover-page.component.css']
 })
-export class CoverPageComponent implements OnInit {
 
+export class CoverPageComponent implements OnInit {
+  displayedColumns: string[] = ['number', 'description', 'sites', 'patients', 'algorithm'];
+  dataSource = ELEMENT_DATA;
   constructor(
     private router: Router,
     public auth: AuthService

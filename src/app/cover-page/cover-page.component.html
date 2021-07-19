@@ -1,18 +1,68 @@
-<div class="center">
-  <div>
-    <img src="assets/images/logo.png">
-    <h1>Portal</h1>
-  </div>
+
+<div class="center" style="margin: auto;width: 90%;">
+<h2>Welcome to FAIR4Health Platform</h2>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+  <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="number">
+    <th mat-header-cell *matHeaderCellDef> Research study </th>
+    <td mat-cell *matCellDef="let element"> {{element.number}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="description">
+    <th mat-header-cell *matHeaderCellDef> Description </th>
+    <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+  </ng-container>
+
+  <!-- Weight Column -->
+  <ng-container matColumnDef="sites">
+    <th mat-header-cell *matHeaderCellDef> Total number of sites </th>
+    <td mat-cell *matCellDef="let element"> {{element.sites}} </td>
+  </ng-container>
+
+  <!-- Symbol Column -->
+  <ng-container matColumnDef="patients">
+    <th mat-header-cell *matHeaderCellDef> Total number of patients </th>
+    <td mat-cell *matCellDef="let element"> {{element.patients}} </td>
+  </ng-container>
+
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="algorithm">
+      <th mat-header-cell *matHeaderCellDef> Association AI Algorithm </th>
+      <td mat-cell *matCellDef="let element"> {{element.algorithm}} </td>
+    </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+
+<mat-card>
+  <b>Common Data model: </b>
+  <a mat-button href="https://github.com/fair4health/common-data-model" target="_blank" rel="noopener" class="fontlink">
+    https://github.com/fair4health/common-data-model
+  </a>
+  <br>
+  <b>Owner: </b>
+  <a mat-button href="https://www.fair4health.eu/" target="_blank" rel="noopener"  class="fontlink">
+    FAIR4Health Consortium.
+  </a></mat-card>
+
 </div>
 
 <div>
+
   <div class="right">
     <a mat-button href="https://www.fair4health.eu/" target="_blank" rel="noopener">
       + Info
     </a>
-    &nbsp;&nbsp;
     <a mat-button href="https://www.fair4health.eu/en/contact" target="_blank" rel="noopener">
       Contact
     </a>
   </div>
+
 </div>
