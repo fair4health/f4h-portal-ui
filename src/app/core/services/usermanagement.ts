@@ -18,7 +18,7 @@ export function initializer(keycloak: KeycloakService): () => Promise<any> {
               },
               enableBearerInterceptor: true,
               bearerPrefix: 'Bearer',
-              bearerExcludedUrls: ['/']
+              bearerExcludedUrls: ['/dashboard']
             });
             resolve();
           } catch (error) {
