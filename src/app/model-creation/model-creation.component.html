@@ -290,6 +290,43 @@
       <form [formGroup]="formGroup7">
         <ng-template matStepLabel>Generate & Completed</ng-template>
 
+          <div *ngIf="newDMModel['data_mining_state'] === 'validating' || !newDMModel['data_mining_state']">
+            <p class="state-feedback">
+              Validating the model.
+            </p>
+          </div>
+
+          <div *ngIf="newDMModel['data_mining_state'] === 'testing' || !newDMModel['data_mining_state']">
+            <p class="state-feedback">
+              Testing model.
+            </p>
+          </div>
+
+          <div *ngIf="newDMModel['data_mining_state'] === 'calculating_frequency_arl' || !newDMModel['data_mining_state']">
+            <p class="state-feedback">
+              Calculating item frequencies.
+            </p>
+          </div>
+
+          <div *ngIf="newDMModel['data_mining_state'] === 'executing_arl' || !newDMModel['data_mining_state']">
+            <p class="state-feedback">
+              Training model.
+            </p>
+          </div>
+
+          <div *ngIf="newDMModel['data_mining_state'] === 'error' || !newDMModel['data_mining_state']">
+            <p class="state-feedback">
+              <mat-icon 
+                aria-hidden="false" 
+                aria-label="Example home icon"
+                style="color: red;"
+                class="material-icons-outlined">
+                report
+              </mat-icon>
+              An error occurred.
+            </p>
+          </div>
+
           <div *ngIf="newDMModel['data_mining_state'] === 'training' || !newDMModel['data_mining_state']" class="not-ready-panel">
           
             <mat-spinner></mat-spinner>
@@ -330,6 +367,7 @@
               </table>
 
               <!-- ASSOCIATION BOOSETD MODEL TABLE-->
+             
               <table mat-table [dataSource]="statistics" class="mat-elevation-z8" *ngIf="usecaseType === 'association'">
                 <ng-container matColumnDef="antecedent">
                   <th mat-header-cell *matHeaderCellDef>Antecedent</th>
