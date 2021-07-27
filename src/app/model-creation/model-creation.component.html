@@ -187,7 +187,7 @@
               <br> 
               <mat-form-field *ngFor="let input of algorithmParameterForm" appearance="legacy">
                 
-                <mat-label>{{input.name}}</mat-label>
+                <mat-label>{{input.display}}</mat-label>
                 <input matInput [formControlName]="input.name" [disabled]="isDisabled">
               </mat-form-field>
               <button [disabled]="isDisabled" mat-raised-button color="primary" class="add-algorithm-btn" (click)="addAlgorithm()"> Add </button>
@@ -205,7 +205,7 @@
 
                 <div *ngFor="let parameter of algorithm.parameters">
                   <div class="alg-label">
-                    <b>{{parameter.name}}: </b>
+                    <b>{{parameter.display}}: </b>
                   </div>
                   <div class="alg-value">
                     {{parameter.value}}

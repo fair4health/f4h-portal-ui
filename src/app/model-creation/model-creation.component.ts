@@ -194,7 +194,15 @@ export class ModelCreationComponent implements OnInit {
         this.formGroup1.get('name').setValue(this.newDMModel.name);
         this.formGroup1.get('description').setValue(this.newDMModel.description);
 
+        
         this.algorithmsList = data.algorithms;
+
+        this.algorithmsList.forEach(element => {
+          element.parameters.forEach(param => {
+            param.display = this.friendlyParamsNames(param.name);
+          });
+          
+        });
 
         // check if use case type is prediction
         if (this.usecaseType === 'prediction') {
@@ -240,7 +248,6 @@ export class ModelCreationComponent implements OnInit {
     this.newDMModel['boosted_models'].forEach(element => {
       this.statistics = element.calculated_test_statistics;
     });
-    console.log('---->', this.statistics)
   }
 
   getAssociationStatistics () {
@@ -401,12 +408,18 @@ export class ModelCreationComponent implements OnInit {
     }
     this.newDMModel.dataset = this.formGroup2.get('dataset').value;
     this.newDMModel.algorithms = [];
+   
+    this.algorithmsList.forEach(element => {
+      element.parameters.forEach(param => {
+        delete param.display;
+      });
+    });
     this.newDMModel.algorithms = this.algorithmsList;
     this.newDMModel.created_by = this.localStorage.userId;
     this.newDMModel.project_id = this.localStorage.projectId;
 
     console.log('new model: ', this.newDMModel);
-
+/*
     this.backendService.saveModel(this.newDMModel).subscribe(
       (response) => {
         this.userCommunication.createMessage('snack-bar-success', 'Model "' + response.name + '" created successfully');
@@ -418,10 +431,14 @@ export class ModelCreationComponent implements OnInit {
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'New model creation failed!');
       }
-    );
+    );*/
   }
 
   onChangeAlgorithm(algorithm): void {
+    algorithm.parameters.forEach(element => {
+      element.display = this.friendlyParamsNames(element.name);
+    });
+
     this.selectedAlgorithm = new Algorithm();
     this.algorithmParameterForm = algorithm.parameters;
     this.algorithmParameterForm.forEach(element => {
@@ -466,6 +483,27 @@ export class ModelCreationComponent implements OnInit {
     );
   }
 
-  
+  friendlyParamsNames(name){
+    let display = name.replaceAll('_', ' ');
+      
+    if (display.includes('param')) {
+      display = display.replace('param', 'parameter')
+    }
+    if (display.includes('max')) {
+      display = display.replace('max', 'maximum')
+    }
+    if (display.includes('min')) {
+      display = display.replace('min', 'minimum')
+    }
+    if (display.includes('num')) {
+      display = display.replace('num', 'num of')
+    }
+    if (display.includes('iter')) {
+      display = display.replace('iter', 'iteractions')
+    }
+
+    display = display.charAt(0).toUpperCase() + display.slice(1);
+    return display;
+  }
 
 }
