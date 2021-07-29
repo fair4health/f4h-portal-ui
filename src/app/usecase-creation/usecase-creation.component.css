@@ -1,3 +1,7 @@
 input, mat-form-field {
     width: 100%;
-  }
+}
+
+.required-alert {
+  color: red;
+}
