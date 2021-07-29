@@ -30,6 +30,10 @@ export class UseCaseCreationComponent implements OnInit {
     description: new FormControl('', Validators.required),
     project_type: new FormControl('prediction', Validators.required)
   });
+  required = {
+    name: true,
+    description: true
+  }
 
   ngOnInit(): void {
 
@@ -54,15 +58,25 @@ export class UseCaseCreationComponent implements OnInit {
 
     newUseCase.created_by = this.localStorage.userId;
 
-    this.service.saveUseCase(newUseCase).subscribe(
-      (useCase) => {
-      this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'The use case "' + useCase.name + ' has been created successfully!');
-      this.router.navigate(['/uclist']);
-    },
-    (err) => {
-      this.service.handleError('home', err);
-      this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed!');
-    });
+    if (this.useCaseForm.valid) {
+      
+    
+      this.service.saveUseCase(newUseCase).subscribe(
+        (useCase) => {
+        this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'The use case "' + useCase.name + ' has been created successfully!');
+        this.router.navigate(['/uclist']);
+      },
+      (err) => {
+        this.service.handleError('home', err);
+        this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed!');
+      });
+    }else {
+      this.userCommunication.createMessage(this.userCommunication.ERROR, 'The fields "Use case name" and "Description" are required');
+      this.useCaseForm.get('name').markAsTouched();
+      this.useCaseForm.get('description').markAsTouched();
+      this.required.name = this.useCaseForm.get('name').valid
+      this.required.description = this.useCaseForm.get('description').valid
+    }
   }
 
   /**

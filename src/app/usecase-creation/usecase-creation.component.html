@@ -12,6 +12,9 @@
         <mat-form-field appearance="fill">
             <mat-label>Use case name</mat-label>
             <input matInput ngDefaultControl formControlName='name'>
+            <mat-error *ngIf="!required.name" class="required-alert">
+              Use case name is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
         <br>
 
@@ -19,6 +22,9 @@
         <mat-form-field appearance="fill">
             <mat-label>Description</mat-label>
             <input matInput ngDefaultControl formControlName='description'>
+            <mat-error *ngIf="!required.description" class="required-alert">
+              Description name is <strong>required</strong>
+            </mat-error>
         </mat-form-field>
         <br>
 
