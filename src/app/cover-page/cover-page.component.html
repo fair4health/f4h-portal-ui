@@ -1,5 +1,5 @@
 
-<div class="center" style="margin: auto;width: 90%;">
+<div  style="margin: auto;width: 90%; padding-top: 70px;">
 <h2>Welcome to FAIR4Health Platform</h2>
 
 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
@@ -41,17 +41,24 @@
   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
 
+</div>
+<div style="margin: auto;width: 90%; padding-top: 40px;">
 <mat-card>
-  <b>Common Data model: </b>
+  <b>Common Data model:</b>
   <a mat-button href="https://github.com/fair4health/common-data-model" target="_blank" rel="noopener" class="fontlink">
     https://github.com/fair4health/common-data-model
   </a>
   <br>
-  <b>Owner: </b>
+  <b>Owner:</b>
   <a mat-button href="https://www.fair4health.eu/" target="_blank" rel="noopener"  class="fontlink">
     FAIR4Health Consortium.
-  </a></mat-card>
-
+  </a>
+  <br>
+  <b>FAIR4Health FAIR metadata repository:</b>
+  <a mat-button href="https://github.com/fair4health/metadata" target="_blank" rel="noopener"  class="fontlink">
+    https://github.com/fair4health/metadata
+  </a>
+</mat-card>
 </div>
 
 <div>
