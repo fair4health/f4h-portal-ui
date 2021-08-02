@@ -67,7 +67,6 @@ export class NewVariableDialogComponent implements OnInit {
 
   onOpenAuto(variable): void {
     this.selectedVariable = variable;
-    console.log('selected variabnle: ', this.selectedVariable);
     this.data.variable_data_type = variable.dataType;
     this.data.fhir_query = variable.fhirQuery;
     this.data.fhir_path = variable.fhirPath;
@@ -82,7 +81,6 @@ export class NewVariableDialogComponent implements OnInit {
   }
 
   selectvariable(event): void {
-    console.log('variable: ', event.value);
     this.selectedVariable = event.value;
     this.variableForm.get('selectedVariable').setValue(event.value);
     if (event.value.fieldType === 'disabled') {
@@ -123,19 +121,14 @@ export class NewVariableDialogComponent implements OnInit {
     }
 
     if (this.variableForm.valid) {
-      console.log('is valid ')
       this.dialogRef.close(this.data);
     }
     else {
-      console.log('not valid');
 
       Object.keys(this.variableForm.controls).forEach(key => {
-        console.log('key: ', key)
         this.variableForm.get(key).markAsTouched();
         this.requiredFields[key] = this.variableForm.get(key).valid
     });
-
-    console.log(this.requiredFields)
       this.userCommunication.createMessage(this.userCommunication.ERROR, 'There are empty fields that are required to fill');
     }
 
