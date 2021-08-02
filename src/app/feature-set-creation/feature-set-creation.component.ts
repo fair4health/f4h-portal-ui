@@ -109,7 +109,6 @@ export class FeatureSetCreationComponent implements OnInit {
 
         if (result) {
           this.newVariable = result;
-          console.log('RESULTS: ', result)
           if (this.localStorage.projectType === 'association'){
             this.newVariable.variable_type = 'independent';
           }
@@ -129,7 +128,6 @@ export class FeatureSetCreationComponent implements OnInit {
   }
 
   onSave(): void {
-    console.log('Saving feature set');
     const newFeatureSet = new FeatureSet();
     newFeatureSet.name = this.featureSetForm.get('name').value;
     newFeatureSet.description = this.featureSetForm.get('description').value;
@@ -138,7 +136,6 @@ export class FeatureSetCreationComponent implements OnInit {
     console.log('Feature set to save: ', newFeatureSet);
 
     if (this.featureSetForm.valid) {
-      console.log('valid');
       if (history.state.selectedFeatureSet) {
         console.log('Update existent feature set.');
         newFeatureSet['featureset_id'] = this.featureSetId;
@@ -184,7 +181,6 @@ export class FeatureSetCreationComponent implements OnInit {
       this.featureSetForm.get('description').markAsTouched();
       this.required.name = this.featureSetForm.get('name').valid
       this.required.description = this.featureSetForm.get('description').valid
-      console.log(this.required);
     }
 
     
