@@ -30,6 +30,7 @@ import { Variable } from '../shared/variable';
 import { FeatureSet } from '../shared/feature-set';
 import { NewVariableDialogComponent } from './new-variable-dialog/new-variable-dialog.component';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-feature-set-creation',
@@ -38,8 +39,8 @@ import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confi
 })
 export class FeatureSetCreationComponent implements OnInit {
 
-  name: string;
-  description: string;
+  //name: string;
+  //description: string;
   newVariable: Variable;
   componentTitle: string;
   componentDirection: string;
@@ -52,6 +53,16 @@ export class FeatureSetCreationComponent implements OnInit {
   dataSource = [];
   usacasename: string;
   projectFeatureSets = [];
+
+  featureSetForm = new FormGroup({
+    name: new FormControl('', Validators.required),
+    description: new FormControl('', Validators.required),
+  })
+
+  required = {
+    name: true,
+    description: true
+  }
 
   constructor(
     private router: Router,
@@ -81,9 +92,8 @@ export class FeatureSetCreationComponent implements OnInit {
   }
 
   fillFields(): void {
-
-    this.name = history.state.selectedFeatureSet.name;
-    this.description = history.state.selectedFeatureSet.description ;
+    this.featureSetForm.get('name').setValue(history.state.selectedFeatureSet.name);
+    this.featureSetForm.get('description').setValue(history.state.selectedFeatureSet.description);
     this.dataSource = history.state.selectedFeatureSet.variables;
   }
 
@@ -121,49 +131,63 @@ export class FeatureSetCreationComponent implements OnInit {
   onSave(): void {
     console.log('Saving feature set');
     const newFeatureSet = new FeatureSet();
-    newFeatureSet.name = this.name;
-    newFeatureSet.description = this.description;
+    newFeatureSet.name = this.featureSetForm.get('name').value;
+    newFeatureSet.description = this.featureSetForm.get('description').value;
     newFeatureSet.project_id = this.localStorage.projectId;
     newFeatureSet.variables = this.dataSource;
     console.log('Feature set to save: ', newFeatureSet);
-    if (history.state.selectedFeatureSet) {
-      console.log('Update existent feature set.');
-      newFeatureSet['featureset_id'] = this.featureSetId;
-      newFeatureSet['created_by'] = this.featureSet['featureset_id'];
-      this.onUpdate(newFeatureSet);
-    } else {
-      newFeatureSet['created_by'] = this.localStorage.userId;
 
-      // check if the feature set name if not duplicated.
-
-      const duplicatedName = this.projectFeatureSets.find(projectFeatureSets => projectFeatureSets['name'] === newFeatureSet.name); 
-
-      if (!duplicatedName) {
-        this.backendService.saveFeatureSet(newFeatureSet).subscribe(
-          (data) => {
-            console.log('New feature set creation answer received! ', data);
-            this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
-            this.router.navigate(['/fslist']);
-          },
-          (err) => {
-            this.backendService.handleError('home', err);
-            console.log('error', err);
-            this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed: ' + err.error );
-
-          });
+    if (this.featureSetForm.valid) {
+      console.log('valid');
+      if (history.state.selectedFeatureSet) {
+        console.log('Update existent feature set.');
+        newFeatureSet['featureset_id'] = this.featureSetId;
+        newFeatureSet['created_by'] = this.featureSet['featureset_id'];
+        this.onUpdate(newFeatureSet);
       } else {
-        const dialogConf = this.dialog.open(DialogConfirmationComponent, {
-          width: '500px',
-          data: {
-                  title: 'Error',
-                  message: 'You can not save it because there is another feature set with the same name. \
-                            Please change featureset name bofore saving',
-                  acceptButton: 'Close'
-                }
-        });
+        newFeatureSet['created_by'] = this.localStorage.userId;
+  
+        // check if the feature set name if not duplicated.
+  
+        const duplicatedName = this.projectFeatureSets.find(projectFeatureSets => projectFeatureSets['name'] === newFeatureSet.name); 
+  
+        if (!duplicatedName) {
+          this.backendService.saveFeatureSet(newFeatureSet).subscribe(
+            (data) => {
+              console.log('New feature set creation answer received! ', data);
+              this.userCommunication.createMessage('snack-bar-success', 'Data set "' + data.name + '" created successfully')
+              this.router.navigate(['/fslist']);
+            },
+            (err) => {
+              this.backendService.handleError('home', err);
+              console.log('error', err);
+              this.userCommunication.createMessage(this.userCommunication.ERROR, 'New feature set creation failed: ' + err.error );
+  
+            });
+        } else {
+          const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+            width: '500px',
+            data: {
+                    title: 'Error',
+                    message: 'You can not save it because there is another feature set with the same name. \
+                              Please change featureset name bofore saving',
+                    acceptButton: 'Close'
+                  }
+          });
+        }
+  
       }
+    }
+    else {
+      this.userCommunication.createMessage(this.userCommunication.ERROR, 'The fields "Name" and "Description" are required');
+      this.featureSetForm.get('name').markAsTouched();
+      this.featureSetForm.get('description').markAsTouched();
+      this.required.name = this.featureSetForm.get('name').valid
+      this.required.description = this.featureSetForm.get('description').valid
+      console.log(this.required);
+    }
 
-      }
+    
   }
 
   onCancel(status): void {
