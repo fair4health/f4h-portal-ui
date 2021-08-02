@@ -9,15 +9,23 @@
 <div class="content">
   <h3>{{componentTitle}}</h3>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Feature set name</mat-label>
-    <input matInput ngDefaultControl [(ngModel)]='name'>
-  </mat-form-field>
-  <br>
-  <mat-form-field appearance="fill">
-    <mat-label>Description</mat-label>
-    <input matInput ngDefaultControl [(ngModel)]='description'>
-  </mat-form-field>
+  <form  [formGroup]="featureSetForm">
+    <mat-form-field appearance="fill">
+      <mat-label>Feature set name</mat-label>
+      <input matInput ngDefaultControl formControlName="name">
+      <mat-error *ngIf="!required.name" class="required-alert">
+        Name is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+    <br>
+    <mat-form-field appearance="fill">
+      <mat-label>Description</mat-label>
+      <input matInput ngDefaultControl formControlName='description'>
+      <mat-error *ngIf="!required.description" class="required-alert">
+        Description is <strong>required</strong>
+      </mat-error>
+    </mat-form-field>
+  </form>
 
   <br>
 
