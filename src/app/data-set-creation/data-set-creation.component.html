@@ -171,6 +171,16 @@
                 <div *ngIf="column === '# of records'">
                   <p *ngIf="element.agent_data_statistics"> {{ element.agent_data_statistics.number_of_records}} </p>
                 </div>
+                <div *ngIf="column === 'Value distribution'">
+                <!--  
+                  <div *ngFor="let var_stat of element.agent_data_statistics.variable_statistics">
+                  <pre  style="color: blueviolet; background-color: burlywood; margin: 5px;">
+                    {{ var_stat | json}}
+                  </pre>
+                </div>
+                -->
+
+                </div>
                 <div *ngIf="element.agent_data_statistics">
                   <div *ngIf="column != 'agent' && column != ' '">
                     <div  *ngFor="let stats of element.agent_data_statistics.variable_statistics">
@@ -178,6 +188,8 @@
                         <p> <b> Min: </b> {{ stats.min_value}} </p>
                         <p> <b> Max: </b> {{ stats.max_value}} </p>
                         <p> <b> Null: </b> {{ stats.null_percentage}} </p>
+                        <button  mat-button color="primary" (click)="onSeeValueDistribution(stats.value_distribution, stats.variable.name)">See distributions</button>
+                        
                       </div>
                     </div>
                   </div>

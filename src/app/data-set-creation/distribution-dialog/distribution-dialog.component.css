@@ -1,0 +1,21 @@
+.header-dialog{
+  display: block ruby;
+}
+
+.results-statics {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.close {
+  float: right;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  padding: 1em;
+}
+
+table {
+  width: 100%;
+}

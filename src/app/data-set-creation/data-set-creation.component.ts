@@ -28,6 +28,7 @@ import { of } from 'rxjs';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
 import { FsDetailsDialogComponent } from './fs-details-dialog/fs-details-dialog.component';
+import { DistributionDialogComponent } from './distribution-dialog/distribution-dialog.component';
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
@@ -228,6 +229,7 @@ export class DataSetCreationComponent implements OnInit {
     variablesStringList.push(' ');
     variablesStringList.push('agent');
     variablesStringList.push('# of records');
+    variablesStringList.push('Value distribution');
     this.newDataSet.featureset.variables.forEach(element => {
       variablesStringList.push(element.name);
     });
@@ -338,6 +340,24 @@ export class DataSetCreationComponent implements OnInit {
 
   hideAgentError(agentId){
     document.getElementById(agentId).style['visibility'] = 'hidden';
+  }
+
+  onSeeValueDistribution(value, title) {
+
+    const data = {
+      value: value,
+      title: title
+    }
+    const dialogRef = this.dialog.open(DistributionDialogComponent, {
+      width: '30%',
+      data: data,
+      closeOnNavigation: true,
+      disableClose: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
   }
 
 }

@@ -102,6 +102,7 @@ import { DialogConfirmationComponent } from './dialog-confirmation/dialog-confir
 import { FsDetailsDialogComponent } from './data-set-creation/fs-details-dialog/fs-details-dialog.component';
 import { CustomKeycloakService } from './core/services/custom-keycloak.service';
 import { AuthGuard } from './core/services/keyloack-auth-guard';
+import { DistributionDialogComponent } from './data-set-creation/distribution-dialog/distribution-dialog.component';
 
 @NgModule({
   declarations: [
@@ -128,6 +129,7 @@ import { AuthGuard } from './core/services/keyloack-auth-guard';
     FooterComponent,
     DialogConfirmationComponent,
     FsDetailsDialogComponent,
+    DistributionDialogComponent,
   ],
   imports: [
     CoreModule,
