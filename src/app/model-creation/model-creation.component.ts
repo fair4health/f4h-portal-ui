@@ -506,4 +506,14 @@ export class ModelCreationComponent implements OnInit {
     return display;
   }
 
+  selectPoss(possVal, alg) {
+    console.log('orto: ',this.newDMModel);
+    console.log('algorithm: ',alg)
+
+    this.newDMModel['boosted_models'].forEach(element => {
+      console.log(element)
+    });
+
+  }
+
 }

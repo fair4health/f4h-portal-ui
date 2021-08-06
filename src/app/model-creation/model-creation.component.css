@@ -135,7 +135,7 @@ table {
 
 .param-name {
   float: left;
-  width: 50%;
+  width: 70%;
 }
 
 .boosted_models_panel {
@@ -153,4 +153,8 @@ table {
 .state-feedback {
   text-align: center;
   font-size: x-large;
+}
+
+::ng-deep .mat-tooltip{
+  font-size: medium !important;
 }
