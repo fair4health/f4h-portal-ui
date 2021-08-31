@@ -1,58 +1,89 @@
 .featuremanagement-card {
-  max-width: 400px;
- 
+  width: 20em;
+  height: 15em;
 }
 
 .data-card {
   margin-bottom: 20px;
+  padding: 0;  /*TEST*/
+}
+
+mat-card-content {
+  padding: 1em;
+}
+
+.card-actions {
+  padding: 1em;
 }
 
 .dataSetmanagement-card {
-  max-width: 400px;
+  width: 20em;
+  height: 15em;
 }
 
 .modelmanagement-card {
-  max-width: 400px;
+  width: 20em;
+  height: 15em;
 }
 
 .predictive-study-card{
-  max-width: 400px;
+  width: 20em;
+  height: 15em;
 }
 
 .predictive-study-card-header {
   background-color: #6db044;
   color: white;
-  max-width: 400px;
+  width: 20em;
+  border-radius: 5px 5px 0px 0px;
+  padding-top: 0.5em;
 }
 
 .featuremanagement-card-header {
-  max-width: 400px;
+  width: 20em;
   background-color: chocolate;
   color: white;
+  border-radius: 5px 5px 0px 0px;
+  padding-top: 0.5em;
 }
 
 .dataSetmanagement-card-header {
-  max-width: 400px;
+  width: 20em;
   background-color: #16a4dc;
   color: white;
+  border-radius: 5px 5px 0px 0px;
+  padding-top: 0.5em;
 }
 
 .modelmanagement-card-header {
-  max-width: 400px;
+  width: 20em;
   background-color: darkslateblue;
   color: white;
+  border-radius: 5px 5px 0px 0px;
+  padding-top: 0.5em;
 }
 
 .featuremanagement-buttom {
   background-color: chocolate;
+  bottom: 4%;
+  position: absolute;
 }
 
 .featuremanagement-card-buttom {
   background-color: #6db044;
+  bottom: 4%;
+  position: absolute;
 }
 
 .modelmanagement-buttom {
   background-color: darkslateblue;
+  bottom: 4%;
+  position: absolute;
+}
+
+.dataset-buttom {
+  bottom: 4%;
+  position: absolute;
 }
 
 mat-card-content p {
@@ -77,4 +108,60 @@ mat-grid-tile mat-card{
 
 mat-grid-tile{
   margin-bottom: 10px !important;
+}
+
+
+.management-cont {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  flex-wrap: wrap;
+}
+
+.management-panel {
+  width: 20em;
+  margin: 2em;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+
+
+@media only screen and (max-width: 920px) {
+
+  .management-panel {
+    width: 100%;
+    margin-bottom: 1em;
+  }
+  
+  .featuremanagement-card {
+    width: 100%;
+  }
+  
+  .dataSetmanagement-card {
+    width: 100%;
+  }
+  
+  .modelmanagement-card {
+    width: 100%;
+  }
+  
+  .predictive-study-card{
+    width: 100%;
+  }
+
+  .predictive-study-card-header {
+    width: 100%;
+  }
+  
+  .featuremanagement-card-header {
+    width: 100%;
+  }
+  
+  .dataSetmanagement-card-header {
+    width: 100%;
+  }
+  
+  .modelmanagement-card-header {
+    width: 100%;
+  }
 }

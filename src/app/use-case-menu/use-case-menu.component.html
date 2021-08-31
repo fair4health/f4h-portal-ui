@@ -12,80 +12,84 @@
 
 <br>
 
-  <mat-grid-list [cols]="cols" rowHeight="250px">
-  <div *ngIf="this.auth.role != 'Healthcare professional'">
-  <mat-grid-tile>
-    <mat-card class="featuremanagement-card data-card">
-      <mat-card-header class="featuremanagement-card-header">
-        <mat-card-title>Feature Set Management</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Feature set is like an empty Excel template. </p>
-        <mat-divider></mat-divider>
-        <p>Create your feature set template by specifying FHIR Queries and FHIR Paths.</p>
-        <mat-divider></mat-divider>
-        <p>Use later it on creating your data set.</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" class="featuremanagement-buttom"
-          (click)="onFeatureMgmt()">Select</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
+  <div *ngIf="this.auth.role != 'Healthcare professional'" class="management-cont">
+    <div class="management-panel">
+        <mat-card class="featuremanagement-card data-card">
+          <mat-card-header class="featuremanagement-card-header">
+            <mat-card-title>Feature Set Management</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Feature set is like an empty Excel template. </p>
+            <mat-divider></mat-divider>
+            <p>Create your feature set template by specifying FHIR Queries and FHIR Paths.</p>
+            <mat-divider></mat-divider>
+            <p>Use later it on creating your data set.</p>
+          </mat-card-content>
+          <mat-card-actions class="card-actions">
+            <button mat-raised-button color="primary" class="featuremanagement-buttom"
+              (click)="onFeatureMgmt()">Select</button>
+          </mat-card-actions>
+        </mat-card>
+    </div>
+    <div class="management-panel">
+        <mat-card class="dataSetmanagement-card data-card">
+          <mat-card-header class="dataSetmanagement-card-header">
+            <mat-card-title>Data Set Management</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Data set is like Excel file(s) filled with data.</p>
+            <mat-divider></mat-divider>
+            <p>Generate your data set either from single source or several distributed sources.</p>
+            <mat-divider></mat-divider>
+            <p>Use later it on creating your predictive model.</p>
+          </mat-card-content>
+          <mat-card-actions class="card-actions">
+            <button mat-raised-button color="primary" class="dataset-buttom"
+              (click)="onDataSetMgmt()">Select</button>
+          </mat-card-actions>
+        </mat-card>
+    </div>
+    <div class="management-panel">
+        <mat-card class="modelmanagement-card data-card">
+          <mat-card-header class="modelmanagement-card-header">
+            <mat-card-title>Model Management</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <p>Generate models for your use case.</p>
+            <mat-divider></mat-divider>
+            <p>Perform clustering analyses and discover associations in your data.</p>
+          </mat-card-content>
+          <mat-card-actions class="card-actions">
+            <button mat-raised-button color="primary" class="modelmanagement-buttom" (click)="onModelMgmt()">Select</button>
+          </mat-card-actions>
+        </mat-card>
+    </div>
+
+    <div class="management-panel"  *ngIf="useCaseType === 'prediction'">
+          <mat-card class="predictive-study-card data-card data-card">
+            <mat-card-header class="predictive-study-card-header">
+              <mat-card-title>Prospective Study</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>Make predictions for future. </p>
+              <mat-divider></mat-divider>
+              <p>Select an existing model, provide patient data and see predictions.</p>
+              <mat-divider></mat-divider>
+              <p>Check historic predictions.</p>
+            </mat-card-content>
+            <mat-card-actions class="card-actions">
+              <button mat-raised-button color="primary" class="featuremanagement-card-buttom"
+                (click)="onProspectiveStudy()">Select</button>
+            </mat-card-actions>
+          </mat-card>
+  
+
+    </div>
   <br>
-  <mat-grid-tile>
-    <mat-card class="dataSetmanagement-card data-card">
-      <mat-card-header class="dataSetmanagement-card-header">
-        <mat-card-title>Data Set Management</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Data set is like Excel file(s) filled with data.</p>
-        <mat-divider></mat-divider>
-        <p>Generate your data set either from single source or several distributed sources.</p>
-        <mat-divider></mat-divider>
-        <p>Use later it on creating your predictive model.</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary"
-          (click)="onDataSetMgmt()">Select</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
+  
   <br>
-  <mat-grid-tile>
-    <mat-card class="modelmanagement-card data-card">
-      <mat-card-header class="modelmanagement-card-header">
-        <mat-card-title>Model Management</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Generate models for your use case.</p>
-        <mat-divider></mat-divider>
-        <p>Perform clustering analyses and discover associations in your data.</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" class="modelmanagement-buttom" (click)="onModelMgmt()">Select</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
+  
   <br>
 </div>
-  <mat-grid-tile>
-    <mat-card class="predictive-study-card data-card data-card" *ngIf="useCaseType === 'prediction'">
-      <mat-card-header class="predictive-study-card-header">
-        <mat-card-title>Prospective Study</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>Make predictions for future. </p>
-        <mat-divider></mat-divider>
-        <p>Select an existing model, provide patient data and see predictions.</p>
-        <mat-divider></mat-divider>
-        <p>Check historic predictions.</p>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-raised-button color="primary" class="featuremanagement-card-buttom"
-          (click)="onProspectiveStudy()">Select</button>
-      </mat-card-actions>
-    </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+  
 </div>
