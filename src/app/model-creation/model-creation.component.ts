@@ -114,11 +114,11 @@ export class ModelCreationComponent implements OnInit {
         test_size: [20],
         validation_size: ['']
       });
-
+/*
       this.formGroup4 = this.formBuilder.group({
         missing_data_operation: [''],
       });
-
+*/
       this.statisticsColumns = ['statistics', 'results'];
 
     } else if (this.usecaseType === 'association') {
@@ -208,7 +208,7 @@ export class ModelCreationComponent implements OnInit {
         if (this.usecaseType === 'prediction') {
 
           // go to 6 step
-          this.stepper.selectedIndex = 5;
+          this.stepper.selectedIndex = 4;
           // fill training Statistics values
           this.formGroup6.get('training_size').setValue(this.newDMModel.training_size * 100);
           this.formGroup6.get('test_size').setValue(this.newDMModel.test_size * 100);
