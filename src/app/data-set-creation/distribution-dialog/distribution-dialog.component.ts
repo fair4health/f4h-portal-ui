@@ -18,8 +18,10 @@ export class DistributionDialogComponent implements OnInit {
   title: string
 
   ngOnInit(): void {
+    this.valueDistribution = [];
     this.data.value.forEach(element => {
-      element.percentage = element.percentage.toFixed(2);
+      let perc  = parseFloat(element.percentage)
+      element.percentage = perc.toFixed(2);
     });
     this.valueDistribution = this.data.value;
     this.title = this.data.title;
