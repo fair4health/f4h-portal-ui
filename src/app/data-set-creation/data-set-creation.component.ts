@@ -72,6 +72,9 @@ export class DataSetCreationComponent implements OnInit {
   displayErrorAgent: string;
 
   usecasename: string;
+
+  isLoading = false;
+
   @ViewChild('stepper') stepper: MatStepper;
 
   constructor(
@@ -140,7 +143,6 @@ export class DataSetCreationComponent implements OnInit {
         this.featureSetsDataSource = featurelist;
         if (history.state.selectedDataSet) {
           this.featureSetsDataSource.forEach(element => {
-
           });
         }
       },
@@ -178,6 +180,7 @@ export class DataSetCreationComponent implements OnInit {
   }
 
   onSeeDataSet(): void {
+    this.isLoading = true;
     this.backendService.getDataSet(history.state.selectedDataSet.dataset_id).subscribe(data => {
       console.log('data: ', data);
       this.newDataSet = data;
@@ -207,6 +210,7 @@ export class DataSetCreationComponent implements OnInit {
       });
       this.completeddataTable = new MatTableDataSource(this.completedData);
       this.getDataSource(data.dataset_sources);
+      this.isLoading = false;
     });
   }
 
