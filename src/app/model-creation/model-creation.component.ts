@@ -83,6 +83,9 @@ export class ModelCreationComponent implements OnInit {
   statisticsColumns: string[];
 
   algorithms = [];
+
+  isLoading = false;
+
   @ViewChild('stepper') stepper: MatStepper;
   constructor(
     private backendService: BackendService,
@@ -166,7 +169,7 @@ export class ModelCreationComponent implements OnInit {
   }
 
   getDataSets(): void {
-
+    this.isLoading = true;
     const dataSets = [];
     this.backendService.getDataSetsList(this.localStorage.projectId).subscribe(
       (datasets) => {
@@ -177,15 +180,16 @@ export class ModelCreationComponent implements OnInit {
           }
         });
         this.datasetSelectionDataSource = new MatTableDataSource(dataSets);
+        this.isLoading = false;
       },
       (err) => {
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get datasets list operation failed');
+        this.isLoading = false;
       });
   }
 
   onSeeModel(): void {
-
     this.backendService.getModel(history.state.selectedModel.model_id).subscribe(
       (data) => {
         console.log('EXISTING MODEL -->', data);
@@ -193,15 +197,12 @@ export class ModelCreationComponent implements OnInit {
         this.newDMModel = data;
         this.formGroup1.get('name').setValue(this.newDMModel.name);
         this.formGroup1.get('description').setValue(this.newDMModel.description);
-
-        
         this.algorithmsList = data.algorithms;
 
         this.algorithmsList.forEach(element => {
           element.parameters.forEach(param => {
             param.display = this.friendlyParamsNames(param.name);
           });
-          
         });
 
         // check if use case type is prediction
@@ -234,8 +235,6 @@ export class ModelCreationComponent implements OnInit {
         } else {
           this.getNumericVariables();
         }
-
-        
       },
       (err) => {
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get Model list operation failed');
