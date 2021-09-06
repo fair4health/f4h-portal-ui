@@ -417,6 +417,7 @@ style="margin:0 auto;">
               </div>
               <!-- PREDICTION BOOSETD MODEL TABLE-->
               <table mat-table [dataSource]="statistics" class="mat-elevation-z8" *ngIf="usecaseType === 'prediction'">
+                <caption>Prediction boosetd model table</caption>
                 <ng-container matColumnDef="statistics">
                   <th mat-header-cell *matHeaderCellDef> Statistics </th>
                   <td mat-cell *matCellDef="let element"> {{element.display}} </td>
@@ -433,6 +434,7 @@ style="margin:0 auto;">
               <!-- ASSOCIATION BOOSETD MODEL TABLE-->
              
               <table mat-table [dataSource]="statistics" class="mat-elevation-z8" *ngIf="usecaseType === 'association'">
+                <caption>Association boosetd model table</caption>
                 <ng-container matColumnDef="antecedent">
                   <th mat-header-cell *matHeaderCellDef>Antecedent</th>
                   <td mat-cell *matCellDef="let element">
