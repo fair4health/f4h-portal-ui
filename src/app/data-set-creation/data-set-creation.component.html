@@ -175,6 +175,11 @@ style="margin:0 auto;">
                 </div>
                 <div *ngIf="column === '# of records'">
                   <p *ngIf="element.agent_data_statistics"> {{ element.agent_data_statistics.number_of_records}} </p>
+                  <button  
+                    mat-button color="primary" 
+                    (click)="onSeeAllDistribution(element.agent_data_statistics)">
+                      See all distributions
+                  </button>
                 </div>
                 <div *ngIf="column === 'Value distribution'">
                 <!--  

@@ -1,0 +1,44 @@
+<mat-dialog-content class="mat-typography">
+
+  <mat-accordion>
+    <mat-expansion-panel hideToggle *ngFor="let distribution of valueDistribution">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{distribution.variable.name}}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      
+        <table class="distribution-table">
+          <tr>
+            <th>Value</th>
+            <th>Count</th>
+            <th>Percentage</th>
+          </tr>
+          <tr *ngFor="let distribution of distribution.value_distribution">
+            <td>{{distribution.value}}</td>
+            <td>{{distribution.count}}</td>
+            <td>{{distribution.percentage}} %</td>
+          </tr>
+        </table>
+      
+    </mat-expansion-panel>
+  </mat-accordion>
+
+
+
+<!--
+<div *ngFor="let distribution of valueDistribution">
+    <div style="background-color: coral; margin: 1em;">
+    {{distribution | json}}
+      <div *ngFor="let variable of distribution.value_distribution" style="background-color: aquamarine; margin:1em">
+        {{variable | json}}
+  
+      </div>
+      
+    </div>
+  </div>
+-->
+  
+</mat-dialog-content>
+
+
