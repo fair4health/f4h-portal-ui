@@ -1,6 +1,6 @@
 # f4h-portal-ui
 
-[![Build Status](https://travis-ci.org/fair4health/f4h-portal-ui.svg?branch=master)](https://travis-ci.org/fair4health/f4h-portal-ui) 
+[![Build Status](https://app.travis-ci.com/fair4health/f4h-portal-ui.svg?branch=master)](https://app.travis-ci.com/fair4health/f4h-portal-ui)
 [![codecov.io](https://codecov.io/gh/fair4health/f4h-portal-ui/branch/master/graphs/badge.svg)](http://codecov.io/gh/fair4health/f4h-portal-ui)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=eu.fair4health:f4h-portal-ui&metric=alert_status)](https://sonarcloud.io/dashboard/index/eu.fair4health:f4h-portal-ui)
 [![Docker Build](https://img.shields.io/docker/cloud/build/fair4health/f4h-portal-ui)](https://cloud.docker.com/u/ccavero/repository/docker/fair4health/f4h-portal-ui)
