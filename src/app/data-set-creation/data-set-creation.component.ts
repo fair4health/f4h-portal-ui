@@ -32,6 +32,7 @@ import { DistributionDialogComponent } from './distribution-dialog/distribution-
 import { MatStepper } from '@angular/material/stepper';
 import { Router } from '@angular/router';
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
+import { SeeAllDistributionDialogComponent } from './see-all-distribution-dialog/see-all-distribution-dialog.component';
 
 
 @Component({
@@ -361,6 +362,21 @@ export class DataSetCreationComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+    });
+  }
+
+  onSeeAllDistribution(value) {
+    const data = {
+      value: value
+    }
+
+    //console.log('value: ',value)
+
+    const dialogRef = this.dialog.open(SeeAllDistributionDialogComponent, {
+      width: '70%',
+      data: data,
+      closeOnNavigation: true,
+      disableClose: false
     });
   }
 

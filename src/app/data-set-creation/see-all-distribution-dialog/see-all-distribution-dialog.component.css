@@ -1,0 +1,14 @@
+.distribution-table {
+
+}
+
+th {
+  width: 30%;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-color: #867e7e;
+}
+
+table {
+  background-color: #f1f8f3;
+}
