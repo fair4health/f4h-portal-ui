@@ -418,7 +418,7 @@ export class ModelCreationComponent implements OnInit {
     this.newDMModel.project_id = this.localStorage.projectId;
 
     console.log('new model: ', this.newDMModel);
-/*
+
     this.backendService.saveModel(this.newDMModel).subscribe(
       (response) => {
         this.userCommunication.createMessage('snack-bar-success', 'Model "' + response.name + '" created successfully');
@@ -430,7 +430,7 @@ export class ModelCreationComponent implements OnInit {
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'New model creation failed!');
       }
-    );*/
+    );
   }
 
   onChangeAlgorithm(algorithm): void {
