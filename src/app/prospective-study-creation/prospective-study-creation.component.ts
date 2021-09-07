@@ -50,6 +50,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     useCaseName: any;
     prospectiveStudy: ProspectiveStudy;
     predictingFlag = false;
+    predictionError = 'The selected file is not correct:.';
 
     ngOnInit(): void {
 
@@ -268,12 +269,15 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
       //  this.patientsPredictionsColumns = this.getHeaders(csvRecordsArray);
         const columns = this.getHeaders(csvRecordsArray);
+        this.errorUploadingList = true; // By default averything is correct
         for (let i = 0; i < this.variablesDataSet.length; i++) {
-          if (this.variablesDataSet[i].name === columns[0][i]) {
-            this.errorUploadingList = true;
-          } else {
+          if (this.variablesDataSet[i].name !== columns[0][i]) {
+            // this.errorUploadingList = true;
+            // } else {
             this.errorUploadingList = false;
-            break;
+            this.predictionError += 'Variable name \'' +
+            columns[0][i] + '\' must be \'' + this.variablesDataSet[i].name + '\'\n';
+            // break;
           }
         }
 
@@ -303,7 +307,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
               variable.name = key;
 
               let variableValue = this.patientsPredictions[i][key];
-              if(typeof variableValue === 'string') {
+              if (typeof variableValue === 'string') {
                 variableValue =  variableValue.toLowerCase();
               }
               variable.value = variableValue;
@@ -325,7 +329,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.variables.identifier = '1';
             this.variables.data_mining_model = this.selectedModel;
             this.variables.submitted_by = this.localStorage.userId;
-        /*    this.backendService.predict(this.variables).subscribe(
+            this.backendService.predict(this.variables).subscribe(
               data => {
                 console.log('data: ', data)
                 this.patientsPredictions[i].prediction = data.prediction;
@@ -343,13 +347,13 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 this.predictingFlag = false;
                 this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction');
               }
-            );*/
+            );
 
           }
 
         } else if (!this.errorUploadingList) {
           this.userCommunication.createMessage(this.userCommunication.ERROR,
-               'The selected file don\'t contains the same variables as the selected model.');
+            this.predictionError);
         }
       };
 
