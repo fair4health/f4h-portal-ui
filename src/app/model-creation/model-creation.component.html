@@ -294,64 +294,67 @@
       <form [formGroup]="formGroup7">
         <ng-template matStepLabel>Generate & Completed</ng-template>
 
-          <div *ngIf="newDMModel['data_mining_state'] === 'validating' || !newDMModel['data_mining_state']">
+          <div *ngIf="newDMModel['data_mining_state']">
+            <div *ngIf="newDMModel['data_mining_state'] === 'validating' || !newDMModel['data_mining_state']">
 
-            <p class="state-feedback">
-              <mat-icon 
-              aria-hidden="false"
-              style="color: #2695d9">
-                info
-            </mat-icon>
-              Validating the model.
-            </p>
-          </div>
-
-          <div *ngIf="newDMModel['data_mining_state'] === 'testing' || !newDMModel['data_mining_state']">
-
-            <p class="state-feedback">
-              <mat-icon 
-              aria-hidden="false"
-              style="color: #2695d9">
-                info
-            </mat-icon>
-              Testing model.
-            </p>
-          </div>
-
-          <div *ngIf="newDMModel['data_mining_state'] === 'calculating_frequency_arl' || !newDMModel['data_mining_state']">
-            <p class="state-feedback">
-              <mat-icon 
-              aria-hidden="false"
-              style="color: #2695d9">
-                info
-            </mat-icon>
-              Calculating item frequencies.
-            </p>
-          </div>
-
-          <div *ngIf="newDMModel['data_mining_state'] === 'executing_arl' || !newDMModel['data_mining_state']">
-            
-            <p class="state-feedback">
-              <mat-icon 
-              aria-hidden="false"
-              style="color: #2695d9">
-                info
-            </mat-icon>
-              Training model.
-            </p>
-          </div>
-
-          <div *ngIf="newDMModel['data_mining_state'] === 'error' || !newDMModel['data_mining_state']">
-            <p class="state-feedback">
-              <mat-icon 
+              <p class="state-feedback">
+                <mat-icon 
                 aria-hidden="false"
-                style="color: #d92626;"
-                class="material-icons-outlined">
-                report
+                style="color: #2695d9">
+                  info
               </mat-icon>
-              An error occurred.
-            </p>
+                Validating the model.
+              </p>
+            </div>
+  
+            <div *ngIf="newDMModel['data_mining_state'] === 'testing' || !newDMModel['data_mining_state']">
+  
+              <p class="state-feedback">
+                <mat-icon 
+                aria-hidden="false"
+                style="color: #2695d9">
+                  info
+              </mat-icon>
+                Testing model.
+              </p>
+            </div>
+  
+            <div *ngIf="newDMModel['data_mining_state'] === 'calculating_frequency_arl' || !newDMModel['data_mining_state']">
+              <p class="state-feedback">
+                <mat-icon 
+                aria-hidden="false"
+                style="color: #2695d9">
+                  info
+              </mat-icon>
+                Calculating item frequencies.
+              </p>
+            </div>
+  
+            <div *ngIf="newDMModel['data_mining_state'] === 'executing_arl' || !newDMModel['data_mining_state']">
+              
+              <p class="state-feedback">
+                <mat-icon 
+                aria-hidden="false"
+                style="color: #2695d9">
+                  info
+              </mat-icon>
+                Training model.
+              </p>
+            </div>
+  
+            <div *ngIf="newDMModel['data_mining_state'] === 'error' || !newDMModel['data_mining_state']">
+              <p class="state-feedback">
+                <mat-icon 
+                  aria-hidden="false"
+                  style="color: #d92626;"
+                  class="material-icons-outlined">
+                  report
+                </mat-icon>
+                An error occurred.
+              </p>
+            </div>
           </div>
+          
 
           <div *ngIf="newDMModel['data_mining_state'] === 'training' || !newDMModel['data_mining_state']" class="not-ready-panel">
           
