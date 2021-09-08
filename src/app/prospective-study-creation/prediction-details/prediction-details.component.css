@@ -1,0 +1,22 @@
+.variables-dialog {
+  overflow: auto;
+  height: 30em;
+  width: 100%;
+}
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  padding: 1em;
+}
+
+table.mat-table {
+  border-spacing: 0;
+  width: 100%;
+}
+
+.header-dialog{
+  display: block ruby;
+}
+
+.close {
+  float: right;
+}

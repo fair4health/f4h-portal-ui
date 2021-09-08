@@ -104,6 +104,7 @@ import { CustomKeycloakService } from './core/services/custom-keycloak.service';
 import { AuthGuard } from './core/services/keyloack-auth-guard';
 import { DistributionDialogComponent } from './data-set-creation/distribution-dialog/distribution-dialog.component';
 import { SeeAllDistributionDialogComponent } from './data-set-creation/see-all-distribution-dialog/see-all-distribution-dialog.component';
+import { PredictionDetailsComponent } from './prospective-study-creation/prediction-details/prediction-details.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +133,7 @@ import { SeeAllDistributionDialogComponent } from './data-set-creation/see-all-d
     FsDetailsDialogComponent,
     DistributionDialogComponent,
     SeeAllDistributionDialogComponent,
+    PredictionDetailsComponent,
   ],
   imports: [
     CoreModule,

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { BackendService } from '../core/services/backend.service';
@@ -7,6 +8,7 @@ import { LocalStorageService } from '../core/services/local-storage.service';
 import { UserCommunicationService } from '../core/services/user-communication.service';
 import { DmModel } from '../shared/dm-model';
 import { ProspectiveStudy } from '../shared/prospectiveStudy';
+import { PredictionDetailsComponent } from './prediction-details/prediction-details.component';
 
 @Component({
   selector: 'app-prospective-study-creation',
@@ -24,7 +26,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 private backendService: BackendService,
                 private localStorage: LocalStorageService,
                 private userCommunication: UserCommunicationService,
-                private router: Router) {
+                private router: Router,
+                public dialog: MatDialog) {
                 }
 
     formGroup1: FormGroup;
@@ -389,6 +392,23 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         headerArray.push(element.split(';'));
       });
       return headerArray;
+    }
+
+    displayStructure(variablesDataSet) {
+      console.log('--------->', variablesDataSet);
+
+      const data = {
+        value: variablesDataSet
+      }
+  
+      //console.log('value: ',value)
+  
+      const dialogRef = this.dialog.open(PredictionDetailsComponent, {
+        width: '70%',
+        data: data,
+        closeOnNavigation: true,
+        disableClose: false
+      });
     }
 
 }
