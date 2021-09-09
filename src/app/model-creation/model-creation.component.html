@@ -199,9 +199,18 @@ style="margin:0 auto;">
               </mat-form-field>
               <br> 
               <mat-form-field *ngFor="let input of algorithmParameterForm" appearance="legacy">
-                
-                <mat-label>{{input.display}}</mat-label>
-                <input matInput [formControlName]="input.name" [disabled]="isDisabled">
+                <div>
+                  <mat-icon matTooltipClass="tooltip"
+                                aria-hidden="false" 
+                                style="color: #16a4dc"
+                                aria-label="Example home icon"
+                                [matTooltip]="input.description + input.possible_values_description"
+                                matTooltipHideDelay="3000">
+                                info
+                  </mat-icon>
+                  <mat-label>{{input.display}}</mat-label>
+                  <input matInput [formControlName]="input.name" [disabled]="isDisabled">
+                </div>
               </mat-form-field>
               <button [disabled]="isDisabled" mat-raised-button color="primary" class="add-algorithm-btn" (click)="addAlgorithm()"> Add </button>
             </div>
