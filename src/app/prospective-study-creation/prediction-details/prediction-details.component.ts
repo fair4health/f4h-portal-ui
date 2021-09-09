@@ -22,4 +22,8 @@ export class PredictionDetailsComponent implements OnInit {
     console.log('data in the dialog: ', this.variables);
   }
 
+  onClose() {
+    this.dialogRef.close();
+  }
+
 }
