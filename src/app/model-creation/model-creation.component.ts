@@ -173,7 +173,6 @@ export class ModelCreationComponent implements OnInit {
     const dataSets = [];
     this.backendService.getDataSetsList(this.localStorage.projectId).subscribe(
       (datasets) => {
-
         datasets.forEach(element => {
           if (element.execution_state === 'final') {
             dataSets.push(element);
@@ -513,6 +512,17 @@ export class ModelCreationComponent implements OnInit {
       console.log(element)
     });
 
+  }
+
+  countAgents(el) {
+    let counter = 0;
+    el.forEach(element => {
+      if (element.selection_status === 'selected') {
+        counter++;
+      }
+    });
+
+    return counter;
   }
 
 }

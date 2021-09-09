@@ -64,7 +64,11 @@ style="margin:0 auto;">
             </ng-container>
             <ng-container matColumnDef="data_sources">
               <th id = 'agents' mat-header-cell *matHeaderCellDef> Agents </th>
-              <td mat-cell *matCellDef="let element"> {{element.dataset_sources.length}} </td>
+              <td mat-cell *matCellDef="let element">
+
+                {{countAgents(element.dataset_sources)}}
+    
+              </td>
             </ng-container>
             <ng-container matColumnDef="status">
               <th id = 'status' mat-header-cell *matHeaderCellDef> Status </th>
