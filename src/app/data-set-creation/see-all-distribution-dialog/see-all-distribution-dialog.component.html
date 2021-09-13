@@ -1,7 +1,7 @@
 <mat-dialog-content class="mat-typography">
 
-  <mat-accordion>
-    <mat-expansion-panel hideToggle *ngFor="let distribution of valueDistribution">
+  <mat-accordion multi>
+    <mat-expansion-panel hideToggle *ngFor="let distribution of valueDistribution" >
       <mat-expansion-panel-header>
         <mat-panel-title>
           {{distribution.variable.name}}
