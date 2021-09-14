@@ -59,7 +59,7 @@ export class DataSetDashboardComponent implements OnInit {
   }
 
   getDataSetsList(): void {
-    
+
     this.backendService.getDataSetsList(this.localStorage.projectId).subscribe(
       (datasetsList) => {
         datasetsList.forEach(element => {
