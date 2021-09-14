@@ -377,7 +377,7 @@ style="margin:0 auto;">
           <div *ngIf="newDMModel['data_mining_state'] === 'training' || !newDMModel['data_mining_state']" class="not-ready-panel">
           
             <mat-spinner></mat-spinner>
-            <p>Generating Model...</p>
+            <p>Generating the Model... It will take a moment, you can close this page if consider.</p>
 
           </div>
           <div *ngIf="newDMModel['data_mining_state'] === 'final' || newDMModel['data_mining_state'] === 'ready'" class="boosted_models_panel">

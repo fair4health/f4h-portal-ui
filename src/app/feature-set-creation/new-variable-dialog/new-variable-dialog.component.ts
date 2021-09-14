@@ -104,8 +104,8 @@ export class NewVariableDialogComponent implements OnInit {
     // get the data from the for to the variable body to save.
     this.data.fhir_query = this.variableForm.get('fhir_query').value;
     this.data.fhir_path = this.variableForm.get('fhir_path').value;
-    
-    //replace value type for empty string.
+
+    // replace value type for empty string.
     this.data.fhir_query = this.data.fhir_query.replace('{string_value}', this.fieldData);
     this.data.fhir_query = this.data.fhir_query.replace('{integer_value}', this.fieldData);
     this.data.fhir_path = this.data.fhir_path.replace('{integer_value}', this.fieldData);
@@ -128,9 +128,8 @@ export class NewVariableDialogComponent implements OnInit {
       Object.keys(this.variableForm.controls).forEach(key => {
         this.variableForm.get(key).markAsTouched();
         this.requiredFields[key] = this.variableForm.get(key).valid
-    });
+      });
       this.userCommunication.createMessage(this.userCommunication.ERROR, 'There are empty fields that are required to fill');
     }
-
   }
 }
