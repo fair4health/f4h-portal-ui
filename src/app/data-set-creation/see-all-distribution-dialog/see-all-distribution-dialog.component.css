@@ -12,3 +12,11 @@ th {
 table {
   background-color: #f1f8f3;
 }
+
+.header-dialog{
+  display: block ruby;
+}
+
+.close {
+  float: right;
+}
