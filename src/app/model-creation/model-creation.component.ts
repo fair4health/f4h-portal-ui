@@ -406,7 +406,7 @@ export class ModelCreationComponent implements OnInit {
     }
     this.newDMModel.dataset = this.formGroup2.get('dataset').value;
     this.newDMModel.algorithms = [];
-   
+
     this.algorithmsList.forEach(element => {
       element.parameters.forEach(param => {
         delete param.display;
