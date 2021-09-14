@@ -24,4 +24,8 @@ export class SeeAllDistributionDialogComponent implements OnInit {
 
   }
 
+  onClose() {
+    this.dialogRef.close();
+  }
+
 }
