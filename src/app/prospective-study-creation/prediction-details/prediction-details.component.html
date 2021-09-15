@@ -17,7 +17,13 @@
     <!-- Name Column -->
     <ng-container matColumnDef="data_type">
       <th mat-header-cell *matHeaderCellDef> Data type </th>
-      <td mat-cell *matCellDef="let element"> {{element.variable_data_type}} </td>
+      <td mat-cell *matCellDef="let element"> 
+        <p *ngIf="element.fhir_path === 'value:exists'">
+          <abbr title="An integer value is tested to see whether it is true of false, 
+          0 is considered to be false and 1 is considered be true">Boolean (0/1)</abbr>
+        </p>
+        <p *ngIf="element.fhir_path != 'value:exists'">{{element.variable_data_type}}</p>
+      </td>
     </ng-container>
   
     <!-- Weight Column -->
