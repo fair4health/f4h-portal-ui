@@ -10,6 +10,11 @@
 
 <p><b>Use case: </b> {{useCaseName}}</p>
 
+<mat-progress-spinner mode="indeterminate" diameter="40" 
+*ngIf="isLoading"
+style="margin:0 auto;">
+</mat-progress-spinner> 
+
 <div class="content">
 
   <!-- steper: define the 3 sections of the form. -->
@@ -210,17 +215,15 @@
                                 Make prediction for list of patients
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <p>List of patients prediction</p>
-                        <button mat-stroked-button color="primary" (click)="displayStructure(variablesDataSet)">See structure</button>
+                        Select file patients in <b>csv</b> format and following defined structure, click 
+                        <button mat-stroked-button color="primary" (click)="displayStructure(variablesDataSet)">here to see file structure</button>
+                        of variables and types.
 
                         <div class="upload-panel">
-
                           <div *ngIf="!patientsPredictions" class="uploadOption">
-                            <mat-icon class="upload-icon" aria-hidden="false" aria-label="Example backup icon">backup</mat-icon>
-                          
                             <input type="file" #csvReader name="Upload CSV" 
-                                    id="txtFileUpload" (change)="uploadpatientFile($event)" accept=".csv" />
-  
+                                    id="txtFileUpload" (change)="uploadpatientFile($event)" 
+                                    class="required" accept=".csv" />
                           </div>
 
                           <div [hidden]="!predictingFlag">
