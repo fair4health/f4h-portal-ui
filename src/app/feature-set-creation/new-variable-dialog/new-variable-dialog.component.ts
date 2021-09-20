@@ -90,7 +90,6 @@ export class NewVariableDialogComponent implements OnInit {
       this.fieldType = event.value.fieldType;
       this.variableForm.get('fieldData').setValidators(Validators.required);
     }
-
     this.variableForm.get('variable_data_type').setValue(event.value.dataType);
     this.variableForm.get('fhir_query').setValue(event.value.fhirQuery);
     this.variableForm.get('fhir_path').setValue(event.value.fhirPath);
@@ -115,20 +114,21 @@ export class NewVariableDialogComponent implements OnInit {
     // set name of variable.
     this.data.name = this.variableForm.get('name').value;
     
+    // set value of variable_data_type (numeric, categorical)
+    this.data.variable_data_type = this.variableForm.get('variable_data_type').value;
+
+    // set variable type
+    this.data.variable_type = this.variableForm.get('variable_type').value;
 
     if (this.selection === 'manual') {
       this.variableForm.get('selectedVariable').setValue(' ');
       this.variableForm.get('selectedVariable').touched;
     }
-
-    console.log(this.variableForm.get('selectedVariable'));
     
-
     if (this.data.name === 'Readmitted in X days') {
       const result = parseInt(this.fieldData) + 1;
       this.data.fhir_path = this.data.fhir_path.replace('{integer_value + 1}', result.toString());
     }
-
     if (this.variableForm.valid) {
       this.dialogRef.close(this.data);
     }
