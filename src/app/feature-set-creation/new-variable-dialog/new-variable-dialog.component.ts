@@ -114,6 +114,15 @@ export class NewVariableDialogComponent implements OnInit {
 
     // set name of variable.
     this.data.name = this.variableForm.get('name').value;
+    
+
+    if (this.selection === 'manual') {
+      this.variableForm.get('selectedVariable').setValue(' ');
+      this.variableForm.get('selectedVariable').touched;
+    }
+
+    console.log(this.variableForm.get('selectedVariable'));
+    
 
     if (this.data.name === 'Readmitted in X days') {
       const result = parseInt(this.fieldData) + 1;
