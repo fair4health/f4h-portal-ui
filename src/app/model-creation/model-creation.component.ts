@@ -16,7 +16,7 @@
  * information in the project root.
  */
 
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LocalStorageService } from '../core/services/local-storage.service';
 
@@ -36,7 +36,7 @@ import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confi
   templateUrl: './model-creation.component.html',
   styleUrls: ['./model-creation.component.css']
 })
-export class ModelCreationComponent implements OnInit {
+export class ModelCreationComponent implements OnInit, OnDestroy  {
   formGroup1: FormGroup;
   formGroup2: FormGroup;
   formGroup3: FormGroup;
@@ -85,6 +85,7 @@ export class ModelCreationComponent implements OnInit {
   algorithms = [];
 
   isLoading = false;
+  interval;
 
   @ViewChild('stepper') stepper: MatStepper;
   constructor(
@@ -152,8 +153,14 @@ export class ModelCreationComponent implements OnInit {
       formGroup7: ['', Validators.required]
     });
 
-    if (history.state.selectedModel) {
+    this.interval = setInterval(() => {
+      if (!this.newDMModel['data_mining_state']) {
+        this.refreshDataSet();
+      }
+    }, 60000);
 
+    if (history.state.selectedModel) {
+      
       this.onSeeModel();
       this.formGroup1.disable();
       this.formGroup5.disable();
@@ -166,6 +173,12 @@ export class ModelCreationComponent implements OnInit {
     }
 
     this.getAlgoritms();
+  }
+
+  ngOnDestroy() {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
   }
 
   getDataSets(): void {
@@ -406,7 +419,7 @@ export class ModelCreationComponent implements OnInit {
     }
     this.newDMModel.dataset = this.formGroup2.get('dataset').value;
     this.newDMModel.algorithms = [];
-   
+
     this.algorithmsList.forEach(element => {
       element.parameters.forEach(param => {
         delete param.display;
@@ -523,6 +536,15 @@ export class ModelCreationComponent implements OnInit {
     });
 
     return counter;
+  }
+
+  refreshDataSet(): void {
+    console.log('refreshing...', this.newDMModel['data_mining_state']);
+    if (!this.newDMModel['data_mining_state']) {
+      this.onSeeModel();
+    }
+
+      
   }
 
 }

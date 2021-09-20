@@ -41,6 +41,8 @@ export class ModelDashboardComponent implements OnInit {
   dataSourceInProgress = [];
   useCaseName: string;
 
+  isLoading = false;
+
   constructor(
     private backendService: BackendService,
     private userCommunication: UserCommunicationService,
@@ -59,7 +61,7 @@ export class ModelDashboardComponent implements OnInit {
   }
 
   getModelsList(): void {
-
+    this.isLoading = true;
     this.dataSourceInProgress = [];
     this.dataSourceReady = [];
 
@@ -77,7 +79,6 @@ export class ModelDashboardComponent implements OnInit {
             if (innerElement.selection_status === 'selected') {
               datasetSourcesList = datasetSourcesList + '\u2022 ' + innerElement.agent.name + '\n';
             }
-           
           });
           element.dataset = datasetSourcesList;
 
@@ -87,17 +88,18 @@ export class ModelDashboardComponent implements OnInit {
             this.dataSourceInProgress.push(element);
           }
         });
-        
         if (this.table.first) {
           this.table.first.renderRows();
         }
         if (this.table.last) {
           this.table.last.renderRows();
         }
+        this.isLoading = false;
       },
       (err) => {
         this.backendService.handleError('home', err);
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get models list operation failed');
+        this.isLoading = false;
       });
   }
 

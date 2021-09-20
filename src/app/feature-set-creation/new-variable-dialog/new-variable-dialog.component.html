@@ -76,7 +76,7 @@
         <input matInput *ngIf="fieldType === 'text'" formControlName="fieldData">
         <input matInput type="number" *ngIf="fieldType === 'number'" formControlName="fieldData">
         <mat-error *ngIf="!requiredFields.fieldData" class="required-alert">
-          This field is <strong>required</strong>
+          Input is <strong>required</strong>
         </mat-error>
       </mat-form-field>
 
