@@ -8,6 +8,11 @@
 
 <p><b>Use case: </b> {{useCaseName}}</p>
 
+<mat-progress-spinner mode="indeterminate" diameter="40" 
+*ngIf="isLoading"
+style="margin:0 auto;">
+</mat-progress-spinner> 
+
 <div class="content">
 
     <button mat-raised-button [routerLink]="['/pscreation']">New prospective study</button>

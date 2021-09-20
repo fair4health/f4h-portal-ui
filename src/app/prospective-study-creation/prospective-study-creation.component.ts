@@ -53,7 +53,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     useCaseName: any;
     prospectiveStudy: ProspectiveStudy;
     predictingFlag = false;
-    predictionError = 'The selected file is not correct:.';
+    predictionError = 'The selected file is not correct; Format file must be CSV and follow correct structure.';
+    isLoading = false;
 
     ngOnInit(): void {
 
@@ -118,6 +119,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     }
 
     getModels(): void {
+      this.isLoading = true;
       this.backendService.getModels(this.projectId).subscribe(
         (models) => {
          // this.models = models;
@@ -128,9 +130,11 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             }
           });
           this.models = modls;
+          this.isLoading = false;
         },
         (err) => {
-          this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get Models list operation failed.')
+          this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get Models list operation failed.');
+          this.isLoading = false;
         }
       );
     }
@@ -170,10 +174,10 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
             this.variable.name = key;
             this.variables.submitted_by = this.localStorage.userId;
-            let variableValue: string
-            variableValue = this.formGroup3.get(key).value
+            let variableValue: string;
+            variableValue = this.formGroup3.get(key).value;
 
-            if(typeof variableValue === 'string') {
+            if (typeof variableValue === 'string') {
               variableValue =  variableValue.toLowerCase();
             }
 
@@ -216,9 +220,9 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
         },
         (err) => {
-          this.predictingFlag = false;
           console.log('ERROR: ', err);
           this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction.');
+          this.predictingFlag = false;
         }
         );
 
@@ -279,7 +283,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             // } else {
             this.errorUploadingList = false;
             this.predictionError += 'Variable name \'' +
-            columns[0][i] + '\' must be \'' + this.variablesDataSet[i].name + '\'\n';
+            columns[0][i] + '\' must be \'' + this.variablesDataSet[i].name + '\'.';
             // break;
           }
         }
@@ -336,8 +340,10 @@ export class ProspectiveStudyCreationComponent implements OnInit {
               data => {
                 console.log('data: ', data)
                 this.patientsPredictions[i].prediction = data.prediction;
+                // True prediction print on green color
                 if (data.prediction === 1) {
                   this.predcolor = '#3fc100';
+                // False prediction print on red color
                 } else if (data.prediction === 0) {
                   this.predcolor = '#f83d17';
                 }
@@ -348,7 +354,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
               },
               (err) => {
                 this.predictingFlag = false;
-                this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction');
+                this.userCommunication.createMessage(this.userCommunication.ERROR,
+                  'Error on file row ' + (i + 1) + ':\'\n' + err.error);
               }
             );
 
@@ -357,6 +364,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         } else if (!this.errorUploadingList) {
           this.userCommunication.createMessage(this.userCommunication.ERROR,
             this.predictionError);
+          this.predictingFlag = false;
         }
       };
 
