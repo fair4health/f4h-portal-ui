@@ -17,6 +17,7 @@ export class ProspectiveStudyComponent implements OnInit {
                           'predictions', 'created_by', 'created_on', 'delete', 'see_details'];
   dataSource = [];
   useCaseName: string;
+  isLoading = false;
 
   constructor(
     private localStorage: LocalStorageService,
@@ -33,14 +34,17 @@ export class ProspectiveStudyComponent implements OnInit {
   }
 
   getProspectiveStudies(): void {
+    this.isLoading = true;
     this.dataSource = [];
     this.backendService.getProspectiveStudies(this.localStorage.projectId).subscribe(
       (data) => {
         console.log(data);
         this.dataSource = data;
+        this.isLoading = false;
       },
       (err) => {
         this.userCommunication.createMessage(this.userCommunication.ERROR, 'Get Prospective Studies list operation failed');
+        this.isLoading = false;
       }
     );
   }
