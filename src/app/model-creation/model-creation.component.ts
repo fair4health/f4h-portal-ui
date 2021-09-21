@@ -126,7 +126,7 @@ export class ModelCreationComponent implements OnInit, OnDestroy  {
       this.statisticsColumns = ['statistics', 'results'];
 
     } else if (this.usecaseType === 'association') {
-      this.statisticsColumns = ['antecedent', 'confidence', 'consequent', 'lift'];
+      this.statisticsColumns = ['antecedent', 'consequent', 'confidence', 'lift'];
     }
 
     this.formGroup1 = this.formBuilder.group({
