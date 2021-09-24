@@ -9,6 +9,7 @@ import { UserCommunicationService } from '../core/services/user-communication.se
 import { DmModel } from '../shared/dm-model';
 import { ProspectiveStudy } from '../shared/prospectiveStudy';
 import { PredictionDetailsComponent } from './prediction-details/prediction-details.component';
+import { ExportFileService } from '../core/services/export-file.service';
 
 @Component({
   selector: 'app-prospective-study-creation',
@@ -27,7 +28,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 private localStorage: LocalStorageService,
                 private userCommunication: UserCommunicationService,
                 private router: Router,
-                public dialog: MatDialog) {
+                public dialog: MatDialog,
+                private exportService: ExportFileService) {
                 }
 
     formGroup1: FormGroup;
@@ -421,6 +423,32 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         closeOnNavigation: true,
         disableClose: false
       });
+    }
+
+    exportFile() {
+
+      let variables = [];
+      this.variableResultList.forEach(element => {
+        let varObj = {}
+        element.variables.forEach(vars => {
+
+          if (vars.name === 'prediction') {
+            if (vars.value === '1') {
+              varObj[vars.name] = 'true';
+            } else {
+              varObj[vars.name] = 'false';
+            }
+          } else {
+            varObj[vars.name] = vars.value;
+          }
+        });
+        variables.push(varObj);
+      });
+
+      let name = this.formGroup1.get('name'). value;
+      console.log('file name: ',name)
+      console.log('datos a xportar: ', this.variableResultListTable.data);
+      this.exportService.exportExcel(variables, name + '_variables_result');
     }
 
 }
