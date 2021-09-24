@@ -261,6 +261,9 @@ style="margin:0 auto;">
                         </mat-expansion-panel-header>
 
                       <div class="upload-panel">
+                        <p>Export the table to excel file (.xlsx):
+                        <button mat-stroked-button color="primary" (click)="exportFile()">Download</button>
+                      </p>
                         <table *ngIf="variableResultList" mat-table class="mat-elevation-z8" [dataSource]="variableResultListTable">
                           <ng-container [matColumnDef]="column" *ngFor="let column of predictionColumnsList">
                             <th mat-header-cell *matHeaderCellDef class="table-head-variable"> {{column}} </th>
