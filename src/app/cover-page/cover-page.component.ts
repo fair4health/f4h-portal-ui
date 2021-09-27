@@ -32,12 +32,12 @@ const ELEMENT_DATA: ResearchElement[] = [
   { number: 1,
     description: 'Identification of multimorbidity patterns and polypharmacy correlation on the risk of mortality in elderly, and demonstrate the reproducibility of research',
     sites: 5,
-    patients: 10.173,
+    patients: 11.486,
     algorithm: 'FP Growth'
   },
   { number: 2,
     description: 'Develop and pilot an early prediction service for 30-days readmission risk in COPD (Chronic Obstructive Pulmonary Disease) patients',
-    sites: 4,
+    sites: 2,
     patients: 4.944,
     algorithm: 'Support Vector Machine (SVM), Logistic Regression, Decision Trees, Random Forest, Gradient Boosted Trees'
   },
