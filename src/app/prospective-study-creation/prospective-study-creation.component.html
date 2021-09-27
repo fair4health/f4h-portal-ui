@@ -130,10 +130,8 @@ style="margin:0 auto;">
     <mat-step [stepControl]="formGroup3">
       <form [formGroup]="formGroup3">
         <ng-template matStepLabel>Prediction</ng-template>
-
           <!-- container of the 3 subsection of prediction-->
           <mat-accordion>
-
             <!-- -->
             <mat-expansion-panel hideToggle>
               <mat-expansion-panel-header>
@@ -144,9 +142,7 @@ style="margin:0 auto;">
 
               <div style="display: flex;">
                 <div class="form-prediction">
-
                   <div *ngFor="let variable of variablesDataSet" class="prediction-form">
-
                     <div class="prediction-label">
                       <mat-label class="pred-label">{{variable.name}}:</mat-label>
                     </div>
@@ -259,11 +255,10 @@ style="margin:0 auto;">
                                 See all predictions
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-
-                      <div class="upload-panel">
                         <p>Export results to Excel file (.xlsx):
-                        <button mat-stroked-button color="primary" (click)="exportFile()">Download</button>
-                      </p>
+                          <button mat-stroked-button color="primary" (click)="exportFile()">Download</button>
+                          </p>
+                      <div class="upload-panel">
                         <table *ngIf="variableResultList" mat-table class="mat-elevation-z8" [dataSource]="variableResultListTable">
                           <ng-container [matColumnDef]="column" *ngFor="let column of predictionColumnsList">
                             <th mat-header-cell *matHeaderCellDef class="table-head-variable"> {{column}} </th>

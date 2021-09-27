@@ -29,7 +29,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 private userCommunication: UserCommunicationService,
                 private router: Router,
                 public dialog: MatDialog,
-                private exportService: ExportFileService) {
+                private exportService: ExportFileService
+                ) {
                 }
 
     formGroup1: FormGroup;
@@ -408,15 +409,13 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       return headerArray;
     }
 
-    displayStructure(variablesDataSet) {
+    displayStructure(variablesDataSet): void {
       console.log('--------->', variablesDataSet);
 
       const data = {
         value: variablesDataSet
-      }
-  
-      //console.log('value: ',value)
-  
+      };
+
       const dialogRef = this.dialog.open(PredictionDetailsComponent, {
         width: '70%',
         data: data,
@@ -428,10 +427,9 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     exportFile(): void {
 
       let variables = [];
-      this.variableResultList.forEach(element => {
+      this.variableResultListTable.data.forEach(element => {
         let varObj = {}
         element.variables.forEach(vars => {
-
           if (vars.name === 'prediction') {
             if (vars.value === '1') {
               varObj[vars.name] = 'true';
@@ -444,8 +442,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         });
         variables.push(varObj);
       });
-      console.log('Datos exportados: ', this.variableResultListTable.data);
-      // this.exportService.exportExcel(variables, this.formGroup1.get('name'). value + '_result');
+      console.log('datos a xportar: ', this.variableResultListTable.data);
       this.exportService.exportExcel(variables, this.formGroup1.get('name'). value + '_result');
     }
 
