@@ -425,7 +425,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       });
     }
 
-    exportFile() {
+    exportFile(): void {
 
       let variables = [];
       this.variableResultList.forEach(element => {
@@ -444,11 +444,9 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         });
         variables.push(varObj);
       });
-
-      let name = this.formGroup1.get('name'). value;
-      console.log('file name: ',name)
-      console.log('datos a xportar: ', this.variableResultListTable.data);
-      this.exportService.exportExcel(variables, name + '_variables_result');
+      console.log('Datos exportados: ', this.variableResultListTable.data);
+      // this.exportService.exportExcel(variables, this.formGroup1.get('name'). value + '_result');
+      this.exportService.exportExcel(variables, this.formGroup1.get('name'). value + '_result');
     }
 
 }
