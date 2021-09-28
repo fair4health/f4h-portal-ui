@@ -37,7 +37,7 @@ const ELEMENT_DATA: ResearchElement[] = [
   },
   { number: 2,
     description: 'Develop and pilot an early prediction service for 30-days readmission risk in COPD (Chronic Obstructive Pulmonary Disease) patients',
-    sites: 2,
+    sites: 3,
     patients: 4.944,
     algorithm: 'Support Vector Machine (SVM), Logistic Regression, Decision Trees, Random Forest, Gradient Boosted Trees'
   },
