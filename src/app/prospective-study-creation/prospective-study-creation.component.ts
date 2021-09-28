@@ -354,6 +354,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
               //  this.variableResultList.push(element);
                 this.variableResultListTable = new MatTableDataSource(this.predictionList);
                 this.predictingFlag = false;
+                this.userCommunication.createMessage(this.userCommunication.INFO,
+                  'Adding prediction file row ' + (i + 1));
               },
               (err) => {
                 this.predictingFlag = false;
