@@ -29,8 +29,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
                 private userCommunication: UserCommunicationService,
                 private router: Router,
                 public dialog: MatDialog,
-                private exportService: ExportFileService
-                ) {
+                private exportService: ExportFileService) {
                 }
 
     formGroup1: FormGroup;
@@ -409,13 +408,15 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       return headerArray;
     }
 
-    displayStructure(variablesDataSet): void {
+    displayStructure(variablesDataSet) {
       console.log('--------->', variablesDataSet);
 
       const data = {
         value: variablesDataSet
-      };
-
+      }
+  
+      //console.log('value: ',value)
+  
       const dialogRef = this.dialog.open(PredictionDetailsComponent, {
         width: '70%',
         data: data,
@@ -424,26 +425,31 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       });
     }
 
-    exportFile(): void {
+    exportFile() {
 
-      let variables = [];
-      this.variableResultListTable.data.forEach(element => {
-        let varObj = {}
+      const variables = [];
+      this.variableResultList.forEach(element => {
+        const varObj = {}
         element.variables.forEach(vars => {
+
           if (vars.name === 'prediction') {
-            if (vars.value === '1') {
-              varObj[vars.name] = 'true';
-            } else {
-              varObj[vars.name] = 'false';
-            }
+            
           } else {
             varObj[vars.name] = vars.value;
           }
         });
+        varObj['prediction'] = element.prediction;
+        if (element.prediction === '1') {
+          varObj['prediction'] = 'true';
+        } else {
+          varObj['prediction'] = 'false';
+        }
         variables.push(varObj);
+
       });
-      console.log('datos a xportar: ', this.variableResultListTable.data);
-      this.exportService.exportExcel(variables, this.formGroup1.get('name'). value + '_result');
+
+      const name = this.formGroup1.get('name'). value;
+      this.exportService.exportExcel(variables, name + '_variables_result');
     }
 
 }
