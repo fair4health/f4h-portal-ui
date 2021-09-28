@@ -35,7 +35,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     formGroup1: FormGroup;
     formGroup2: FormGroup;
     formGroup3: FormGroup;
-    modelTableColumns: string[] = ['sel', 'name', 'description', 'algorithm', 'data_source', 'created_by', 'creation_time', 'see_details'];
+    modelTableColumns: string[] = ['sel', 'name', 'description', 'algorithm', 'data_source', 'created_by', 'creation_time'];
     models: DmModel[] = [];
     projectId = this.localStorage.projectId;
     selectedModel: DmModel;
@@ -142,6 +142,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     }
 
     onSeeModel(model): void {
+      console.log(this.selectedModel = model.value);
     }
 
     onSelectModel(model): void {

@@ -106,14 +106,6 @@ style="margin:0 auto;">
             <th mat-header-cell *matHeaderCellDef>Creation time</th>
             <td mat-cell *matCellDef="let element"> {{element.created_on}} </td> 
           </ng-container>
-
-          <ng-container matColumnDef="see_details">
-            <th mat-header-cell *matHeaderCellDef> See details </th>
-            <td mat-cell *matCellDef="let element"> <a (click)='onSeeModel(element)'>
-              <mat-icon style="cursor: pointer">find_in_page</mat-icon></a> 
-            </td>
-          </ng-container>
-            
           <tr mat-header-row *matHeaderRowDef="modelTableColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: modelTableColumns;"></tr>
         </table>
@@ -215,13 +207,12 @@ style="margin:0 auto;">
                         <button mat-stroked-button color="primary" (click)="displayStructure(variablesDataSet)">here to see file structure:</button>
                         variables and its types (Boolean (0/1), cotegorical or numeric (Use '.' for decimals)).
 
+                        <div *ngIf="!patientsPredictions" class="uploadOption">
+                          <input type="file" #csvReader name="Upload CSV" 
+                                  id="txtFileUpload" (change)="uploadpatientFile($event)" 
+                                  class="required" accept=".csv" />
+                        </div>
                         <div class="upload-panel">
-                          <div *ngIf="!patientsPredictions" class="uploadOption">
-                            <input type="file" #csvReader name="Upload CSV" 
-                                    id="txtFileUpload" (change)="uploadpatientFile($event)" 
-                                    class="required" accept=".csv" />
-                          </div>
-
                           <div [hidden]="!predictingFlag">
                             <mat-spinner></mat-spinner>
                             <h3 style="color: #6db044;">Please wait while the prediction is processed...</h3>
