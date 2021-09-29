@@ -1,8 +1,7 @@
 <div class="nav-path">
-  <a mat-button [routerLink]="['/uclist']">Home</a>>>
-  <a mat-button [routerLink]="['/ucmenu']">Use case</a>>>
-  <a mat-button [routerLink]="['/psdashboard']">Prospective Study management</a>>>
-  <a mat-button color="primary">Create Study management</a>
+  <a mat-button (click)="onCancel('/uclist')">Home</a>
+  <a mat-button (click)="onCancel('/ucmenu')">Use case</a>
+  <a mat-button (click)="onCancel('/psdashboard')">Prospective Study management</a>
 </div>
 
 <mat-divider></mat-divider>
@@ -150,7 +149,7 @@ style="margin:0 auto;">
                       class="example-radio-group"
                       [formControlName]="variable.name">
 
-                        <mat-radio-button class="prediction-radio-button" value="1">
+                        <mat-radio-button class="prediction-radio-button" value="1" [checked]=true>
                           yes
                         </mat-radio-button>
 
@@ -182,7 +181,7 @@ style="margin:0 auto;">
                     
                     <div [hidden]="!predictingFlag" class="load-spiner">
                       <mat-spinner></mat-spinner>
-                      <h3 style="color: #6db044;">Please wait while the prediction is processed...</h3>
+                      <h3 style="color: #6db044;">Please, wait while each predicion is processed...</h3>
                     </div>
 
                     <div *ngIf="predicrionResult == '0'" >
@@ -223,7 +222,6 @@ style="margin:0 auto;">
                               <ng-container [matColumnDef]="column" *ngFor="let column of patientsPredictionsColumns[0]">
                                 <th mat-header-cell *matHeaderCellDef class="table-head-variable"> {{column}} </th>
                                 <td mat-cell *matCellDef="let element" >
-                                  
                                    <div *ngIf="column === 'prediction'">
                                      <p *ngIf="element[column] === 0" [ngStyle]="{'color': '#f83d17'}">False</p> 
                                      <p *ngIf="element[column] === 1" [ngStyle]="{'color': '#3fc100'}">True</p> 
@@ -278,7 +276,7 @@ style="margin:0 auto;">
                   
                 <div>
                     <button mat-button matStepperPrevious color="primary" >Back</button>
-                    <button mat-button color="primary" (click)="onSave()">Save</button>
+                    <button mat-button color="primary" (click)="onSave()">Save Prediction</button>
                 </div>
             </form>
 

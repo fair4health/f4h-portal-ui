@@ -10,6 +10,7 @@ import { DmModel } from '../shared/dm-model';
 import { ProspectiveStudy } from '../shared/prospectiveStudy';
 import { PredictionDetailsComponent } from './prediction-details/prediction-details.component';
 import { ExportFileService } from '../core/services/export-file.service';
+import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-prospective-study-creation',
@@ -57,6 +58,9 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     predictingFlag = false;
     predictionError = 'The selected file is not correct; Format file must be CSV and follow correct structure.';
     isLoading = false;
+    userInfo = '';
+    donePredictionCounter = 0;
+    pedingSave = false;
 
     ngOnInit(): void {
 
@@ -141,9 +145,9 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       );
     }
 
-    onSeeModel(model): void {
+    /*onSeeModel(model): void {
       console.log(this.selectedModel = model.value);
-    }
+    }*/
 
     onSelectModel(model): void {
         this.selectedModel = model.value;
@@ -220,7 +224,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.predictionList.push(data);
             this.variableResultListTable = new MatTableDataSource(this.predictionList);
             this.predictingFlag = false;
-
+            this.pedingSave = true;
         },
         (err) => {
           console.log('ERROR: ', err);
@@ -234,8 +238,10 @@ export class ProspectiveStudyCreationComponent implements OnInit {
     onSave(): void {
 
       this.prospectiveStudy.predictions = this.predictionList;
+      this.pedingSave = false;
       if (this.selectedPrescriptionStudy) {
-        this.backendService.updateProspectiveStudy(this.selectedPrescriptionStudy, this.selectedPrescriptionStudy.prospective_study_id).subscribe(
+        this.backendService.updateProspectiveStudy(this.selectedPrescriptionStudy, 
+          this.selectedPrescriptionStudy.prospective_study_id).subscribe(
           (data) => {
             this.router.navigate(['/psdashboard']);
             this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Prospective study ' + data.name + ' updated correctlly');
@@ -274,13 +280,14 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
       reader.readAsText(input.files[0]);
       reader.onload = () => {
-        const csvData = reader.result;
-        const csvRecordsArray = (csvData as string).split(/\r\n|\n/);
+
+      const csvData = reader.result;
+      const csvRecordsArray = (csvData as string).split(/\r\n|\n/);
 
       //  this.patientsPredictionsColumns = this.getHeaders(csvRecordsArray);
-        const columns = this.getHeaders(csvRecordsArray);
-        this.errorUploadingList = true; // By default averything is correct
-        for (let i = 0; i < this.variablesDataSet.length; i++) {
+      const columns = this.getHeaders(csvRecordsArray);
+      this.errorUploadingList = true; // By default averything is correct
+      for (let i = 0; i < this.variablesDataSet.length; i++) {
           if (this.variablesDataSet[i].name !== columns[0][i]) {
             // this.errorUploadingList = true;
             // } else {
@@ -289,9 +296,10 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             columns[0][i] + '\' must be \'' + this.variablesDataSet[i].name + '\'.';
             // break;
           }
-        }
+      }
 
-        if (this.errorUploadingList) {
+      if (this.errorUploadingList) {
+          this.pedingSave = true;
           columns[0].push('prediction');
           columns.forEach(element => {
             this.patientsPredictionsColumns.push(element);
@@ -299,7 +307,8 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
           this.patientsPredictions = this.getRecordsFromDocument(csvRecordsArray, columns.length);
 
-          // tslint:disable-next-line: prefer-for-of
+          // total number of rows to predict
+          const totalNumerorOfRows = this.patientsPredictions.length;
           for (let i = 0; i < this.patientsPredictions.length; i++) {
             this.variables = {};
             this.variables.variables = [];
@@ -341,7 +350,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
             this.variables.submitted_by = this.localStorage.userId;
             this.backendService.predict(this.variables).subscribe(
               data => {
-                console.log('data: ', data)
+                console.log('data: ', data);
                 this.patientsPredictions[i].prediction = data.prediction;
                 // True prediction print on green color
                 if (data.prediction === 1) {
@@ -354,8 +363,13 @@ export class ProspectiveStudyCreationComponent implements OnInit {
               //  this.variableResultList.push(element);
                 this.variableResultListTable = new MatTableDataSource(this.predictionList);
                 this.predictingFlag = false;
-                this.userCommunication.createMessage(this.userCommunication.INFO,
-                  'Adding prediction file row ' + (i + 1));
+                this.userInfo += 'Adding prediction file row ' + (i + 1) + ' of ' + totalNumerorOfRows + '\n';
+                this.donePredictionCounter = (this.donePredictionCounter + 1);
+                if (this.donePredictionCounter === totalNumerorOfRows) {
+                  this.userCommunication.createMessage(this.userCommunication.SUCCESS, 'Each prediction have been correctly generated.');
+                } else  {
+                  this.userCommunication.createMessage(this.userCommunication.INFO, this.userInfo);
+                }
               },
               (err) => {
                 this.predictingFlag = false;
@@ -366,7 +380,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
 
           }
 
-        } else if (!this.errorUploadingList) {
+      } else if (!this.errorUploadingList) {
           this.userCommunication.createMessage(this.userCommunication.ERROR,
             this.predictionError);
           this.predictingFlag = false;
@@ -455,4 +469,27 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       this.exportService.exportExcel(variables, name + '_variables_result');
     }
 
+    onCancel(link): void {
+
+      if (this.pedingSave) {
+        const dialogConf = this.dialog.open(DialogConfirmationComponent, {
+          width: '500px',
+          data: {
+                  title: 'Are you sure?',
+                  message: 'There are unsaved predictions, if you close the procees the changes will be lost. \nAre you sure you want to exit?',
+                  cancelButton: 'No, cancel it.',
+                  acceptButton: 'Yes, exit and not save the predictions.'
+                }
+        });
+        dialogConf.afterClosed().subscribe(result => {
+          if (result) {
+            this.router.navigate([link]);
+          } else {
+            console.log('canceled close');
+          }
+        });
+      } else {
+        this.router.navigate([link]);
+      }
+    }
 }
