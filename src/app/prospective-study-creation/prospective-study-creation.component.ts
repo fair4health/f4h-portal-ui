@@ -228,7 +228,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         },
         (err) => {
           console.log('ERROR: ', err);
-          this.userCommunication.createMessage(this.userCommunication.ERROR, 'Error on prediction.');
+          this.userCommunication.createMessage(this.userCommunication.ERROR, err.error);
           this.predictingFlag = false;
         }
         );
