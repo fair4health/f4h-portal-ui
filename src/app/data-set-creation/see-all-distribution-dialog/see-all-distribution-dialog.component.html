@@ -25,7 +25,7 @@
           <tr *ngFor="let distribution of distribution.value_distribution">
             <td>{{distribution.value}}</td>
             <td>{{distribution.count}}</td>
-            <td>{{distribution.percentage}} %</td>
+            <td>{{distribution.percentage.toFixed(2)}} %</td>
           </tr>
         </table>
       
