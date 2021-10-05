@@ -234,7 +234,6 @@ export class DataSetCreationComponent implements OnInit {
     variablesStringList.push(' ');
     variablesStringList.push('agent');
     variablesStringList.push('# of records');
-    variablesStringList.push('Value distribution');
     this.newDataSet.featureset.variables.forEach(element => {
       variablesStringList.push(element.name);
     });

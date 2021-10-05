@@ -195,9 +195,30 @@ style="margin:0 auto;">
                   <div *ngIf="column != 'agent' && column != ' '">
                     <div  *ngFor="let stats of element.agent_data_statistics.variable_statistics">
                       <div *ngIf="stats.variable.name === column">
-                        <p> <b> Min: </b> {{ stats.min_value}} </p>
-                        <p> <b> Max: </b> {{ stats.max_value}} </p>
-                        <p> <b> Null: </b> {{ stats.null_percentage}} </p>
+                        <div *ngIf="stats.variable.variable_data_type === 'numeric' && stats.variable.fhir_path != 'value:exists'">
+                          <p> <b> Min: </b> {{ stats.min_value}} </p>
+                          <p> <b> Max: </b> {{ stats.max_value}} </p>
+                          <p> <b> Null: </b> {{ stats.null_percentage}} </p>
+                        </div>
+
+                        <div *ngIf="stats.variable.variable_data_type === 'numeric' && stats.variable.fhir_path === 'value:exists'">
+                          <div *ngFor="let dist of stats.value_distribution">
+                            <div *ngIf="dist.value === '0.0'">
+                              <p><b>FALSE:</b> {{dist.count}}</p>
+                            </div>
+                            <div *ngIf="dist.value === '1.0'">
+                              <p><b>TRUE: </b> {{dist.count}}</p>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div *ngIf="stats.variable.variable_data_type === 'categorical'">
+                          <div *ngFor="let vals of stats.value_distribution">
+                            <p><b>{{vals.value}}: </b>{{vals.count}}</p>
+                          </div>
+                        </div>
+                        
+                        
                         <button  mat-button color="primary" (click)="onSeeValueDistribution(stats.value_distribution, stats.variable.name)">See distributions</button>
                         
                       </div>
