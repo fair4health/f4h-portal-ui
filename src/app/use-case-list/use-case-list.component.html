@@ -39,7 +39,7 @@
 
     <ng-container matColumnDef="created_on">
       <th mat-header-cell *matHeaderCellDef > Creation time </th>
-      <td mat-cell *matCellDef="let element"> {{element.created_on | date:'medium' }} </td>
+      <td mat-cell *matCellDef="let element"> {{element.created_on | date:'dd/MM/yyyy HH:mm'}} </td>
     </ng-container>
 
     <ng-container matColumnDef="delete">
