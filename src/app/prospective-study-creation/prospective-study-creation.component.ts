@@ -97,7 +97,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
           this.formGroup1.get('name').setValue(this.selectedPrescriptionStudy.name);
           this.formGroup1.get('description').setValue(this.selectedPrescriptionStudy.description);
           this.selectedModel = this.selectedPrescriptionStudy.data_mining_model;
-
+          this.predictionColumnsList.push('Created on');
           this.selectedModel.dataset.featureset.variables.forEach(element => {
             if (element.variable_type === 'independent') {
                 this.variablesDataSet.push(element);

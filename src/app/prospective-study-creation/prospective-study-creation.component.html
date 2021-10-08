@@ -252,6 +252,9 @@ style="margin:0 auto;">
                           <ng-container [matColumnDef]="column" *ngFor="let column of predictionColumnsList">
                             <th mat-header-cell *matHeaderCellDef class="table-head-variable"> {{column}} </th>
                             <td mat-cell *matCellDef="let element" >
+                              <div *ngIf="column === 'Created on'">
+                                <p *ngIf="element.created_on">{{element.created_on | date:"dd/MM/yyyy HH:mm"}}</p>
+                              </div>
                               <div *ngFor="let elem of element.variables">
                                 <p *ngIf="elem.name === column">{{elem.value}}</p>
                               </div>
