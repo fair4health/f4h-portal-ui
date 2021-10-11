@@ -447,6 +447,9 @@ export class ProspectiveStudyCreationComponent implements OnInit {
       const variables = [];
       this.variableResultList.forEach(element => {
         const varObj = {}
+        if (element.created_on){
+          varObj['Created on'] = element.created_on;
+        }
         element.variables.forEach(vars => {
 
           if (vars.name === 'prediction') {
@@ -461,6 +464,7 @@ export class ProspectiveStudyCreationComponent implements OnInit {
         } else {
           varObj['prediction'] = 'false';
         }
+
         variables.push(varObj);
 
       });
