@@ -18,7 +18,7 @@ const variables = require('../../core/automatic-variables.json');
 export class NewVariableDialogComponent implements OnInit {
 
   fhirpathInputType = '1';
-  pattern = '^\/[?a-zA-Z0-9]+?[a-zA-Z0-9._%+-:=]{1,100}$';
+  pattern = '\/[a-zA-Z]+(?:.\?[a-zA-Z\&\+\-\=]+)'
   projectType: string;
   selection = 'auto';
   variables: any;
@@ -82,6 +82,7 @@ export class NewVariableDialogComponent implements OnInit {
 
   selectvariable(event): void {
     this.selectedVariable = event.value;
+    console.log('selected variable:', this.selectedVariable)
     this.variableForm.get('selectedVariable').setValue(event.value);
     if (event.value.fieldType === 'disabled') {
       this.inputDisabled = true;
@@ -94,10 +95,13 @@ export class NewVariableDialogComponent implements OnInit {
     this.variableForm.get('fhir_query').setValue(event.value.fhirQuery);
     this.variableForm.get('fhir_path').setValue(event.value.fhirPath);
 
+    
+
   }
 
   setValueToQuery(): void {
-
+    console.log('variable form: ', this.variableForm.get('fhir_query').valid);
+    
     this.fieldData = this.variableForm.get('fieldData').value;
 
     // get the data from the for to the variable body to save.
