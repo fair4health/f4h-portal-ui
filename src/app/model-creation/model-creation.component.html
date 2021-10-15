@@ -436,7 +436,15 @@ style="margin:0 auto;">
                 <caption>Prediction boosetd model table</caption>
                 <ng-container matColumnDef="statistics">
                   <th mat-header-cell *matHeaderCellDef> Statistics </th>
-                  <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                  <td mat-cell *matCellDef="let element"> 
+                    <div *ngIf="!element.display">
+                      {{element.name}}
+                    </div>
+                    <div *ngIf="element.display">
+                      {{element.display}}
+                    </div>
+                    
+                  </td>
                 </ng-container>
                 <ng-container matColumnDef="results">
                   <th mat-header-cell *matHeaderCellDef> Training results </th>
